@@ -1,1 +1,2 @@
-# Master README file
+# SNR R Group
+Welcome to the SNR R Group repository.  
