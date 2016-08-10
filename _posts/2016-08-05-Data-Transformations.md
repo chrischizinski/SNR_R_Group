@@ -164,7 +164,7 @@ To help visualize what this is doing, we will apply this the `log10` tranformati
 
 This data can be found [here](https://github.com/chrischizinski/SNR_R_Group/blob/master/data/hemlock_cover.csv)
 
-![center](/SNR_R_Group/figs/2016-08-05-Data-Transformations/unnamed-chunk-5-1.png)
+![center](SNR_R_Group/gh-pages/figs/2016-08-05-Data-Transformations/unnamed-chunk-5-1.png)
 
 In the figure above, you can see that the values ranged 0, 85.  The transformed data ranges 0, 1.93.  With this transformation we have decreased the overall spread of the data.  
 
@@ -207,7 +207,7 @@ pwr_trans(x = 0, trans = 2)
 
 To illustrate how the level of the power influences the compression, we will use transformations of `2,3,4,5,10` of *x* values ranging from `1:100`.
 
-![center](/SNR_R_Group/figs/2016-08-05-Data-Transformations/unnamed-chunk-7-1.png)
+![center](SNR_R_Group/gh-pages/figs/2016-08-05-Data-Transformations/unnamed-chunk-7-1.png)
 
 As can be observed above, as the level of the power increases the level of compression of the data decreases.  
 
@@ -292,7 +292,7 @@ apply(prop.data, c(1,2), function(x) acsin_trans(x))
 
 To get a better idea, on how this transforms the data we will run it on a sequence of data between 0 and 1.  
 
-![center](/SNR_R_Group/figs/2016-08-05-Data-Transformations/unnamed-chunk-11-1.png)
+![center](SNR_R_Group/gh-pages/figs/2016-08-05-Data-Transformations/unnamed-chunk-11-1.png)
 In the figure above, our original data is indicated by the straight <span style="color:blue">blue</span> line and the <span style="color:red">red</span> line is the transformed data.  You can see that the values below `0.50` are increased and the values above `0.50` were slightly decreased.  Those values closer to extremes are changed more.
 
 ## Standardizations
@@ -449,7 +449,7 @@ c<-ggplot(data=spdata.summ2) +
   theme(legend.position = "none")
 {% endhighlight %}
 
-![center](/SNR_R_Group/figs/2016-08-05-Data-Transformations/unnamed-chunk-17-1.png)
+![center](SNR_R_Group/gh-pages/figs/2016-08-05-Data-Transformations/unnamed-chunk-17-1.png)
 
 We can see that the standardizations have changed the distribution in the histograms.  The total standardization equalized the area under the curve (if you add up the bars both equal 1), whereas the max equalized the max peaks in the graph (both equal 1).
 
