@@ -1,0 +1,269 @@
+---
+title: "Similarities and Dissimilarities"
+date: August 12, 2016
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Background
+
+The backbone to multivariate analysis is the two-way data matrix.  In an ecological sense, we can imagine that each column in the dataset is a species or environmental factor and each row is a site.  In a human dimensions sense, we can imagine a similar dataset where the columns are are responses to a question and each row is an individual.  
+
+This dataset can be be represented in an *n*-dimensional space based on its values within this data set.  The points in that *n*-dimensional space form a data cloud.  A primary goal of multivariate statistics is to describe the orientation of the points in this cloud.  
+
+ For simplicity sake lets envision, a dataset with 4 sites (rows) and only 2 species (columns). The number of species A will be represented on the X axis and the number of species B will be represented on the Y axis.
+ 
+```{r hypdata}
+library(ggplot2)
+
+hyp_data<- matrix(c(1,9,1,8,6,6,9,1), byrow=TRUE, ncol = 2)
+  colnames(hyp_data)<-c("SpeciesA","SpeciesB")
+  
+  ggplot(data=as.data.frame(hyp_data)) + 
+    geom_point(aes(x = SpeciesA, y = SpeciesB), size = 4, colour = "red") + 
+    geom_text(aes(x = SpeciesA, y = SpeciesB, label = paste("Site",1:4)), hjust = -0.25) +
+    coord_cartesian(xlim = c(0, 10), ylim = c(0,10), expand = F) +
+    theme_bw()
+```
+ 
+ Now if you could imagine adding a third species, we would adjust the location of the sites along a third axis representing the number of species.  The same goes for adding more and more species.  
+ 
+## Similarity among sites
+Most multivariate analysis uses similarities (or dissimilarities) to describe how each site (or individual) relates to the others based on species composition (or collective answers to questions).  
+
+### Similarity
+- Similarity is a characterization of the attributes in common compared to the total attributes.
+- Sites with exactly the same attributes with have a similarity of 1, sites with no attributes the same will have a similarity of 0.  
+
+### Dissimilarity
+- Complement to similarity (i.e., 1 - similarity)
+
+### Distances
+
+If we go back to our plot of the two species across four sites from earlier, we can visualize how similarity and distances are related. The visual layout of how these sites exist in the *n*-dimensional space can be thought of like a map. Points close together are more similar than points further away.     
+
+```{r hypdatadist}
+  ggplot(data=as.data.frame(hyp_data)) + 
+    geom_point(aes(x = SpeciesA, y = SpeciesB), size = 4, colour = "red") + 
+  geom_segment(data = as.data.frame(hyp_data)[-2,], aes(xend = SpeciesA, yend = SpeciesB, x = 1, y = 8), linetype="dashed" ) +
+    geom_text(aes(x = SpeciesA, y = SpeciesB, label = paste("Site",1:4)), hjust = -0.25) +
+    coord_cartesian(xlim = c(0, 10), ylim = c(0,10), expand = F) +
+    theme_bw()
+```
+
+In the above plot, the dashed lines represent the distances between sites 1, 3, and 4 to site 2.  Site 4 and Site 2 are the most different. If you look at the species composition you can see why.  Site 2 had 1 of species A and 8 of Species B, whereas Site 4 had 9 of species A and 1 of species B.  Sites 1 and 2 are the most similar.  Site 2 had 1 of species A and 8 of Species B and Site 1 had 1 of species A and 9 of species B.
+
+Distances are  dissimilarities (dissimilarity = 1-similarity), or there are specific distance measures (e.g., Euclidean) that have no counterpart in similarity index.
+
+Distances based on dissimilarites are bounded between 0 and 1.  Distances based on a specific distance measures are unbounded.  
+
+The dimensions of the dissimilarity matrix are related to the number of rows in the 2-way data matrix.  
+
+```{r dist}
+dim(hyp_data)
+
+dist(hyp_data, diag=TRUE)
+
+```
+
+As you can see above, we had 4 sites so our distance matrix is a 4x4 matrix (the distance from each site to every site).  The diagonal of the distance matrix should be 0 because it represents the comparison of each site to itself.  
+
+There are around 30 measures of similarities or distances ([Legendre & Legendre 2012](http://store.elsevier.com/Numerical-Ecology/P_-Legendre/isbn-9780444538680/)).  The choice on which one to use will be related to the type of data that you have, the question, and the analysis.  
+
+#### Euclidian distance
+
+$$ ED_{ij} = \sum_{i=1}^p \sqrt{(x_{ij} - x_{ik})^2} $$
+
+- Most appealing measure because it has true 'metric' properties
+- Column standardized to remove issues with scale
+- Applied to any data of any scale
+- Used in eigenvector ordinations (e.g., PCA)
+- Assumes variables are uncorrelated
+- Emphasizes outliers
+- Looses sensitivity with heterogeneous data
+- Distances not proportional
+
+
+```{r eucdist, echo=F}
+hyp_data2<- matrix(c(1,9,9,1), byrow=TRUE, ncol = 2)
+  colnames(hyp_data2)<-c("SpeciesA","SpeciesB")
+  
+  ggplot(data=as.data.frame(hyp_data2)) + 
+    geom_point(aes(x = SpeciesA, y = SpeciesB), size = 4, colour = "red") + 
+    geom_text(aes(x = SpeciesA, y = SpeciesB, label = paste("Site",1:2)), hjust = -0.25) +
+    geom_segment( aes(xend = 1, yend = 9, x = 9, y = 1), linetype="solid" ) +
+    geom_segment( aes(xend = 1, yend = 1, x = c(1,9), y = c(9,1) ), linetype="dashed" ) +
+     geom_text(aes(x = 5, y = 5, label = "Euclidean distance"), hjust = -0.25) +
+    coord_cartesian(xlim = c(0, 10), ylim = c(0,10), expand = F) +
+    theme_bw()
+
+```
+
+#### City-block (Manhattan) distance
+
+$$ CB_{ij} = \sum_{i=1}^p \left|(x_{ij} - x_{ik})\right| $$
+
+- Most ecologically meaningful dissimilarities are Manhattan type
+- Less weight to outliers compared to ED
+- Retains sensitivity with heterogenous data
+- Distances not proportional
+
+
+```{r cbdist, echo=F}
+
+  ggplot(data=as.data.frame(hyp_data2)) + 
+    geom_point(aes(x = SpeciesA, y = SpeciesB), size = 4, colour = "red") + 
+    geom_text(aes(x = SpeciesA, y = SpeciesB, label = paste("Site",1:2)), hjust = -0.25) +
+    geom_segment( aes(xend = 1, yend = 1, x = c(1,9), y = c(9,1) ), linetype="solid" ) +
+     geom_text(aes(x = 1, y = 1, label = "City block distance"), hjust = 0, vjust = -0.25) +
+    coord_cartesian(xlim = c(0, 10), ylim = c(0,10), expand = F) +
+    theme_bw()
+
+```
+
+#### Proportional Distances
+
+$$ PD_{ij} = \frac{\sum_{i=1}^p \left|(x_{ij} - x_{ik})\right|}{\sum_{i=1}^p (x_{ij} - x_{ik})} $$
+
+- Manhattan distances expressed as a proportion to max distance
+- 2 communities with nothing in common would have dissimilarity of 1
+
+```{r propdist2, echo=F}
+newdata<-data.frame(env = 1:20, 
+                    sp.a = c(0,1,2,6,10,6,5,4,3,2,1,0,0,0,0,0,0,0,0,0),
+                    sp.b = c(0,0,0,0,0,0,2,4,8,10,12,6,4,3,2,1,1,0,0,0))
+
+  ggplot(data=newdata) + 
+    geom_bar(aes(x = env, y = sp.a),stat = "identity", fill = "red", alpha=0.25, width = 1) + 
+    geom_bar(aes(x = env, y = sp.b), stat = "identity", fill = "blue", alpha=0.25, width = 1) + 
+    annotate("text", x = c(5,8,13), y = 4, label=c("A","W","B")) +
+    labs(x = "Environmental gradient", y = "Abundance") +
+    coord_cartesian(xlim=c(1,20), ylim=c(0, 13), expand = FALSE) +
+    theme_bw() +
+    theme(axis.text.x = element_blank(),
+          axis.text.y = element_blank())
+
+```
+
+#####  Sorensen or Bray-Curtis distance
+
+$$ 1 - \frac{2w}{A+B} $$
+
+- Percent dissimilarity
+- Common with species data but can be used on any scale
+- Gives less weight to outliers compared to ED
+- Retains sensitivity with heterogeneous data
+- Maximum when there is no shared species
+- NOT metric and cannot be used with DA or CCA
+
+
+A few other proportional distances exist and differ in how they weight the dissimilarity.  Two examples are:
+
+- Jaccard distance
+
+$$ 1 - \frac{2w}{A+B -w} $$
+
+- Kulcynski distance
+
+$$ 1 - \frac{1}{2}(\frac{w}{A} + \frac{w}{B}) $$ 
+
+#### Euclidean distances based on species profiles
+
+##### Chord distance
+- Similar conceptually to ED, but data are row normalized
+- Useful in species abundance data because it removes differences in abundance
+
+```{r chorddist}
+hyp_data3<- matrix(c(1,9,1,8,1,6,10,0,10,2,10,0), byrow=TRUE, ncol = 2)
+  colnames(hyp_data3)<-c("SpeciesA","SpeciesB")
+  
+hyp_data3
+  
+ss<-sqrt(apply(hyp_data3^2,1,sum)) # sqrt of (SpeciesA^2 + SpeciesB^2)
+
+norm_data<-hyp_data3/ss
+
+norm_data
+
+dist(norm_data, "euclidean")
+
+```
+
+```{r chordgraph, echo=F}
+segment.data<-data.frame(x=c(0.1240347,0.9805807), y=c(0.9922779,0.1961161),xend=c(0.1240347,0.1240347), yend=c(0.1961161,0.1961161))
+
+ggplot(data=as.data.frame(norm_data)) + 
+  geom_curve(aes(x = 1, y = 0, xend = 0, yend = 1), color = "red", curvature = 0.46) +
+  geom_point(aes(x = SpeciesA, y = SpeciesB), size = 3) +
+  geom_segment(aes(x = 0.1643990, y = 0.9922779, xend = 0.9805807, yend = 0.1961161) ) + 
+  geom_segment(data=segment.data,aes(x = x, y = y, xend = xend, yend = yend), linetype="dashed" ) +
+  annotate("text", x = 0.5, y = 0.65, label="1.136",hjust = -0.55 ) +
+  labs(x = "Species A", y = "Species B") +
+  coord_equal() +
+  theme_bw()
+
+```
+
+##### Chi-square distance
+- ED after completing a row chi-quare standardization [see last weeks notes](https://chrischizinski.github.io/SNR_R_Group/2016-08-10-Data-Transformations)
+
+
+```{r chidist}
+hyp_data3
+  
+row.sum<-apply(hyp_data3,1,sum)
+col.sum<-apply(hyp_data3,2,sum)
+mat.sum<- sum(hyp_data3)
+
+chisq_data <- (hyp_data3 / row.sum) %*% diag(1 /sqrt(col.sum)) * sqrt(mat.sum)
+chisq_data
+
+dist(chisq_data, "euclidean")
+```
+
+##### Species-profile distance
+- ED on relative abundances [see last weeks notes](https://chrischizinski.github.io/SNR_R_Group/2016-08-10-Data-Transformations)
+
+
+```{r propdist}
+hyp_data3
+  
+row.sum<-apply(hyp_data3,1,sum)
+
+prop_data <- (hyp_data3 / row.sum) 
+prop_data
+
+dist(prop_data, "euclidean")
+```
+
+
+##### Hellinger distances
+- ED on the Hellinger standardization [see last weeks notes](https://chrischizinski.github.io/SNR_R_Group/2016-08-10-Data-Transformations)
+
+
+```{r helldist}
+hyp_data3
+  
+row.sum<-apply(hyp_data3,1,sum)
+
+hell_data <- sqrt(hyp_data3 / row.sum) 
+hell_data
+
+dist(hell_data, "euclidean")
+```
+
+Phew!! After going through all of these standardizations, transformations, and you have got to be thinking there has to be an easier way.  And of course there is.  The `vegan` package that I mentioned in the previous class has functions that will allow us to do all of these standardizations and distance measures.  For example to run the 
+chi.sq transformation and the euclidean distance, we combine the use of the functions `decostand` (completes many of the common standardizations) and `vegdist` (completes many of the common distance measures).
+
+```{r chivegan}
+library(vegan)
+
+vegdist(decostand(hyp_data3, "chi.sq"), "euclidean")
+
+```
+
+There are many other distance metrics we could choose from.  Look at the help menu for vegdist (`?vegdist`) to get a better idea of what is available and how it is calculated. 
+
