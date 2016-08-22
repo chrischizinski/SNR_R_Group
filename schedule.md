@@ -3,7 +3,7 @@ layout: page
 
 ---
 
-# Experimental Design and Analysis in R
+# 2016 Fall Semester - *Experimental Design and Analysis in R*
 
 <img style="float: right;" src="/SNR_R_Group/figs/R.jpeg">
 
