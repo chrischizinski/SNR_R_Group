@@ -1,6 +1,7 @@
 ---
 title: "Data Standardization and Transformations"
 date: August 10, 2016
+tags: [R, Multivariate, Transformations, Standardizations]
 ---
 We will go over several data transformations and standardizations (aka relativisations) commonly used in multivariate statistics.  This material borrows heavily from [Dr. Kevin McGarigals Applied Multivariate Course](http://www.umass.edu/landeco/teaching/multivariate/multivariate.html) with some modifications here and there.  
 

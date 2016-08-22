@@ -1,7 +1,7 @@
 ---
 title: "Similarities and Dissimilarities"
 date: August 12, 2016
-
+tags: [R, Multivariate, Distances]
 ---
 
 
