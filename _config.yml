@@ -17,6 +17,7 @@ description: Repository for SNR's R User Group
 
 # List of links in the navigation bar
 navbar-links:
+  Home: "index"
   Schedule: "schedule"
   Lessons: "blog"
   Contact: "contact"
