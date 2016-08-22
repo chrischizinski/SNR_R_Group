@@ -19,6 +19,7 @@ description: Repository for SNR's R User Group
 navbar-links:
   Blog: "blog"
   Contact: "contact"
+  Schedule: "schedule"
 
 # --- Footer options --- #
 author:
