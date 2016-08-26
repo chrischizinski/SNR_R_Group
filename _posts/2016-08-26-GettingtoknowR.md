@@ -1,3 +1,8 @@
+---
+date: August 26, 2016
+tags: [R]
+---
+
 # Getting to know R: a very brief introduction
 
 
