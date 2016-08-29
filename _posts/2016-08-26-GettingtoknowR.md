@@ -1,10 +1,8 @@
 ---
+title: "Getting to know R: a very brief introduction"
 date: August 26, 2016
 tags: [R]
 ---
-
-# Getting to know R: a very brief introduction
-
 
 <img style="float: right;" src="/SNR_R_Group/figs/R.jpeg">
 
