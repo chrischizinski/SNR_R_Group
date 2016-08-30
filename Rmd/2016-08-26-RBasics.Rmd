@@ -1,0 +1,100 @@
+---
+title: "Getting to know R in R"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+This is the second lesson in "Getting to know R."  In our [first lesson](), we went over the very basics of R including installation, RStudio, and some of the basics of learning and getting help in R.  The next sections we will begin to layout some of the "vocabulary" of R.  For those that have used R before and know that R is a lot more than a letter in the alphabet, most of this will be a review.  
+
+The R code for this lesson can be found [HERE]()
+
+## Laying out your R scripts
+Whenever I start a new R file I always have several things at the very top of your script.  This will help you understand what was done in the file and improves the reproducibility of your analysis.  
+
+1. Title of your R script or a basic comment of what is done
+    * This will help you later on when you are trying to go back to the analysis.
+2. The date that your script was most recently edited.
+3. Your name.  
+
+### Comments
+
+These all can be created using comments in R.  Comments are designated as `#` and anything to the right of them will not be run through R. These are a great way to annotate your code and help you understand what your are doing in your analysis.  
+
+```{r comment}
+# This is a comment symbol.  
+ 2 + 2 # Anything to the right of the symbol will not be run in the analysis
+
+```
+
+**TIP** If you are using RStudio you can comment on and off blocks of code using `control-shift-c`.
+
+So using comments at the top of my script, I would write:
+
+```{r header1}
+## Getting to know R
+## 8-26-16
+## Chris Chizinski
+```
+
+
+### Options
+
+The next thing that I like to lay out on the top are my options. Option allow the user to set global options that affect how R computes and displays the results.  While there are many of them, the one that I conistently have is `stringsAsFactors` set to `FALSE`.  We will go over factors in a bit, but I like to retain control when factors are set (helps in data manipulation and analysis).  
+
+```{r header2}
+## Getting to know R
+## 8-26-16
+## Chris Chizinski
+
+options(stringsAsFactors = FALSE)
+```
+
+### Working directory
+
+The next step is to provide my working directory.  Simply, a working directory is a directory that you can readily read and write files to. Now you can use the RStudio to point and click your way to the directory, but this makes the [reproducibilty](https://ropensci.org/blog/2014/06/09/reproducibility/) of your code difficult.  By "hard coding" it in your script you can be certain what directory and the files that you will be working with in the script.  
+
+I also have a certain main directory that I include all my analysis in.  For each different research project, I create a different subdirectory in that main directory.  It makes things easier to back up and have a set structure for my analysis.  My main directory is called `DataDepot`.  
+
+Now there are a couple of different ways you can represent directory structures in R.  If you have a PC you can represent directory seperators as `\\` or as `/`.  In Mac you can only use the `/`.  I like to use the `/` to be consistent.  The entire path needs to be enclosed within quotation marks. 
+
+```{r header3, eval=FALSE}
+## Getting to know R
+## 8-26-16
+## Chris Chizinski
+
+options(stringsAsFactors = FALSE)
+#setwd("/Users/cchizinski2/Documents/DataDepot/RClass")  # PC
+#setwd("\\Users\\cchizinski2\\Documents\\DataDepot\\RClass")  # PC
+setwd("/Users/cchizinski2/Documents/DataDepot/RClass")  # Mac
+```
+
+### Packages
+
+Setting a standard library path is important when working with R.  I find that after updating your R version or working from multiple computers (keeping your pacakges on a flash drive or network drive) saves a lot of time from having to reinstall R packages.  R packages are collections of R functions, data, and compiled code in a well-defined format. You can define the directory where these are stored using `.libPaths()`.  I like to use the personal network drive so that whenever I log in to a computer at UNL that drive is available.  
+
+```{r packages, eval=FALSE}
+## Getting to know R
+## 8-26-16
+## Chris Chizinski
+
+options(stringsAsFactors = FALSE)
+setwd("/Users/cchizinski2/Documents/DataDepot/RClass")  # Mac
+.libPaths("P:/RLibrary")
+```
+
+Once I have set my library path, I like to list all the R packages that I will be using in the subsequent code.  There are a few reasons that I like doing this:
+
+- all the packages are loaded at the top so if I need to jump down the script and run a specific function, I do not need to search around and find where I loaded the appropriate library
+- I can make sure that if there are conflicts with packages, that they are run in the appropriate order (i.e., making sure things are reproducible)
+
+For example, if you were to try to run the `dplyr` and the `plyr` packages to do data manipulation, then the order that these are loaded can affect the functionality of the functions.  
+
+
+```{r packages2}
+library(dplyr)
+library(plyr)
+```
+
+
