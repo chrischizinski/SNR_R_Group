@@ -1,0 +1,21 @@
+Boxes
+
+Box 11-2 	mullens.xls (split-plot) or mullens1.xls (repeated measures)
+		mullens.csv (split-plot) or mullens1.csv (repeated measures)
+		
+Box 11-4	mcgold.xls (repeated measures) or mcgold1.xls (split-plot)
+		mcgold.csv (repeated measures) or mcgold1.csv (split-plot)
+Tables		
+
+Tab 1					
+
+Figures
+
+Fig 11-3	keough.xls?
+		keough.csv?
+
+Fig 11-4	mullens.xls 
+		mullens.csv 
+
+Fig 11-5       	mcgold1.xls
+		mcgold1.csv																						

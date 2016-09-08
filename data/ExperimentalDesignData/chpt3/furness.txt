@@ -1,0 +1,21 @@
+##############################################################################
+#									     #
+#	Legend of formats and contents for data files accompany		     #
+#	"Experimental Design and Data Analysis for Biologists"		     #
+#	By G. P. Quinn and M. J. Keough, 2002			   	     #
+#									     #
+#	----------------------------------------------------------	     #
+#	Used in Box 3-2, Fig 4-5b					     #
+#									     #
+##############################################################################
+
+Format of the files:
+    * furness.xls (Microsoft Excel)
+    * furness.csv (comma delimeted ascii text file)
+    
+File contents:
+    * SEX - gender of breeding northern fulmars (Fulmarus glacialis)
+    * METRATE - metabolic rate (KJ/day)
+
+
+

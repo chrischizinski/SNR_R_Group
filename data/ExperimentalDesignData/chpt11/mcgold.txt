@@ -1,0 +1,44 @@
+##############################################################################
+#									     #
+#	Legend of formats and contents for data files accompany		     #
+#	"Experimental Design and Data Analysis for Biologists"		     #
+#	By G. P. Quinn and M. J. Keough, 2002			   	     #
+#									     #
+#	----------------------------------------------------------	     #
+#	Used in Box 11-2,						     #
+#									     #
+##############################################################################
+
+Format of the files: (Box 11-2)
+	* mcgold.xls (Microsoft Excel)
+	* mcgold.csv (comma delimeted ascii text file)
+
+File contents: (repeated measures file)
+	* SITE - site from which birds were censussed
+	* HABITAT - type of habitat (ironbark or stringybark dominated)
+	* REGION - geographic region (north or south of the Great Dividing Range, Victoria)
+	* MAY - density of nectarivorous birds plus 1 in the month of may
+	* JUNE - density of nectarivorous birds plus 1 in the month of june
+	* JULY - density of nectarivorous birds plus 1 in the month of july
+	* AUG - density of nectarivorous birds plus 1 in the month of august
+	* SEP - density of nectarivorous birds plus 1 in the month of september
+	* OCT - density of nectarivorous birds plus 1 in the month of october
+	* NOV - density of nectarivorous birds plus 1 in the month of november
+	* DEC - density of nectarivorous birds plus 1 in the month of december
+	* JAN - density of nectarivorous birds plus 1 in the month of january
+	* FEB - density of nectarivorous birds plus 1 in the month of february
+	* MAR - density of nectarivorous birds plus 1 in the month of march
+	* APR - density of nectarivorous birds plus 1 in the month of april
+	* LMAY - natural log of (MAY + 1)
+	* LJUNE - natural log of (JUNE + 1)
+	* LJULY - natural log of (JULY + 1)
+	* LAUG - natural log of (AUG + 1)
+	* LSEP - natural log of (SEP + 1)
+	* LOCT - natural log of (OCT + 1)
+	* LNOV - natural log of (NOV + 1)
+	* LDEC - natural log of (DEC + 1)
+	* LJAN - natural log of (JAN + 1)
+	* LFEB - natural log of (FEB + 1)
+	* LMAR - natural log of (MAR + 1)
+	* LAPR - natural log of (APR + 1)
+----------------------------------------------------------------------------------------

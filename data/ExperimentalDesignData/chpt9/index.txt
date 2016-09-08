@@ -1,0 +1,41 @@
+Boxes
+
+Box 9-1		andrew.xls
+		andrew.csv
+		
+Box 9-3		andrew.xls
+		andrew.csv
+		
+Box 9-4		quinn.xls (high-shore) & quinn1.xls (low-shore)
+		quinn.csv (high-shore) & quinn1.csv (low-shore)			
+
+Box 9-5		minch.xls
+		minch.csv
+		
+Tables
+
+Tab 9-1 	andrew.xls
+		andrew.csv
+
+Tab 9-7		quinn.xls (high-shore)
+		quinn.csv (high-shore)
+			
+Tab 9-15b	reich.xls
+		reich.csv
+		
+Tab 9-19	quinn.xls
+		quinn.csv
+				
+Figures
+
+Fig 9-4		quinn.xls (high-shore) & quinn1.xls (low-shore)
+		quinn.csv (high-shore) & quinn1.csv (low-shore)
+		
+Fig 9-5		quinn.xls (high-shore) & quinn1.xls (low-shore)
+		quinn.csv (high-shore) & quinn1.csv (low-shore)
+		
+Fig 9-6		minch.xls -> minch1.xls	
+		minch.csv -> minch1.csv
+		
+Fig 9-7		minch.xls
+		minch.csv																				

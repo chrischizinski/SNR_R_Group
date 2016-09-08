@@ -1,0 +1,19 @@
+##############################################################################
+#									     #
+#	Legend of formats and contents for data files accompany		     #
+#	"Experimental Design and Data Analysis for Biologists"		     #
+#	By G. P. Quinn and M. J. Keough, 2002			   	     #
+#									     #
+#	----------------------------------------------------------	     #
+#	Used in Box 18-4, Box 18-6, Fig 18-5, Fig 18-7a			     #
+#									     # 
+##############################################################################
+
+Format of the files: (Box 18-4 - also used macnally.xls, Box 18-6)
+	* macnally1.xls (Microsoft Excel)
+	* macnally1.csv (comma delimeted ascii text file)
+
+File contents: (triangular Bray-Curtis Dissimilarity matrix)
+	* columns and rows represent Bray-Curtis dissimilarity distances between each of the south eastern Australia sites in terms of the densities of 102 bird species
+
+

@@ -1,0 +1,30 @@
+##############################################################################
+#									     #
+#	Legend of formats and contents for data files accompany		     #
+#	"Experimental Design and Data Analysis for Biologists"		     #
+#	By G. P. Quinn and M. J. Keough, 2002			   	     #
+#									     #
+#	----------------------------------------------------------	     #
+#	Used in Box 15-2						     #
+#									     #
+##############################################################################
+
+
+Format of the files: (Box 15-2)
+	* fenton.xls (Microsoft Excel)
+	* fenton.csv (comma delimeted ascii text file)
+
+File contents:
+	* SPECIES - abreiviated bat names
+	* MANINTAC - intact Mana forest location
+	* MANIMPAC - impacted Mana forest location
+	* KANINTAC - intact Kanyati forest location
+	* MATIMPAC - impacted Matusadona forest location
+	* SMANINTA - standardized MANINTAC
+	* SMANIMPA - standardized MANIMPAC
+	* SKANINTA - standardized KANINTAC
+	* SMATIMPA - standardized MATIMPAC
+	* RSMANINT - range standardized MANINTAC
+	* RSMANIMP - range standardized MANIMPAC
+	* RSKANINT - range standardized KANINTAC
+	* RSMATIMP - range standardized MATIMPAC

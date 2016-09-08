@@ -1,0 +1,13 @@
+
+Box 2-2		lovett.xls
+		lovett.csv
+
+Box 2-3		lovett.xls
+		lovett.csv
+
+Box 2-4		lovett.xls
+		lovett.csv
+
+Fig 2-4		lovett.xls
+		lovett.csv
+Note, although Fig 2-4 uses data from lovett.*, means, medians and frequencies used in Fig 2-4a and b are not provided as these are bootstrap estimates and therefore represent only one possible outcome

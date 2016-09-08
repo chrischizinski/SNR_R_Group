@@ -1,0 +1,40 @@
+##############################################################################
+#     									     #
+#	Legend of formats and contents for data files to 		     #
+#	accompany "Design and Analysis for Biologists" by 		     #
+#	G. Quinn & M. Keough, 2002					     #
+#									     #
+#	-------------------------------------------------------------	     #
+#	Used in Box 8-1, Tab 8-1, Tab 8-3, Tab 8-6, Fig 8-5, Fig 8-6	     #
+#									     # ##############################################################################
+
+Format of the files: (Box 8-1, Tab 8-1, Tab 8-3, Tab 8-6, Fig 8-5a)
+	* medley.xls (Microsoft Excel)
+	* medley.csv (comma delimeted ascii text file)
+
+File contents:
+	* STREAM - name of streams in the Rocky Mountain region of Colorado, USA
+	* ZINC - categorical zinc concentration level (HIGH=high, MED=medium, LOW=low, BACK=background)
+	* DIVERSTY - Shannon-Wiener species diversity of diatoms
+	* ZNGROUP - alternative categorical zinc concentration level (1=background, 2=low, 3=medium, 4=high)
+
+---------------------------------------------------------------------------------------
+Format of the files: (Fig 8-5b)
+	* fig8-5b.xls (Microsoft Excel)
+	* fig8-5b.csv (comma delimeted ascii text file)
+
+File contents:
+	* ESTIMATE - zinc level mean diatom diversity
+	* ZINC.RES - residual from fit of single factor ANOVA model relating diatom
+diversity to ZINC level group
+
+---------------------------------------------------------------------------------------
+Format of the files: (Fig 8-6)
+	* fig8-6.xls (Microsoft Excel)
+	* fig8-6.csv (comma delimeted ascii text file)
+
+File contents:
+	* ESTIMATE - zinc level mean diatom diversity
+	* STRM.RES - residual from fit of single factor ANOVA model relating diatom
+diversity to STREAM
+

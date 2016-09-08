@@ -1,0 +1,21 @@
+##############################################################################
+#									     #
+#	Legend of formats and contents for data files accompany		     #
+#	"Experimental Design and Data Analysis for Biologists"		     #
+#	By G. P. Quinn and M. J. Keough, 2002			   	     #
+#									     #
+#	----------------------------------------------------------	     #
+#	Used in Box 13-1, Fig 13-1					     #
+#									     #
+##############################################################################
+
+Format of the files: (Box 13-1, Fig 13-1)
+	* polis.xls (Microsoft Excel)
+	* polis.csv (comma delimeted ascii text file)
+
+File contents:
+	* ISLAND - name of islands in the Gulf of California
+	* PARATIO - perimeter to area ratio of the islands
+	* UTA - presence or absence of lizards (Uta) on the islands (P=present, A=absence)
+	* PA - binary representation of presence/absence of lizards (Uta) on the islands (1=present, 0=absent)
+	* PREDICT - (used for Fig 13-1b) predicted probability of occurance of lizards from logistic regression of PA against PARATIO

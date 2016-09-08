@@ -1,0 +1,38 @@
+Boxes
+
+Box 18-1
+
+Box 18-2	mccue.xls
+		mccue.csv
+
+Box 18-3	bolger5.xls (raw data) & bolger6.xls (standardized data) & bolger7.xls (dissimilarity matrix)
+		bolger5.csv (raw data) & bolger6.csv (standardized data) & bolger7.csv (dissimilarity matrix)
+
+Box 18-4	macnally.xls (raw data) & macnally1.xls (dissimilarity matrix)
+		macnally.csv (raw data) & macnally1.csv (dissimilarity matrix)
+
+Box 18-5	mccue.xls
+		mccue.csv
+
+Tables		
+
+
+Figures
+
+Fig 18-3a	mccue1.xls (ordination data)
+		mccue1.csv (ordination data)
+
+Fig 18-3b	mccue2.xls (sheppards plot data)
+		mccue2.csv (sheppards plot data)
+
+Fig 18-4	bolger8.xls
+		bolger8.csv
+
+Fig 18-5	macnally3.xls (ordination data)
+		macnally3.csv (ordination data)		
+
+Fig 18-6	mccue3.xls (dendogram data)		
+		mccue3.csv (dendogram data)		
+
+Fig 18-7	macnally3.xls (dendogram data)
+		macnally3.csv (dendogram data)																			

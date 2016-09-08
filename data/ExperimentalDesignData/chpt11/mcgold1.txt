@@ -1,0 +1,22 @@
+##############################################################################
+#									     #
+#	Legend of formats and contents for data files accompany		     #
+#	"Experimental Design and Data Analysis for Biologists"		     #
+#	By G. P. Quinn and M. J. Keough, 2002			   	     #
+#									     #
+#	----------------------------------------------------------	     #
+#	Used in Box 11-2, Fig 11-5					     #
+#									     #
+##############################################################################
+
+Format of the files: (Box 11-2, Fig 11-5)
+	* mcgold1.xls (Microsoft Excel)
+	* mcgold1.csv (comma delimeted ascii text file)
+
+File contents: (split-plot file)
+	* SITE - site from which birds were censussed
+	* HABITAT - type of habitat (ironbark or stringybark dominated)
+	* REGION - geographic region (north or south of the Great Dividing Range, Victoria)
+	* MONTH - month of census
+	* BIRDS - natural log of the density of birds (+1)
+

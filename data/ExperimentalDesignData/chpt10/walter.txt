@@ -1,0 +1,26 @@
+##############################################################################
+#									     #
+#	Legend of formats and contents for data files accompany		     #
+#	"Experimental Design and Data Analysis for Biologists"		     #
+#	By G. P. Quinn and M. J. Keough, 2002			   	     #
+#									     #
+#	----------------------------------------------------------	     #
+#	Used in Box 10-1, Box 10-4, Tab 10-1, Tab 10-3, Tab 10-10, Fig 10-4  #
+#	Fig 10-5							     #
+#									     #
+##############################################################################
+
+Format of the files: (Box 10-1, Box 10-4, Tab 10-1, Tab 10-3, Tab 10-10, Fig 10-4, Fig 10-5)
+	* walter.xls (Microsoft Excel)
+	* walter.csv (comma delimeted ascii text file)
+
+File contents:
+	* LEAVES - treatment/block combination
+	* BLOCK - leaf pairs
+	* TREAT - treatment (1=control - normal domatia, 2=shaved leaves - no domatia)
+	* MITE - total number of mites per leaf
+	* LMITE - transformed MITE variable (log10(0.5+(MITE*10))
+	* RESID1 - residual from median polish of LMITE againts TREAT + BLOCK
+	* PREDICT1 - predicted LMITE from median polish of LMITE againts TREAT + BLOCK
+	* RESID2 - residual from RCB of LMITE against TREAT + BLOCK(TREAT)
+	* PREDICT2 - predicted LMITE from RCB of LMITE against TREAT + BLOCK(TREAT)

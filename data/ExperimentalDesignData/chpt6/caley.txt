@@ -1,0 +1,19 @@
+##############################################################################
+#									     #
+#	Legend of formats and contents for data files accompany		     #
+#	"Experimental Design and Data Analysis for Biologists"		     #
+#	By G. P. Quinn and M. J. Keough, 2002			   	     #
+#									     #
+#	----------------------------------------------------------	     #
+#	Used in Box 6-6, Fig 6-5					     #
+#									     #
+##############################################################################
+
+Format of the files: (Box 6-6, Fig 6-5)
+	* caley.xls (Microsoft Excel)
+	* caley.csv (comma delimeted ascii text file)
+
+File contents:
+	* TAXON - taxanomic group
+	* LSPP10 - local species richness at a sampling scale of 10% of North American region
+	* RSPP10 - regional species richness at a sampling scale of 10% of North American region

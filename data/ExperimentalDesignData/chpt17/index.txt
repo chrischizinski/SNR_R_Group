@@ -1,0 +1,40 @@
+Boxes
+
+Box 17-1	lovett2.xls
+		lovett2.csv
+		
+Box 17-2	bolger1.xls
+		bolger1.csv	
+		
+Box 17-3	macnally.xls
+		macnally.csv
+				
+Box 17-4	bolger2.xls
+		bolger2.csv			
+		
+Box 17-5	lovett2.xls
+		lovett2.csv
+				
+Box 17-6	bolger4.xls
+		bolger4.csv
+
+Tables		
+
+
+Figures
+
+Fig 17-1	green.xls
+		green.csv
+		
+Fig 17-2	lovett2.xls
+		lovett2.csv
+		
+Fig 17-3	bolger1.xls
+		bolger1.csv
+
+Fig 17-4	macnally.xls
+		macnally.csv
+		
+Fig 17-5	bolger3.xls
+		bolger3.csv
+																															

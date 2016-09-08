@@ -1,0 +1,34 @@
+##############################################################################
+#									     #
+#	Legend of formats and contents for data files accompany		     #
+#	"Experimental Design and Data Analysis for Biologists"		     #
+#	By G. P. Quinn and M. J. Keough, 2002			   	     #
+#									     #
+#	----------------------------------------------------------	     #
+#	Used in Box 5-3, Box 5-6, Box 5-7, Fig 5-13, Fig 5-14, Fig 5-15,     #
+#	Fig 5-16							     #
+#									     #
+##############################################################################
+
+Format of the files:
+    * christ.xls (Microsoft Excel)
+    * christ.csv (comma delimeted ascii text file)
+    
+File contents:
+    * LAKE - name of the North American lake from which observations were collected
+    * AREA - lake shoreline area
+    * CABIN - density of cabins along the shoreline
+    * RIP.DENS - density (no. km^-1) of riparian trees along shoreline
+    * RIP.BASA - basal area (m^2 km^-1) of riparian trees along the shoreline
+    * CWD.DENS - density (no. km^-1) of course woody debris (>5cm diam.) in nearshore water 	
+    * CWD.BASA - basal area (m^2 km^-1) of course woody debris (>5cm diam.) along the shoreline
+    * L10CABIN - Log10 transformation of CABIN
+    * LCWD.BAS - Log10 transformation of CWD.BASA
+    * RESID1 - residuals from linear regression of CWD.BASA against RIP.DENS
+    * PREDICT1 - predicted CWD.BASA from linear regression of CWD.BASA against RIP.DENS
+    * RESID2 - residuals from linear regression of CWD.BASA against CABIN
+    * PREDICT2 - predicted CWD.BASA from linear regression of CWD.BASA against CABIN
+    * RESID3 - residuals from linear regression of CWD.BASA against L10CABIN
+    * PREDICT3 - predicted CWD.BASA from linear regression of CWD.BASA against L10CABIN
+    * RESID4 - residuals from linear regression of LCWD.BAS against L10CABIN
+    * PREDICT4 - predicted LCWD.BAS from linear regression of LCWD.BAS against L10CABIN

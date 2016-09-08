@@ -1,0 +1,27 @@
+##############################################################################
+#									     #
+#	Legend of formats and contents for data files accompany		     #
+#	"Experimental Design and Data Analysis for Biologists"		     #
+#	By G. P. Quinn and M. J. Keough, 2002			   	     #
+#									     #
+#	----------------------------------------------------------	     #
+#	Used in Box 10-2, Box 10-5, Box 10-6?, Box 10-7, Box 10-8, 	     #
+#	Tab 10-1, Tab 10-4, Fig 10-6					     #
+#									     #
+##############################################################################
+
+Format of the files: (Box 10-2, Box 10-5, Box 10-6, Box 10-7, Box 10-8, Tab 10-1, Tab 10-4, Fig 10-6) 
+	* driscoll.xls (Microsoft Excel)
+	* driscoll.csv (comma delimeted ascii text file)
+
+File contents:
+	* BLOCK - name of drainage
+	* BLCK - numerical representation of each BLOCK to facilitate Fig 10-6a
+	* YEAR - represents when the measurements were repeated (1=pre-burn - 1992, 2=post-burn - 1993 and 3=post-burn - 1994)
+	* CALLS - difference in the number of calling male frogs between the burnt and control site in each drainage
+	* CALLSNA - CALLS with one value (newpipe, year 2) missing (represented by NA)
+	* CALLSSU - CALLS with value (-3.98) substituted for missing value (newpipe, year 2)
+	* RESID1 - residual from RCB of CALLS against YEAR + BLOCK(YEAR)
+	* PREDICT1 - predicted CALLS from RCB of CALLS against YEAR + BLOCK(YEAR)
+----------------------------------------------------------------------------------------
+

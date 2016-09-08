@@ -1,0 +1,21 @@
+##############################################################################
+#									     #
+#	Legend of formats and contents for data files accompany		     #
+#	"Experimental Design and Data Analysis for Biologists"		     #
+#	By G. P. Quinn and M. J. Keough, 2002			   	     #
+#									     #
+#	----------------------------------------------------------	     #
+#	Used in Box 9-1, Box 9-3, Tab 9-1				     #
+#									     #
+##############################################################################
+
+Format of the files: (Box 9-1, Box 9-3, Tab 9-1)
+	* andrew.xls (Microsoft Excel)
+	* andrew.csv (comma delimeted ascii text file)
+
+File contents:
+	* TREAT - urchin density treatment (con=original density, t0.66=66% original density, t0.33=33% original density, rem=all urchins removed)
+	* PATCH - random nesting factor (treatment replicated within four patches)
+	* QUAD - represents the 5 replicate quadrats per treatment within the four patches
+	* ALGAE - percentage cover of filementous algae
+----------------------------------------------------------------------------------------

@@ -1,0 +1,36 @@
+##############################################################################
+#									     #
+#	Legend of formats and contents for data files accompany		     #
+#	"Experimental Design and Data Analysis for Biologists"		     #
+#	By G. P. Quinn and M. J. Keough, 2002			   	     #
+#									     #
+#	----------------------------------------------------------	     #
+#	Used in Box 17-1, Box 17-5, Fig 17-2				     #
+#									     #
+##############################################################################
+
+Format of the files: (used in Box 17-1, Box 17-4, Fig 17-2)
+	* lovett2.xls (Microsoft Excel)
+	* lovett2.csv (comma delimeted ascii text file)
+
+File contents:
+	* STREAM - name of the stream (site) from which observations were collected
+	* MAXELEV - maximum elevation of stream (m above sea level)
+	* SAMPELEV - site elevation (m above sea level)
+	* LENGTH - length of stream
+	* AREA - area of watershed
+	* NO3 - concentration (mmol.L-1) of nitrogen oxide ions averaged over 3 years
+	* TON - concentration (mmol.L-1) of total organic nitrogen averaged over 3 years
+	* TN - concentration (mmol.L-1) of total nitrogen averaged over 3 years
+	* NH4 - concentration (mmol.L-1) of ammonia ions averaged over 3 years
+	* DOC - concentration (mmol.L-1) of dissolved oxygen averaged over 3 years
+	* SO4 - concentration (mmol.L-1) of sulphur dioxide ions averaged over 3 years
+	* CL - concentration (mmol.L-1) of chloride ions averaged over 3 years.
+	* CA - concentration (mmol.L-1) of calcium ions averaged over 3 years
+	* MG - concentration (mmol.L-1) of magnesium ions averaged over 3 years
+	* H - concentration (mmol.L-1) of hydrogen ions averaged over 3 years
+	* LDOC - log10 transformation of DOC
+	* LCL - log10 transformation of CL
+	* COMPON1 - PCA component loadings 1
+	* COMPON2 - PCA component loadings 2
+	* COMPEN3 - PCA component loadings 3

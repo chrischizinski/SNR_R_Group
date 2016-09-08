@@ -1,0 +1,19 @@
+##############################################################################
+#									     #
+#	Legend of formats and contents for data files accompany		     #
+#	"Experimental Design and Data Analysis for Biologists"		     #
+#	By G. P. Quinn and M. J. Keough, 2002			   	     #
+#									     #
+#	----------------------------------------------------------	     #
+#	Used in Box Fig 18-3b						     #
+#									     #
+##############################################################################
+
+Format of the files: (Fig 18-3b)
+	* mccue2.xls (Microsoft Excel)
+	* mccue2.csv (comma delimeted ascii text file)
+
+File contents: (sheppards plot data)
+	* CSDIST - Cavalli-Svorza genetic distances between subpopulations
+	* NMDSDIST - NMDS distances between subpopulations
+

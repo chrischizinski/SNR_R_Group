@@ -1,0 +1,21 @@
+Boxes
+
+Box 8-1		medley.xls
+		medley.csv
+		
+Tables
+
+Tab 8-1		medley.xls
+		medley.csv
+
+
+Tab 8-6		medley.xls
+		medley.csv
+
+Figures
+
+Fig 8-5		medley.xls
+		medley.csv
+		
+Fig 8-6		medley.xls
+		medley.csv																		

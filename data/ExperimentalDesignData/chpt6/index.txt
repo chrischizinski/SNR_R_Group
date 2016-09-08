@@ -1,0 +1,63 @@
+Boxes
+
+Box 6-1		paruelo.xls
+		paruelo.csv
+
+Box 6-2		loyn.xls
+		loyn.csv		
+
+Box 6-6		caley.xls
+		caley.csv
+		
+Box 6-7		loyn_dum.xls
+		loyn_dum.csv
+
+Box 6-8		loyn.xls
+		loyn.csv
+		
+Box 6-9		loyn.xls
+		loyn.csv									
+
+Box 6-10	loyn.xls
+		loyn.csv
+
+Box 6-11	peake1.xls
+		peake1.csv
+Tables
+
+Tab 6-3		loyn_dum.xls
+		loyn_dum.csv
+
+Figures
+
+Fig 6-1		paruelo.xls
+		paruelo.csv
+		
+Fig 6-2		paruelo.xls
+		paruelo.csv
+
+Fig 6-3		loyn.xls
+		loyn.csv
+
+Fig 6-4		loyn.xls
+		loyn.csv
+
+Fig 6-5		caley.xls
+		caley.csv
+		
+Fig 6-6		loyn.xls
+		loyn.csv
+
+Fig 6-7		loyn.xls
+		loyn.csv
+
+Fig 6-8		loyn.xls
+		loyn.csv
+
+Fig 6-10	peake1.xls
+		peake1.csv
+		
+Fig 6-11	paruelo.xls
+		paruelo.csv
+
+																	

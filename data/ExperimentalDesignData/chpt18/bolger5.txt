@@ -1,0 +1,18 @@
+##############################################################################
+#									     #
+#	Legend of formats and contents for data files accompany		     #
+#	"Experimental Design and Data Analysis for Biologists"		     #
+#	By G. P. Quinn and M. J. Keough, 2002			   	     #
+#									     #
+#	----------------------------------------------------------	     #
+#	Used in Box 18-1, Box 18-3, Fig 18-4				     #
+#									     #	
+##############################################################################
+
+Format of the files: (Box 18-1, Box 18-3, Fig 18-4)
+	* bolger5.xls (Microsoft Excel)
+	* bolger5.csv (comma delimeted ascii text file)
+
+File contents: (raw data file)
+	* SPECIES - name of the rodent species
+	* FLORIDA <-> DELMARME - raw abundance (number) of rodents caught at each site

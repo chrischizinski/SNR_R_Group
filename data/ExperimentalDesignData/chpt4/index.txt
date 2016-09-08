@@ -1,0 +1,24 @@
+Boxes
+
+Tables
+
+Figures
+
+Fig 4-3		lovett.xls
+		lovett.csv
+		
+Fig 4-5a	ward.xls
+		ward.csv
+		
+Fig 4-5b	furness.xls
+		furness.csv
+		
+Fig 4-6		lovett.xls
+		lovett.csv
+		
+Fig 4-7a	fig4-7a.xls (lovett.xls)
+		fig4-7a.csv (lovett.csv)										
+
+
+
+		

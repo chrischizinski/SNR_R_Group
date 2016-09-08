@@ -1,0 +1,253 @@
+SITE,SPECIES,FREQ,ABUND
+Florida,rrattus,0.000000, 0
+Sandmark,rrattus,0.000000, 0
+34street,rrattus,0.000000, 0
+Balboaterr,rrattus,0.000000, 0
+Katesess,rrattus,0.000000, 0
+Altalajolla,rrattus,0.000000, 0
+Laurel,rrattus,0.000000, 0
+Canon,rrattus,0.000000, 0
+Zena,rrattus,1.316074, 3
+Baja,rrattus,1.000000, 1
+Washington,rrattus,0.000000, 0
+Solanadrive,rrattus,0.000000, 0
+Syracuse,rrattus,0.000000, 0
+32streetsth,rrattus,1.000000, 1
+60th,rrattus,0.000000, 0
+Juan,rrattus,0.000000, 0
+Acuna,rrattus,1.316074, 3
+Edison,rrattus,0.000000, 0
+Spruce,rrattus,0.000000, 0
+Oakcrest,rrattus,1.316074, 3
+54street,rrattus,1.189207, 2
+Titus,rrattus,0.000000, 0
+Montanosa,rrattus,0.000000, 0
+Elmac,rrattus,1.000000, 1
+32streetnth,rrattus,0.000000, 0
+Tec1,rrattus,0.000000, 0
+Tec2,rrattus,0.000000, 0
+Delmarmesa,rrattus,0.000000, 0
+Florida,mmuscul,1.898829,13
+Sandmark,mmuscul,1.000000, 1
+34street,mmuscul,1.414214, 4
+Balboaterr,mmuscul,1.414214, 4
+Katesess,mmuscul,1.189207, 2
+Altalajolla,mmuscul,1.000000, 1
+Laurel,mmuscul,1.821160,11
+Canon,mmuscul,2.000000,16
+Zena,mmuscul,1.681793, 8
+Baja,mmuscul,1.189207, 2
+Washington,mmuscul,1.732051, 9
+Solanadrive,mmuscul,1.316074, 3
+Syracuse,mmuscul,1.414214, 4
+32streetsth,mmuscul,1.316074, 3
+60th,mmuscul,1.821160,11
+Juan,mmuscul,1.414214, 4
+Acuna,mmuscul,0.000000, 0
+Edison,mmuscul,1.189207, 2
+Spruce,mmuscul,0.000000, 0
+Oakcrest,mmuscul,0.000000, 0
+54street,mmuscul,1.000000, 1
+Titus,mmuscul,1.316074, 3
+Montanosa,mmuscul,0.000000, 0
+Elmac,mmuscul,0.000000, 0
+32streetnth,mmuscul,1.495349, 5
+Tec1,mmuscul,0.000000, 0
+Tec2,mmuscul,0.000000, 0
+Delmarmesa,mmuscul,0.000000, 0
+Florida,pcalifo,1.316074, 3
+Sandmark,pcalifo,2.747696,57
+34street,pcalifo,2.449490,36
+Balboaterr,pcalifo,2.698168,53
+Katesess,pcalifo,2.817313,63
+Altalajolla,pcalifo,2.632148,48
+Laurel,pcalifo,0.000000, 0
+Canon,pcalifo,0.000000, 0
+Zena,pcalifo,0.000000, 0
+Baja,pcalifo,0.000000, 0
+Washington,pcalifo,0.000000, 0
+Solanadrive,pcalifo,1.000000, 1
+Syracuse,pcalifo,2.498999,39
+32streetsth,pcalifo,0.000000, 0
+60th,pcalifo,0.000000, 0
+Juan,pcalifo,0.000000, 0
+Acuna,pcalifo,0.000000, 0
+Edison,pcalifo,2.971828,78
+Spruce,pcalifo,1.000000, 1
+Oakcrest,pcalifo,2.279507,27
+54street,pcalifo,0.000000, 0
+Titus,pcalifo,0.000000, 0
+Montanosa,pcalifo,0.000000, 0
+Elmac,pcalifo,0.000000, 0
+32streetnth,pcalifo,0.000000, 0
+Tec1,pcalifo,2.165737,22
+Tec2,pcalifo,2.320596,29
+Delmarmesa,pcalifo,1.778279,10
+Florida,peremic,1.000000, 1
+Sandmark,peremic,2.839412,65
+34street,peremic,0.000000, 0
+Balboaterr,peremic,1.000000, 1
+Katesess,peremic,2.140695,21
+Altalajolla,peremic,2.432299,35
+Laurel,peremic,0.000000, 0
+Canon,peremic,0.000000, 0
+Zena,peremic,0.000000, 0
+Baja,peremic,0.000000, 0
+Washington,peremic,0.000000, 0
+Solanadrive,peremic,0.000000, 0
+Syracuse,peremic,0.000000, 0
+32streetsth,peremic,0.000000, 0
+60th,peremic,0.000000, 0
+Juan,peremic,0.000000, 0
+Acuna,peremic,0.000000, 0
+Edison,peremic,0.000000, 0
+Spruce,peremic,0.000000, 0
+Oakcrest,peremic,1.000000, 1
+54street,peremic,0.000000, 0
+Titus,peremic,0.000000, 0
+Montanosa,peremic,0.000000, 0
+Elmac,peremic,0.000000, 0
+32streetnth,peremic,0.000000, 0
+Tec1,peremic,0.000000, 0
+Tec2,peremic,0.000000, 0
+Delmarmesa,peremic,1.000000, 1
+Florida,rmegalo,1.000000, 1
+Sandmark,rmegalo,1.732051, 9
+34street,rmegalo,1.189207, 2
+Balboaterr,rmegalo,1.495349, 5
+Katesess,rmegalo,1.821160,11
+Altalajolla,rmegalo,1.861210,12
+Laurel,rmegalo,0.000000, 0
+Canon,rmegalo,0.000000, 0
+Zena,rmegalo,0.000000, 0
+Baja,rmegalo,0.000000, 0
+Washington,rmegalo,0.000000, 0
+Solanadrive,rmegalo,1.495349, 5
+Syracuse,rmegalo,1.414214, 4
+32streetsth,rmegalo,0.000000, 0
+60th,rmegalo,0.000000, 0
+Juan,rmegalo,0.000000, 0
+Acuna,rmegalo,0.000000, 0
+Edison,rmegalo,1.778279,10
+Spruce,rmegalo,0.000000, 0
+Oakcrest,rmegalo,0.000000, 0
+54street,rmegalo,0.000000, 0
+Titus,rmegalo,0.000000, 0
+Montanosa,rmegalo,1.189207, 2
+Elmac,rmegalo,0.000000, 0
+32streetnth,rmegalo,0.000000, 0
+Tec1,rmegalo,0.000000, 0
+Tec2,rmegalo,1.778279,10
+Delmarmesa,rmegalo,0.000000, 0
+Florida,nfuscip,1.189207, 2
+Sandmark,nfuscip,2.000000,16
+34street,nfuscip,1.732051, 9
+Balboaterr,nfuscip,2.340347,30
+Katesess,nfuscip,2.000000,16
+Altalajolla,nfuscip,1.681793, 8
+Laurel,nfuscip,0.000000, 0
+Canon,nfuscip,0.000000, 0
+Zena,nfuscip,0.000000, 0
+Baja,nfuscip,0.000000, 0
+Washington,nfuscip,0.000000, 0
+Solanadrive,nfuscip,2.000000,16
+Syracuse,nfuscip,1.861210,12
+32streetsth,nfuscip,0.000000, 0
+60th,nfuscip,0.000000, 0
+Juan,nfuscip,0.000000, 0
+Acuna,nfuscip,0.000000, 0
+Edison,nfuscip,1.934336,14
+Spruce,nfuscip,0.000000, 0
+Oakcrest,nfuscip,0.000000, 0
+54street,nfuscip,0.000000, 0
+Titus,nfuscip,0.000000, 0
+Montanosa,nfuscip,1.681793, 8
+Elmac,nfuscip,0.000000, 0
+32streetnth,nfuscip,0.000000, 0
+Tec1,nfuscip,1.821160,11
+Tec2,nfuscip,1.732051, 9
+Delmarmesa,nfuscip,1.000000, 1
+Florida,nlepida,0.000000, 0
+Sandmark,nlepida,1.681793, 8
+34street,nlepida,0.000000, 0
+Balboaterr,nlepida,0.000000, 0
+Katesess,nlepida,0.000000, 0
+Altalajolla,nlepida,1.861210,12
+Laurel,nlepida,0.000000, 0
+Canon,nlepida,0.000000, 0
+Zena,nlepida,0.000000, 0
+Baja,nlepida,0.000000, 0
+Washington,nlepida,0.000000, 0
+Solanadrive,nlepida,0.000000, 0
+Syracuse,nlepida,0.000000, 0
+32streetsth,nlepida,0.000000, 0
+60th,nlepida,0.000000, 0
+Juan,nlepida,0.000000, 0
+Acuna,nlepida,0.000000, 0
+Edison,nlepida,0.000000, 0
+Spruce,nlepida,0.000000, 0
+Oakcrest,nlepida,0.000000, 0
+54street,nlepida,0.000000, 0
+Titus,nlepida,0.000000, 0
+Montanosa,nlepida,0.000000, 0
+Elmac,nlepida,0.000000, 0
+32streetnth,nlepida,0.000000, 0
+Tec1,nlepida,0.000000, 0
+Tec2,nlepida,0.000000, 0
+Delmarmesa,nlepida,0.000000, 0
+Florida,pfallax,0.000000, 0
+Sandmark,pfallax,1.189207, 2
+34street,pfallax,0.000000, 0
+Balboaterr,pfallax,2.059767,18
+Katesess,pfallax,0.000000, 0
+Altalajolla,pfallax,1.189207, 2
+Laurel,pfallax,0.000000, 0
+Canon,pfallax,0.000000, 0
+Zena,pfallax,0.000000, 0
+Baja,pfallax,0.000000, 0
+Washington,pfallax,0.000000, 0
+Solanadrive,pfallax,1.626577, 7
+Syracuse,pfallax,0.000000, 0
+32streetsth,pfallax,0.000000, 0
+60th,pfallax,0.000000, 0
+Juan,pfallax,0.000000, 0
+Acuna,pfallax,0.000000, 0
+Edison,pfallax,1.414214, 4
+Spruce,pfallax,0.000000, 0
+Oakcrest,pfallax,0.000000, 0
+54street,pfallax,0.000000, 0
+Titus,pfallax,0.000000, 0
+Montanosa,pfallax,1.189207, 2
+Elmac,pfallax,0.000000, 0
+32streetnth,pfallax,0.000000, 0
+Tec1,pfallax,1.189207, 2
+Tec2,pfallax,1.000000, 1
+Delmarmesa,pfallax,0.000000, 0
+Florida,mcalifo,0.000000, 0
+Sandmark,mcalifo,1.316074, 3
+34street,mcalifo,0.000000, 0
+Balboaterr,mcalifo,1.316074, 3
+Katesess,mcalifo,0.000000, 0
+Altalajolla,mcalifo,1.189207, 2
+Laurel,mcalifo,0.000000, 0
+Canon,mcalifo,0.000000, 0
+Zena,mcalifo,0.000000, 0
+Baja,mcalifo,0.000000, 0
+Washington,mcalifo,0.000000, 0
+Solanadrive,mcalifo,0.000000, 0
+Syracuse,mcalifo,0.000000, 0
+32streetsth,mcalifo,0.000000, 0
+60th,mcalifo,0.000000, 0
+Juan,mcalifo,0.000000, 0
+Acuna,mcalifo,0.000000, 0
+Edison,mcalifo,0.000000, 0
+Spruce,mcalifo,0.000000, 0
+Oakcrest,mcalifo,0.000000, 0
+54street,mcalifo,0.000000, 0
+Titus,mcalifo,0.000000, 0
+Montanosa,mcalifo,0.000000, 0
+Elmac,mcalifo,0.000000, 0
+32streetnth,mcalifo,0.000000, 0
+Tec1,mcalifo,0.000000, 0
+Tec2,mcalifo,0.000000, 0
+Delmarmesa,mcalifo,0.000000, 0

@@ -1,0 +1,21 @@
+##############################################################################
+#									     #
+#	Legend of formats and contents for data files accompany		     #
+#	"Experimental Design and Data Analysis for Biologists"		     #
+#	By G. P. Quinn and M. J. Keough, 2002			   	     #
+#									     #
+#	----------------------------------------------------------	     #
+#	Used in Fig 10-5a 						     #
+#									     #
+##############################################################################
+
+Format of the files: (Fig 10-5a)
+	* walter1.xls (Microsoft Excel)
+	* walter1.csv (comma delimeted ascii text file)
+
+File contents:
+	* TREAT1 - control (normal domatia)
+	* TREAT2 - shaved domatia (no domatia)
+	
+	Rows represent blocks (ei each row is a block, from BLOCK1 to BLOCK14)
+	Values are the number of mites per leaf (log10(0.5+(x*10))

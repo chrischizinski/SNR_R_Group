@@ -1,0 +1,31 @@
+##############################################################################
+#									     #
+#	Legend of formats and contents for data files accompany		     #
+#	"Experimental Design and Data Analysis for Biologists"		     #
+#	By G. P. Quinn and M. J. Keough, 2002			   	     #
+#									     #
+#	----------------------------------------------------------	     #
+#	Used in Fig 17-5					    	     #
+#									     #
+##############################################################################
+
+Format of the files: (Fig 17-5)
+	* bolger3.xls (Microsoft Excel)
+	* bolger3.csv (comma delimeted ascii text file)
+
+File contents:
+	* SITELAB - site label of habitat fragments and mainland control sites in coastal southern California
+	* FACTOR1 - CA factor 1
+	* FACTOR2 - CA factor 2
+	* SPLAB - species label for rodent species	
+		* RRATTUS - R. rattus
+		* MMUSCUL - M. musculus
+		* PCALIFO - P. californicus
+		* PEREMIC - P. eremicus
+		* RMEGALO - R. megalotis
+		* NFUSCIP - N. fuscipes
+		* NLEPIDA - N. lepida
+		* PFALLAX - P. fallax
+		* MCALIFO - M. californicus
+	* DIM1 - CA dimension 1
+	* DIM2 - CA dimension 2

@@ -1,0 +1,19 @@
+##############################################################################
+#									     #
+#	Legend of formats and contents for data files accompany		     #
+#	"Experimental Design and Data Analysis for Biologists"		     #
+#	By G. P. Quinn and M. J. Keough, 2002			   	     #
+#									     #
+#	----------------------------------------------------------	     #
+#	Used in Box 14-2, Tab 14-2a					     #
+#									     #
+##############################################################################
+
+Format of the files: (Box 14-2, Tab 14-2a)
+	* french.xls (Microsoft Excel)
+	* french.csv (comma delimeted ascii text file)
+
+File contents:
+	* REGEN - plants method of regeneration (seed=seed only, veg=vegetative)
+	* DISPERS - plants main method of dispersal (ant=ant, vert=vertebrate)
+	* COUNT - number of plant species

@@ -1,0 +1,20 @@
+##############################################################################
+#									     #
+#	Legend of formats and contents for data files accompany		     #
+#	"Experimental Design and Data Analysis for Biologists"		     #
+#	By G. P. Quinn and M. J. Keough, 2002			   	     #
+#									     #
+#	----------------------------------------------------------	     #
+#	Used in Box 14-3, Box 14-4, Tab 14-2b				     #
+#								             #
+#									     #
+##############################################################################
+
+Format of the files: (Box 14-3, Box 14-4, Tab 14-2)
+	* roberts.xls (Microsoft Excel)
+	* roberts.csv (comma delimeted ascii text file)
+
+File contents:
+	* COOLIBAH - presence/absence (WITH or WITHOUT) of dead coolibah trees
+	* POSITION - position along transect (TOP=dunes, BOTTOM=lakeside, MIDDLE=intermediate)
+	* COUNT - number of trees

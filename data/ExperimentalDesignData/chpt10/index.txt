@@ -1,0 +1,42 @@
+Boxes
+
+Box 10-1 	walter.xls
+		walter.csv
+		
+Box 10-2 	driscoll.xls & driscoll1.xls
+		driscoll.csv & driscoll1.csv		
+			
+Box 10-4	walter.xls
+		walter.csv
+					
+Box 10-5 	driscoll.xls
+		driscoll.csv
+				
+Box 10-6 	driscoll.xls
+		driscoll.csv		
+
+Box 10-7 	driscoll.xls
+		driscoll.csv		
+
+Box 10-8 	driscoll.xls
+		driscoll.csv
+
+Tables		
+
+Tab 10-3	walter.xls
+		walter.cs
+
+Tab 10-4	driscoll.xls
+		driscoll.csv
+		
+Tab 10-10	walter.xls
+		walter.csv					
+
+Figures
+
+Fig 10-4	walter.xls
+		walter.csv
+
+Fig 10-5	walter.xls
+		walter.csv
+																									

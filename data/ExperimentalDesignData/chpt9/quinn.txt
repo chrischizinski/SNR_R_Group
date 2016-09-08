@@ -1,0 +1,24 @@
+##############################################################################
+#     									     #
+#	Legend of formats and contents for data files to 		     #
+#	accompany "Design and Analysis for Biologists" by 		     #
+#	G. Quinn & M. Keough, 2002					     #
+#									     #
+#	-------------------------------------------------------------	     #
+#	Used in Box 9-4, Tab 9-7, Tab 9-19, Fig 9-4, Fig 9-5		     #
+#									     # 
+##############################################################################
+
+Format of the files: (Box 9-4, Tab 9-7, Tab 9-19, Fig 9-4, Fig 9-5)
+	* quinn.xls (Microsoft Excel)
+	* quinn.csv (comma delimeted ascii text file)
+
+File contents: (high-shore limpets data)
+	* DENSITY - density of adult Siphonaria diemenensis (8, 15, 30 and 45 animals per 225cm^2 enclosure) higher on the shore
+	* SEASON - seasonal category (spring=winter/spring, summer=summer/autumn
+	* EGGS - number of egg masses per limpet in each enclosure
+	* RESID1 - residuals from 2 factor ANOVA of EGGS against DENSITY and SEASON
+	* PREDICT1 - predicted EGGS from 2 factor ANOVA of EGGS against DENSITY and SEASON
+	
+
+----------------------------------------------------------------------------------------

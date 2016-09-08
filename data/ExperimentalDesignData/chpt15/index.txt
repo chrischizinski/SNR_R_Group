@@ -1,0 +1,43 @@
+Boxes
+
+Box 15-1	cleveng.xls
+		cleveng.csv
+
+Box 15-2	reich1.xls
+		reich1.csv
+		fenton.xls
+		fenton.csv
+
+Box 15-3	reich3.xls
+		reich3.csv
+
+Tables		
+
+Tab 15-1	reich2.xls
+		reich2.csv
+		
+Tab 15-2	reich2.xls
+		reich2.csv
+
+Tab 15-3	reich2.xls
+		reich2.csv
+
+Tab 15-4	reich2.xls
+		reich2.csv
+
+Tab 15-5	reich2.xls
+		reich2.csv
+
+
+Figures
+
+Fig 15-1	lovett1.xls
+		lovett1.csv
+		
+Fig 15-3	reich2.xls
+		reich2.csv
+		
+Fig 15-4	reich2.xls
+		reich2.csv
+			
+																										

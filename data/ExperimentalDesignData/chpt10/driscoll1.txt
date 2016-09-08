@@ -1,0 +1,20 @@
+##############################################################################
+#									     #
+#	Legend of formats and contents for data files accompany		     #
+#	"Experimental Design and Data Analysis for Biologists"		     #
+#	By G. P. Quinn and M. J. Keough, 2002			   	     #
+#									     #
+#	----------------------------------------------------------	     #
+#	Used in Box 10-2					 	     #
+#									     #
+##############################################################################
+
+Format of the files: (Tab Box 10-2)
+	* driscoll1.xls (Microsoft Excel)
+	* driscoll1.csv (comma delimeted ascii text file)
+
+File contents:
+	* YEAR1 - difference in the number of calling male frogs between the burnt and control site in each drainage for pre-burn (1992)
+	* YEAR2 - difference in the number of calling male frogs between the burnt and control site in each drainage for post-burn (1993)
+	* YEAR3 - difference in the number of calling male frogs between the burnt and control site in each drainage for post-burn (1994)
+

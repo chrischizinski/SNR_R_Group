@@ -1,0 +1,29 @@
+##############################################################################
+#									     #
+#	Legend of formats and contents for data files accompany		     #
+#	"Experimental Design and Data Analysis for Biologists"		     #
+#	By G. P. Quinn and M. J. Keough, 2002			   	     #
+#									     #
+#	----------------------------------------------------------	     #
+#	Used in Fig 18-3a						     #
+#									     #
+##############################################################################
+
+Format of the files: (Fig 18-3a)
+	* mccue1.xls (Microsoft Excel)
+	* mccue1.csv (comma delimeted ascii text file)
+
+File contents: 
+	* SITES - Site along Tule River in California	
+		* BC1 - Bear Creek subpopulation 1
+		* BC2 - Bear Creek subpopulation 2
+		* BC3 - Bear Creek subpopulation 3
+		* GS1 - Gauging Station subpopulation 1
+		* GS2 - Gauging Station subpopulation 2
+		* SCER1 - Springville Clarkia Ecological Reserve subpopulation 1
+		* SCER2 - Springville Clarkia Ecological Reserve subpopulation 2
+		* SCER3 - Springville Clarkia Ecological Reserve subpopulation 3
+	* DIM1 - NMDS ordination dimension 1
+	* DIM2 - NMDS ordination dimension 2
+
+-------------------------------------------------------------------------------

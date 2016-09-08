@@ -1,0 +1,20 @@
+##############################################################################
+#     									     #
+#	Legend of formats and contents for data files to 		     #
+#	accompany "Design and Analysis for Biologists" by 		     #
+#	G. Quinn & M. Keough, 2002					     #
+#									     #
+#	-------------------------------------------------------------	     #
+#	Used in Tab 9-15b						     #
+#									     #
+##############################################################################
+
+Format of the files: (Tab 9-15b)
+	* reich.xls (Microsoft Excel)
+	* reich.csv (comma delimeted ascii text file)
+
+File contents:
+	* LOCATION - geographic regions representing different ecosystems (Newmex = New Mexico - desert grassland/woodland & pinyon-juniper woodland, Scarolin = South Carolina - warm temperate/subtropical forest, Venezuel = Venezuela - tropical rain forest, and Wiscons = Wisconsin - cold temperate forest & prairie and alkaline fen/bog).
+	* FUNCTION - vegetation function groups (Shrub and Tree)
+	* LEAFAREA - specific leaf surface area (mm^2)
+----------------------------------------------------------------------------------------

@@ -1,0 +1,41 @@
+##############################################################################
+#									     #
+#	Legend of formats and contents for data files accompany		     #
+#	"Experimental Design and Data Analysis for Biologists"		     #
+#	By G. P. Quinn and M. J. Keough, 2002			   	     #
+#									     #
+#	----------------------------------------------------------	     #
+#	Used in Tab 15-1, Tab 15-2, Tab 15-3, Tab 15-4, Tab 15-5,	     # 
+#	Fig 15-3, Fig 15-4						     #
+#									     #
+##############################################################################
+
+Format of the files: (Tab 15-1, Tab 15-2, Tab 15-3, Tab 15-4, Tab 15-5, Fig 15-3, Fig 15-4)
+	* reich2.xls (Microsoft Excel)
+	* reich2.csv (comma delimeted ascii text file)
+
+File contents:
+	* SPECIES - species of Wisconsin forb
+		* C.THALIC - Caulophyllum thalictroides
+		* D.LACINI - Dentaria laciniate
+		* E.AMERIC - Erythronium americanum
+		* S.TEREBI - Silphium terebinthinaceum
+		* P.PELTAT - Podophyllum peltatum
+		* B.LEUCOP - Baptisia leucophaea
+		* T.GRANDI - Trillium grandiflora
+		* E.PURPUR - Echinacea purpurea
+		* S.INTEGR - Silphium integrifolium
+		* S.CANADE - Sanguinaria canadensis
+		* S.PURPUR - Sarrachenia purpurea
+	* SLA - specific leaf area
+	* N - leaf nitrogen
+	* AMASS - mass-based net photosynthetic capacity
+	* AAREA- area-based net photosynthetic capacity
+	* GS - leaf diffuse conductance at photosynthetic capacity
+	* LSLA - log10 transformation of SLA
+	* CN - centered N
+	* STSLA - standardized SLA
+	* STN - standardized N
+	* STAMASS - standardized AMASS
+	* STAAREA - standardized AAREA
+	* STGS - standardized GS

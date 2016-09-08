@@ -1,0 +1,20 @@
+##############################################################################
+#									     #
+#	Legend of formats and contents for data files accompany		     #
+#	"Experimental Design and Data Analysis for Biologists"		     #
+#	By G. P. Quinn and M. J. Keough, 2002			   	     #
+#									     #
+#	----------------------------------------------------------	     #
+#	Used in Box 18-7						     #
+#									     # 
+##############################################################################
+
+Format of the files: (Fig 18-7)
+	* macnally3.xls (Microsoft Excel)
+	* macnally3.csv (comma delimeted ascii text file)
+
+File contents: (cluster joins definition file)
+	* CL1 - cluster containing site
+	* CL2 - cluster containing site
+	* JOIN - join distance between cluster CL1 and CL2
+	* MEMBERS - number of members in new cluster

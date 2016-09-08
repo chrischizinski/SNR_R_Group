@@ -1,0 +1,19 @@
+##############################################################################
+#									     #
+#	Legend of formats and contents for data files accompany		     #
+#	"Experimental Design and Data Analysis for Biologists"		     #
+#	By G. P. Quinn and M. J. Keough, 2002			   	     #
+#									     #
+#	----------------------------------------------------------	     #
+#	Used in Box 18-1, Box 18-3, Fig 18-4				     #
+#						     			     #	
+##############################################################################
+
+Format of the files: (Box 18-1, Box 18-3, Fig 18-4)
+	* bolger7.xls (Microsoft Excel)
+	* bolger7.csv (comma delimeted ascii text file)
+
+File contents: (triangular Bray-Curtis dissimilarity matrix)
+	* SITE - name of habitat fragments and mainland control sites in coastal southern California
+	* FLORIDA <-> DELMARME - Bray-Curtis dissimilarity distances between paired sites based on rodent abundances
+	

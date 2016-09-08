@@ -1,0 +1,19 @@
+##############################################################################
+#									     #
+#	Legend of formats and contents for data files accompany		     #
+#	"Experimental Design and Data Analysis for Biologists"		     #
+#	By G. P. Quinn and M. J. Keough, 2002			   	     #
+#									     #
+#	----------------------------------------------------------	     #
+#	Used in Fig 18-1						     #
+#						     			     #	
+##############################################################################
+
+Format of the files: (Fig 18-4)
+	* bolger9.xls (Microsoft Excel)
+	* bolger9.csv (comma delimeted ascii text file)
+
+File contents: (PCoA ordination plot data)
+	* SITE - name of habitat fragments and mainland control sites in coastal southern California
+	* AXIS1 - ordination axis 1 from PCoA
+	* AXIS2 - ordination axis 2 from PCoA

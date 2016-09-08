@@ -1,0 +1,21 @@
+##############################################################################
+#									     #
+#	Legend of formats and contents for data files accompany		     #
+#	"Experimental Design and Data Analysis for Biologists"		     #
+#	By G. P. Quinn and M. J. Keough, 2002			   	     #
+#									     #
+#	----------------------------------------------------------	     #
+#	Used in Box 3-1, Fig 4-5a					     #
+#									     #
+##############################################################################
+
+Format of the files:
+    * ward.xls (Microsoft Excel)
+    * ward.csv (comma delimeted ascii text file)
+    
+File contents:
+    * ZONE - name of the zone (Littorinid or Mussel) from which observations were collected
+    * EGGS - number of Lepsiella vinosa eggs per egg capsule
+
+
+

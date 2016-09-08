@@ -1,0 +1,21 @@
+##############################################################################
+#									     #
+#	Legend of formats and contents for data files accompany		     #
+#	"Experimental Design and Data Analysis for Biologists"		     #
+#	By G. P. Quinn and M. J. Keough, 2002			   	     #
+#									     #
+#	----------------------------------------------------------	     #
+#	Used in Box 6-11, Fig 6-10			     		     #
+#									     #
+##############################################################################
+
+Format of the files:
+    * peake1.xls (Microsoft Excel)
+    * peake1.csv (comma delimeted ascii text file)
+    
+File contents:
+    * SPECIES - number of macroinvertebrate species within mussel clump
+    * AREAM - area (m^2) of mussel clumps on rocky shore
+    * RESID1 - residuals from nonlinear regression of SPECIES against AREAM
+    * PREDICT1 - predicted SPECIES from nonlinear regression of SPECIES against AREAM
+    

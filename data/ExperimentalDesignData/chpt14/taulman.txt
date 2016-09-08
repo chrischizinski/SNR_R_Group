@@ -1,0 +1,21 @@
+##############################################################################
+#									     #
+#	Legend of formats and contents for data files accompany		     #
+#	"Experimental Design and Data Analysis for Biologists"		     #
+#	By G. P. Quinn and M. J. Keough, 2002			   	     #
+#									     #
+#	----------------------------------------------------------	     #
+#	Used in Box 14-6, Tab 14-3b					     #
+#								             #
+#									     #
+##############################################################################
+
+Format of the files: (Box 14-6, Tab 14-3b)
+	* taulman.xls (Microsoft Excel)
+	* taulman.csv (comma delimeted ascii text file)
+
+File contents:
+	* TREAT - treatment stand from which squirrels were caught (CONTROL or HARVEST=logged)
+	* YEAR - year squirrels were caught (1994, 1995, 1996)
+	* AGE - age category of the squirrels (ADULT or JUVENILE)
+	* COUNT - the number of squirrels caught    

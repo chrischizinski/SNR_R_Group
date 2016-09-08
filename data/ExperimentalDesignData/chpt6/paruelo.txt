@@ -1,0 +1,30 @@
+##############################################################################
+#									     #
+#	Legend of formats and contents for data files accompany		     #
+#	"Experimental Design and Data Analysis for Biologists"		     #
+#	By G. P. Quinn and M. J. Keough, 2002			   	     #
+#									     #
+#	----------------------------------------------------------	     #
+#	Used in Box 6-1,  Fig 6-1, Fig 6-2, Fig 6-11			     #
+#									     #
+##############################################################################
+
+Format of the files:
+	* pareulo.xls (Microsoft Excel)
+	* pareulo.csv (comma delimeted ascii text file)
+
+File contents:
+	* C3 - relative abundance of C3 grasses
+	* C4 - relative abundance of C4 grasses
+	* MAP - mean annual precipitation (mm)
+	* MAT - mean annual temperature (oC)
+	* JJAMAP - proportion of MAP that fell in June, July and August
+	* DJFMAP - proportion of MAP that fell in December, January and February
+	* LONG - longitude in centesimal degrees
+	* LAT - latitude in centesimal degrees
+	* LC3 - log10 transformation of C3
+	* LC4 - log10 transformation of C4
+	* CLONG - centered LONG
+	* CLAT - centered LAT
+	* RESID1 - residuals from linear regression of LC3 against CLAT + CLONG + CLAT*CLONG
+	* PREDICT1 - predicted LC3 from linear regression of LC3 against CLAT + CLONG + CLAT*CLONG

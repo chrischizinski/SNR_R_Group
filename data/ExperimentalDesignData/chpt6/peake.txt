@@ -1,0 +1,31 @@
+##############################################################################
+#									     #
+#	Legend of formats and contents for data files accompany		     #
+#	"Experimental Design and Data Analysis for Biologists"		     #
+#	By G. P. Quinn and M. J. Keough, 2002			   	     #
+#									     #
+#	----------------------------------------------------------	     #
+#	Used in Box 5-4, Fig 5-11, Fig 5-17, Fig 5-18, Fig 5-19,    	     #
+#	Fig 5-20, Fig 5-21						     #
+#									     #
+##############################################################################
+
+Format of the files:
+    * peake.xls (Microsoft Excel)
+    * peake.csv (comma delimeted ascii text file)
+    
+File contents:
+    * AREA - area (cm^2) of mussel clumps on rocky shore
+    * SPECIES - number of macroinvertebrate species within mussel clump
+    * INDIV - total abundance of macroinvertebrates within mussel clump
+    * LAREA - Log10 transformation of AREA
+    * LSPECIES - Log10 transformation of SPECIES
+    * LINDIV - Log10 transformation of INDIV
+    * RESID1 - residuals from linear regression of SPECIES against AREA
+    * PREDICT1 - predicted SPECIES from linear regression of SPECIES against AREA
+    * RESID2 - residuals from linear regression of LSPECIES against LAREA
+    * PREDICT2 - predicted LSPECIES from linear regression of LSPECIES against LAREA
+    * RESID3 - residuals from linear regression of INDIV against AREA
+    * PREDICT3 - predicted INDIV from linear regression of INDIV against AREA
+    * RESID4 - residuals from linear regression of LINDIV against LAREA
+    * PREDICT4 - predicted LINDIV from linear regression of LCWD.BAS against L10CABIN

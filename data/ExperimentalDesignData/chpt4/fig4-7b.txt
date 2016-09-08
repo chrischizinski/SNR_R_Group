@@ -1,0 +1,18 @@
+##############################################################################
+#									     #
+#	Legend of formats and contents for data files accompany		     #
+#	"Experimental Design and Data Analysis for Biologists"		     #
+#	By G. P. Quinn and M. J. Keough, 2002			   	     #
+#									     #
+#	----------------------------------------------------------	     #
+#	Used in Fig 4-7b						     #
+#									     #
+##############################################################################
+
+Format of the files:
+    * fig4-7b.xls (Microsoft Excel)
+    * fig4-7b.csv (comma delimeted ascii text file)
+    
+File contents: (created from lovett.*)
+    * CL - concentration of Cl
+    * EXPECTED - expected value if normally distributed

@@ -1,0 +1,23 @@
+##############################################################################
+#									     #
+#	Legend of formats and contents for data files accompany		     #
+#	"Experimental Design and Data Analysis for Biologists"		     #
+#	By G. P. Quinn and M. J. Keough, 2002			   	     #
+#									     #
+#	----------------------------------------------------------	     #
+#	Used in Box 11-2, Fig 11-4 					     #
+#									     #
+##############################################################################
+
+Format of the files: (Box 11-2)
+	* mullens.xls (Microsoft Excel)
+	* mullens.csv (comma delimeted ascii text file)
+
+File contents: (split-plot file)
+	* TOAD - toad subject identifier
+	* BRTH.TYP - between subjects factor, breathing pattern (lung or buccal)
+	* O2LEVEL - oxygen concentration (0, 5, 10, 15, 20, 30, 40, 50%)
+	* FREQBUC - frequency of buccal breathing
+	* SFREQBUC - square root transformation of FREQBUC
+
+----------------------------------------------------------------------------------------

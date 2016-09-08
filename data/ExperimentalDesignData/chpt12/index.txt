@@ -1,0 +1,17 @@
+Boxes
+
+Box 12-1	partridge.xls
+		partridge.csv
+
+Tables		
+
+Tab 12-2	partridge.xls
+		partridge.csv					
+
+Figures
+
+Fig 12-2	partridge.xls
+		partridge.csv	
+		
+Fig 12-3	partridge.xls
+		partridge.csv																					

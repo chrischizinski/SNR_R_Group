@@ -1,0 +1,21 @@
+##############################################################################
+#									     #
+#	Legend of formats and contents for data files accompany		     #
+#	"Experimental Design and Data Analysis for Biologists"		     #
+#	By G. P. Quinn and M. J. Keough, 2002			   	     #
+#									     #
+#	----------------------------------------------------------	     #
+#	Used in Box 14-5, Tab 14-3a					     #
+#								             #
+#									     #
+##############################################################################
+
+Format of the files: (Box 14-5, Tab 14-3a)
+	* sinclair.xls (Microsoft Excel)
+	* sinclair.csv (comma delimeted ascii text file)
+
+File contents:
+	* SEX - gender of wilderbeest carcasses (MALE or FEMALE)
+	* MARROW - bone marrow type (SWF=solid white fatty, OG=opaque gelatinous, TG=translucent gelatinous)
+	* DEATH - cause of death (PRED=predation, NPRED=nonpredation)
+	* COUNT - number of wilderbeest carcasses

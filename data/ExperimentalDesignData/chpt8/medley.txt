@@ -1,0 +1,25 @@
+##############################################################################
+#									     #
+#	Legend of formats and contents for data files accompany		     #
+#	"Experimental Design and Data Analysis for Biologists"		     #
+#	By G. P. Quinn and M. J. Keough, 2002			   	     #
+#									     #
+#	----------------------------------------------------------	     #
+#	Used in Box 8-1, Tab 8-1, Tab 8-6, Fig 8-5, Fig 8-6		     #
+#									     #
+##############################################################################
+
+Format of the files: (Box 8-1, Tab 8-1, Tab 8-6, Fig 8-5, Fig 8-6)
+	* medley.xls (Microsoft Excel)
+	* medley.csv (comma delimeted ascii text file)
+
+File contents:
+	* STREAM - name of streams in the Rocky Mountain region of Colorado, USA
+	* ZINC - categorical zinc concentration level (HIGH=high, MED=medium, LOW=low, BACK=background)
+	* DIVERSTY - Shannon-Wiener species diversity of diatoms
+	* ZNGROUP - alternative categorical zinc concentration level (1=background, 2=low, 3=medium, 4=high)
+	* RESID1 - residuals from ANOVA of DIVERSTY against ZINC
+	* PREDICT1 - predicted DIVERSITY from ANOVA of DIVERSTY against ZINC
+	* RESID2 - residuals from ANOVA of DIVERSTY against STREAM
+	* PREDICT2 - predicted DIVERSITY from ANOVA of DIVERSTY against STREAM
+---------------------------------------------------------------------------------------

@@ -1,0 +1,21 @@
+##############################################################################
+#									     #
+#	Legend of formats and contents for data files accompany		     #
+#	"Experimental Design and Data Analysis for Biologists"		     #
+#	By G. P. Quinn and M. J. Keough, 2002			   	     #
+#									     #
+#	----------------------------------------------------------	     #
+#	Used in Box 5-1, Fig 5-3, Fig 5-4				     #
+#									     #
+##############################################################################
+
+Format of the files:
+    * green.xls (Microsoft Excel)
+    * green.csv (comma delimeted ascii text file)
+    
+File contents:
+    * SITE - sites (LS=Lower Site, DS=Drumsite) form which observations were collected
+    * QUADNUM - numerical label given to each 25m^2 quadrat
+    * TOTMASS - total biomass of red land crabs (kg / 25m^2)
+    * BURROWS - density of red land crab burrows (no. burrows /25m^2)
+

@@ -1,0 +1,33 @@
+Boxes
+
+Box 14-2	french.xls
+		french.csv
+
+Box 14-3	roberts.xls
+		roberts.csv
+				
+Box 14-4	roberts.xls
+		roberts.csv
+
+Box 14-5	sinclair.xls
+		sinclair.csv			
+
+Box 14-6	taulman.xls
+		taulman.csv
+		
+Tables		
+
+Tab 14-2a	french.xls
+		french.csv
+
+Tab 14-2b	roberts.xls
+		roberts.csv
+
+Tab 14-3a	sinclair.xls
+		sinclair.csv					
+
+Tab 14-3b	taulman.xls
+		taulman.csv
+
+Figures
+																							

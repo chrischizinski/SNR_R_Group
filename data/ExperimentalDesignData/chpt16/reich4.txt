@@ -1,0 +1,28 @@
+##############################################################################
+#									     #
+#	Legend of formats and contents for data files accompany		     #
+#	"Experimental Design and Data Analysis for Biologists"		     #
+#	By G. P. Quinn and M. J. Keough, 2002			   	     #
+#									     #
+#	----------------------------------------------------------	     #
+#	Used in Box 16-2, Box 16-4, Fig 16-2				     #
+#									     #
+##############################################################################
+
+Format of the files: (Box 16-2, Box 16-4, Fig 16-2)
+	* reich4.xls (Microsoft Excel)
+	* reich4.csv (comma delimeted ascii text file)
+
+File contents:
+	* LOCATION - geographic location (1=Colorado, 2=Wisconsin)
+	* FUNCTION - functional groups (1=forbs, 2=shrubs)
+	* GROUP - location/function combinations (1=Colorado forbs, 2=Colorado shrubs, 3=Wisconsin forbs, 4=Colorado shrubs)
+	* SLA - specific leaf area
+	* N - concentration of nitrogen
+	* AMASS - - mass-based net photosynthetic capacity
+	* AAREA- area-based net photosynthetic capacity
+	* GS - leaf diffuse conductance at photosynthetic capacity
+	* LSLA - log10 transformation of SLA
+	* DISCRIM1 - discriminant function 1 for Fig 16-2
+	* DISCRIM2 - discriminant function 2 for Fig 16-2
+----------------------------------------------------------------------------------------

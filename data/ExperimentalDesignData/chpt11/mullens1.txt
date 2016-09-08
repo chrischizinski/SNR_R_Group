@@ -1,0 +1,26 @@
+##############################################################################
+#     									     #
+#	Legend of formats and contents for data files to 		     #
+#	accompany "Design and Analysis for Biologists" by 		     #
+#	G. Quinn & M. Keough, 2002					     #
+#									     #
+#	-------------------------------------------------------------	     #
+#	Used in Box 11-2 						     #
+#									     #
+##############################################################################
+
+Format of the files: (Box 11-2)
+	* mullens1.xls (Microsoft Excel)
+	* mullens1.csv (comma delimeted ascii text file)
+
+File contents: (repeated measures file)
+	* TOAD - toad subject identifier
+	* BRTH.TYP - between subjects factor, breathing pattern (lung or buccal)
+	* O0 - square root frequency of buccal breathing at oygen concentration 0%
+	* O5 - square root frequency of buccal breathing at oygen concentration 5%
+	* O10 - square root frequency of buccal breathing at oygen concentration 10%
+	* O15 - square root frequency of buccal breathing at oygen concentration 15%
+	* O20 - square root frequency of buccal breathing at oygen concentration 20%
+	* O30 - square root frequency of buccal breathing at oygen concentration 30%
+	* O40 - square root frequency of buccal breathing at oygen concentration 40%
+	* O50 - square root frequency of buccal breathing at oygen concentration 50%

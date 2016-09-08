@@ -1,0 +1,32 @@
+##############################################################################
+#									     #
+#	Legend of formats and contents for data files accompany		     #
+#	"Experimental Design and Data Analysis for Biologists"		     #
+#	By G. P. Quinn and M. J. Keough, 2002			   	     #
+#									     #
+#	----------------------------------------------------------	     #
+#	Used in Box 12-1, Tab 12-2, Fig 12-2, Fig 12-3			     #
+#									     #
+##############################################################################
+
+Format of the files: (Box 12-1, Tab 12-2, Fig 12-2, Fig 12-3)
+	* partridge.xls (Microsoft Excel)
+	* partridge.csv (comma delimeted ascii text file)
+
+File contents:
+	* PARTNERS - categorical listing of the number of female partners
+	* TYPE - type of female (0=pregnant, 9=none, 1=virgin)
+	* TREATMEN - PARTNERS/TYPE combinations
+		TREATMENT 1 - Control group - 8 newly pregnant female partners
+		TREATMENT 2 - Control group - 0 female partners
+		TREATMENT 3 - Control group - 1 newly pregnant female partner
+		TREATMENT 4 - Experimental group - 1 virgin female partner
+		TREATMENT 5 - Experimental group - 8 virgin female partners
+	* LONGEV - longevity of male fruitflies (days)
+	* LLONGEV - log10 transformation of LONGEV
+	* THORAX - length of thorax (mm)
+	* RESID1 - residual from ANCOVA of LONGEV against TREATMEN + THORAX
+	* PREDICT1 - predicted LONGEV from ANCOVA of LONGEV against TREATMEN + THORAX
+	* RESID2 - residual from ANCOVA of LLONGEV against TREATMEN + THORAX
+	* PREDICT2 - predicted LLONGEV from ANCOVA of LLONGEV against TREATMEN + THORAX
+-----------------------------------------------------------------------------------

@@ -1,0 +1,20 @@
+##############################################################################
+#									     #
+#	Legend of formats and contents for data files accompany		     #
+#	"Experimental Design and Data Analysis for Biologists"		     #
+#	By G. P. Quinn and M. J. Keough, 2002			   	     #
+#									     #
+#	----------------------------------------------------------	     #
+#	Used in Box 13-2, Fig 13-2					     #
+#									     #
+##############################################################################
+
+Format of the files: (Box 13-2, Fig 13-2)
+	* bolger.xls (Microsoft Excel)
+	* bolger.csv (comma delimeted ascii text file)
+
+File contents:
+	* PERSHRUB - percentage of fragment area covered in shrubs
+	* DISTX - distance (m) to the nearest source canyon
+	* AGE - age (yr) since fragment was isolated by urbanization
+	* RODENTSPA - presence/absence of native rodent species (1=present, 0=absent)

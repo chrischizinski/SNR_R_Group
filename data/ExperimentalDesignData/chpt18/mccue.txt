@@ -1,0 +1,26 @@
+##############################################################################
+#									     #
+#	Legend of formats and contents for data files accompany		     #
+#	"Experimental Design and Data Analysis for Biologists"		     #
+#	By G. P. Quinn and M. J. Keough, 2002			   	     #
+#									     #
+#	----------------------------------------------------------	     #
+#	Used in Box 18-2, Box 18-5, Fig 18-3				     #
+#									     #
+##############################################################################
+
+Format of the files: (Box 18-2, Box 18-5)
+	* mccue.xls (Microsoft Excel)
+	* mccue.csv (comma delimeted ascii text file)
+
+File contents: (triangular Cavalli-Svorza genetic distance matrix between subpopulations)
+	* BC1 - Bear Creek subpopulation 1
+	* BC2 - Bear Creek subpopulation 2
+	* BC3 - Bear Creek subpopulation 3
+	* GS1 - Gauging Station subpopulation 1
+	* GS2 - Gauging Station subpopulation 2
+	* SCER1 - Springville Clarkia Ecological Reserve subpopulation 1
+	* SCER2 - Springville Clarkia Ecological Reserve subpopulation 2
+	* SCER3 - Springville Clarkia Ecological Reserve subpopulation 3
+
+-------------------------------------------------------------------------------

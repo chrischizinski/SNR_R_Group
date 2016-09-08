@@ -1,0 +1,23 @@
+##############################################################################
+#									     #
+#	Legend of formats and contents for data files accompany		     #
+#	"Experimental Design and Data Analysis for Biologists"		     #
+#	By G. P. Quinn and M. J. Keough, 2002			   	     #
+#									     #
+#	----------------------------------------------------------	     #
+#	Used in Box 6-7, Tab 6-3					     #
+#									     #
+#									     #	
+##############################################################################
+
+Format of the files: (Box 6-7, Tab 6-3)
+	* loyn_dum.xls (Microsoft Excel)
+	* loyn_dum.csv (comma delimeted ascii text file)
+
+File contents:
+	* ABUND - abundance of forest birds in patch
+	* GRAZING1 - dummy variable coding for the effect of grazing level 1
+	* GRAZING2 - dummy variable coding for the effect of grazing level 2
+	* GRAZING3 - dummy variable coding for the effect of grazing level 3
+	* GRAZING4 - dummy variable coding for the effect of grazing level 4
+	* L10AREA - log10 transformation of LAREA (patch area (ha))	

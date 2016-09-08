@@ -1,0 +1,23 @@
+Boxes
+
+Box 13-1	polis.xls
+		polis.csv
+
+Box 13-2	bolger.xls
+		bolger.xls
+
+Box 13-3 	loyn.xls
+		loyn.csv		
+Tables		
+
+
+Figures
+
+Fig 13-1	polis.xls
+		polis.csv
+		
+Fig 13-2	bolger.xls
+		bolger.xls
+		
+Fig 13-3	loyn.xls
+		loyn.csv																									

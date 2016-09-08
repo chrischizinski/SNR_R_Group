@@ -1,0 +1,28 @@
+##############################################################################
+#									     #
+#	Legend of formats and contents for data files accompany		     #
+#	"Experimental Design and Data Analysis for Biologists"		     #
+#	By G. P. Quinn and M. J. Keough, 2002			   	     #
+#									     #
+#	----------------------------------------------------------	     #
+#	Used in Box 16-1, Box 16-3, Tab 16-1, Fig 16-1			     #
+#									     #
+##############################################################################
+
+Format of the files: (Box 16-1, Box 16-3, Tab 16-1, Fig 16-1)
+	* haynes.xls (Microsoft Excel)
+	* haynes.csv (comma delimeted ascii text file)
+
+File contents:
+	* SITE - sites from which data were collected (Delray Beach, Seaspray, Woodside)
+	* CU - concentration of copper
+	* PB - concentration of lead
+	* NI - concentration of nickel
+	* MN - concentration of manganese
+	* LCU - log10 transformation of CU
+	* LPB - log10 transformation of PB
+	* LNI - log10 transformation of NI
+	* LMN - log10 transformation of MN
+	* DISCRIM1 - discriminant function 1 for Fig 16-1
+	* DISCRIM2 - discriminant function 2 for Fig 16-1
+----------------------------------------------------------------------------------------
