@@ -1,0 +1,83 @@
+---
+title: "Wrangling data"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+```
+
+All the data that we use is in our [repository](https://github.com/chrischizinski/SNR_R_Group/tree/master/data).
+
+
+## Wrangling your data
+
+Now that you have your data in R, no matter the process you took to get it there, you will undoubtedly need to manipulate the data.  Manipulation (i.e. tidying) will involve getting your data in a format and "looking" the way you want so you can analyze the data. This does not sound like a big process but until a few years ago it was.  You needed to have a strong understanding of indices (discussed last week), combining various aspects, or using functions that were not particularly user friendly (`aggregate` and `reshape` as examples).  Luckily, with the development of the `tidyverse` there are [`tidyr`](https://github.com/hadley/tidyr) and [`dplyr`](https://github.com/hadley/dplyr) packages the process of tidying and manipulating your data has been revolutionized.  The two packages `dplyr` and `tidyr`  provide the "grammar of data manipulation"
+
+### Why use dplyr and tidyr?
+1. **Speed** - dplyr and tidyr are *really* fast  
+2. **Readability** - the code syntax is straightforward and easy to read  
+3. **Chaining** - *never break the chain*. More on this later  
+4. **Integrates with ggplot2** - plot your data in the same workflow 
+
+The concept of `tidyr` and `dplyr` follows some of the [philosophy](http://vita.had.co.nz/papers/tidy-data.html) of set out with the development of `ggplot2` (we will be getting to this soon).
+
+Something that is new to this approach is the idea of pipes.  Pipes were originally developed in the [`magrittr`](https://cran.r-project.org/web/packages/magrittr/vignettes/magrittr.html) as a means to simplify and streamline R code.  Pipes look like this `%>%` and can be quick keyed in RStudio using `Ctrl+Shift+M` in PC and  `Cmd+Shift+M` in Mac. Pipes essentially mean to take the data from one step and pass it through to the next step (think of it like water flowing through a pipe) creating a sequence of data steps. 
+
+To top it off, there is also an excellent [cheat sheet](https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf) created by the folks at RStudio. 
+
+### Lets get tidying
+
+```{r}
+library(tidyr)
+```
+
+Tidyr is designed to help manipulate data sets, allowing you to convert between wide and long formats, fill in missing values and combinations, separate or merge multiple columns, rename and create new variables, and summarize data according to grouping variables.
+
+Tidy data should have the following forms
+
+* Each variable forms a column
+* Each observation forms a row
+* Each type of observational unit forms a table
+
+The main verbs in tidyr
+
+- `gather()` and `spread()` convert data between wide and long format
+- `separate()` and `unite()` separate a single column into multiple columns and vice versa
+- `complete()` turns implicit missing values in explicit missing values by completing missing data combinations
+
+### and to dplyr
+
+There are many verbs in dplyr (check out the cheatsheet) but the main ones are
+
+- `filter()`  selects specific rows based on user-defined criteria
+- `select()`  selects specific columns
+- `arrange()` reorder rows
+- `mutate()` creates new columns (variables)
+- `summarise()` reduces variables to values
+- `group_by()` creates groups that can be operated on
+
+
+### Lets work with some real data
+
+Here is what I would like you to do:
+
+1. Load the `FAO_GlobalProduction.csv`
+2. Convert from **wide** to **long** format, with variables `year` and `prod`
+3. Rename the columns.  
+  * all columns to lowercase
+  * 'Country (Country)' to country
+  * 'Species (ASFIS species)' to common_name
+  * 'Production area (FAO major fishing area)' to prod_area
+  * 'Production source (Detailed production source)' to prod_source
+  * 'Measure (Measure)' to measure
+4. Only rows with `Capture production`
+5. Create a new column called `inland` which is a binary value of whether the region is inland or not
+6. In prod, change '...' to NA
+
+  
+ 
+
+sort(c(unique(fao[,3])))
+
