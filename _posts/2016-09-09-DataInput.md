@@ -1,6 +1,7 @@
 ---
 title: "Inputing data"
 output: html_document
+tags: [R, Data input, tidyverse]
 ---
 
 

@@ -1,8 +1,9 @@
 ---
 title: "R Data Structures"
 author: "Christopher Chizinski"
-date: "September 19, 2016"
+date: "September 02, 2016"
 output: html_document
+tags: [R, Data structures]
 ---
 
 
