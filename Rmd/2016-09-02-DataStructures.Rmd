@@ -1,0 +1,276 @@
+---
+title: "R Data Structures"
+author: "Christopher Chizinski"
+date: "September 19, 2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Working with data in R
+
+There are lots of great references out there to help orient you with R and R data structures.  One of the best is the section on data structures in the [*Advanced R*](http://adv-r.had.co.nz/Data-structures.html) book by Hadley Wickham.  Hadley provides numerous details on differences among the structures and a lot of the nitty gritty on those structures.  This lesson is suppose to provide a "working knowledge" of data structures in R, but I strongly encourage you to dive into more.  
+
+## Vectors
+The basic form of data structure in R is the vector.  
+
+Vectors have the following structure:
+
+* sequence of numbers, characters, factors, strings
+  * all must be the same in the sequence
+* vectors are 1 dimensional
+
+We create objects using the `=` or the `<-` in R.  In the example below, we create a sequence of numerical values as object `a`.  The `c` below means combine.  
+```{r}
+a <- c(1 , 2, 3, 4, 5)
+
+a  # display the results of a
+```
+
+There is a couple of ways we can look at structure of objects that we create in R.
+
+```{r}
+
+typeof(a)  # displays the type or storage mode of an object
+
+class(a) # displays the class of the object
+
+dim(a)  # dimensions of the object [rows by columns]
+
+length(a)  # number of elements in the vector
+
+nrow(a) # number of rows -- doesnt work because a is 1-dimensional
+
+ncol(a) # number of columns -- doesnt work because a is 1-dimensional
+
+str(a) #displays the structure of an object
+
+```
+
+Once we create an object, we can use functions on that object
+
+```{r}
+sum(a)  # vector sum  of a
+
+mean(a) # vector mean  of a
+
+sd(a)  # standard deviation of a
+
+sd(a)/(sqrt(length(a))) # or chains of functions (i.e., standard error)
+
+```
+
+There are many types of classes that we can use in R.  
+
+* Numeric:  numbers
+* Characters:  character
+  * Strings:  sequence of characters, whitespace is important
+* Factors:  characters with a order
+  * can be defined with `levels()`
+
+```{r}
+b<- c(1,2,3,4,5,6)  #numeric
+class(b)
+
+c<- c("A", "B", "C")  #character
+class(c)
+
+d<- factor(c("A", "B", "C"), levels = c("A","C","B"))  # factor
+class(d)
+
+```
+
+We can convert among classes
+
+```{r}
+b<- c(1,2,3,4,5,6)  #numeric
+class(b)
+
+b.c <-as.character(b) #convert to character
+class(b.c)
+
+b.f <-as.factor(b) #convert to factor
+class(b.f)
+levels(b.f)
+
+c<- c("A", "B", "C")  #character
+class(c)
+
+c.n<- as.numeric(c)  # converting to numeric from character DOES NOT work
+
+d<- factor(c("A", "B", "C"), levels = c("A","C","B"))  # factor
+class(d)
+
+d.c<- as.character(d)  # but we can convert a factor to character
+class(d.c)
+d.c  # notice it strips off the levels of the string
+
+d.n<- as.numeric(d)  # and can convert a factor to numeric
+class(d.n)
+d.n  # notice the values become the levels of the factor
+
+```
+
+We can run functions that will provide a logic (TRUE or FALSE) on the type of data
+
+```{r}
+
+is.numeric(b)  # is numeric?
+
+is.factor(b) # is factor?
+
+is.character(b) # is character?
+
+```
+
+## Matrices
+
+Matrices have the following structure:
+
+* rows and columns of numbers, characters, or strings
+  * Liek vectors, all rows and columns must be the same class of data
+* vectors are 2 dimensional (rows by columns)
+
+```{r}
+# Make a 5 x 4 matrix of 0's
+matrix(0, nrow = 5, ncol =4)
+
+# Make a 5 x 4 matrix of 1:20 with 1, 2, 3, 4 across row
+b<-matrix(1:20, nrow = 5, ncol = 4, byrow= TRUE)
+b
+```
+
+All the data in a matrix must be the same type
+
+```{r}
+#  One character will convert the entire matrix to character
+c<-matrix(c(1:19,"A"), nrow = 5, ncol = 4, byrow= TRUE)
+c
+
+# However you can have missing data (NA)
+matrix(c(1:19,NA), nrow = 5, ncol = 4, byrow= TRUE)
+
+# but you can have positive infinite data (Inf)
+matrix(c(1:19,Inf), nrow = 5, ncol = 4, byrow= TRUE)
+
+# or negative infinite data (-Inf)
+matrix(c(1:19,-Inf), nrow = 5, ncol = 4, byrow= TRUE)
+
+# or Not a Number (NaN)
+matrix(c(1:19,NaN), nrow = 5, ncol = 4, byrow= TRUE)
+```
+
+Like the vectors, we can run functions on matrices.  There are several that will calculate column or row statistics, otherwise there are ways to run functions on the elements of a matrices.  
+
+```{r}
+sum(b)  # calculate the sum of all elements in a matrix
+colSums(b) # column sums
+rowSums(b) # row sums
+
+# 2 is by column and 1 is by row
+apply(b,2, max) # column max
+apply(b,1, max) # row max
+
+apply(b, c(1,2), log)  # apply a function to each element in a matrices
+
+```
+
+# Data.frames
+
+Data.frames are the most common types of data that you will likely work with in R.  They are a lot like matrices but they offer another level of flexibility.  This is the type of data that is most often read in from other types of files (.csv, .tab, .txt)
+
+Data.frames have the following structure:
+
+* rows by columns of numbers, characters, factors, strings
+  * all must be the same in the sequence WITHIN a column
+* data.frames are 2 dimensional (row by column)
+
+```{r}
+a <- data.frame('first col' = 1:10, 
+                'second col' = letters[1:10], 
+                'third col' = factor(letters[1:10],levels = letters[10:1]))
+
+a
+
+names(a)  # display column headers
+colnames(a) # display column headers, also works with matrices
+rownames(a) # display row names, default is just the row number
+str(a)  # display structure of a
+head(a) #display first six rows of a
+tail(a) # display last six rows of a
+
+```
+
+
+## Indexing
+
+There are a lot of new packages (e.g., tidyr, dplyr) that make working with certain rows and columns a lot easier.  However, they can not do everything and it pays off to work with indices (manipulated the rows and columns) that will pay dividends when trying to work with your own data.  
+
+```{r}
+a[2, 3] # second row, third column
+
+a[10,] # all columns in tenth row
+a[,2] # all rows in the second column
+
+a$second.col # Within data.frames you can select a column with the `$` 
+a$second.col[5] # fifth position in column 'second.col'
+
+# Choose multiple elements
+a$second.col[c(5,7,9)] # fifth, seventh, ninth position in column 'second.col'
+
+# Removing elements with the `-` 
+a$second.col[-c(5,7,9)]
+
+#  Repeat multiple rows
+a[c(1,1,1),]
+
+#  Can also use the function `rep()`
+a[rep(1,times=10),]
+length(a)
+
+# Understanding differences between `times` and `each`
+a[rep(1:nrow(a),times=3),]  # repeats the sequence 3 times
+a[rep(1:nrow(a),each=3),]  # repeats each row three times
+
+#  If named, you can also call on the row and column name
+a[,"first.col"]
+a[,c("first.col","second.col")]
+# a[,-"first.col"]  #does not work
+
+which(names(a)!="first.col") # use which and ! to NOT select column
+a[,which(names(a)!="first.col")]
+
+
+# use `%in%` to get rows or columns in contained within a vector
+a[,!names(a) %in% c("first.col","third.col")]
+
+a[a$second.col %in% c("a","c","e","h"),]
+```
+
+## Lists
+
+Lists are the most flexible data structure and pretty much can handle what ever you throw at them.  While there may be some out there that have a better idea on what and how to use lists, I tend to use them as a flexible structure to store data.  
+
+As you could or might exist they are the loosest, or the wild west, when it comes to data types and storage.  I tend to use lists when I am running simulations or loops. 
+
+```{r}
+# lists 
+c <- list()  # create and empty list
+
+c[[1]]<- c("a","b","c")  # assign elements to that list, characters, numbers, vectors, data.frames, other lists
+c[[2]]<- c(10,9,8,78,22)
+c[[3]]<- a
+
+c[1]  # pull up elements of the list, notice the difference
+c[[1]]
+
+c[["element1"]]<- c("a","b","c")
+c[[2]]<- c(10,9,8,78,22)
+c[[3]]<- a
+
+
+unlist(c)  #unlist the list into a vector
+```
+

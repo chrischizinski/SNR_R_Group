@@ -1,0 +1,406 @@
+---
+title: "Wrangling data"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+```
+
+All the data that we use is in our [repository](https://github.com/chrischizinski/SNR_R_Group/tree/master/data).
+
+
+Now that you have your data in R, no matter the process you took to get it there, you will undoubtedly need to manipulate the data.  Manipulation (i.e. tidying) will involve getting your data in a format and "looking" the way you want so you can analyze the data. This does not sound like a big process but until a few years ago it was.  You needed to have a strong understanding of indices (discussed last week), combining various aspects, or using functions that were not particularly user friendly (`aggregate` and `reshape` as examples).  Luckily, with the development of the `tidyverse` there are [`tidyr`](https://github.com/hadley/tidyr) and [`dplyr`](https://github.com/hadley/dplyr) packages the process of tidying and manipulating your data has been revolutionized.  The two packages `dplyr` and `tidyr`  provide the "grammar of data manipulation"
+
+### Why use dplyr and tidyr?
+
+1. **Speed** - dplyr and tidyr are *really* fast  
+2. **Readability** - the code syntax is straightforward and easy to read  
+3. **Chaining** - *never break the chain*. More on this later
+4. **Integrates with ggplot2** - plot your data in the same workflow 
+
+The concept of `tidyr` and `dplyr` follows some of the [philosophy](http://vita.had.co.nz/papers/tidy-data.html) of set out with the development of `ggplot2` (we will be getting to this soon).
+
+Something that is new to this approach is the idea of pipes.  Pipes were originally developed in the [`magrittr`](https://cran.r-project.org/web/packages/magrittr/vignettes/magrittr.html) as a means to simplify and streamline R code.  Pipes look like this `%>%` and can be quick keyed in RStudio using `Ctrl+Shift+M` in PC and  `Cmd+Shift+M` in Mac. Pipes essentially mean to take the data from one step and pass it through to the next step (think of it like water flowing through a pipe) creating a sequence of data steps. 
+
+To top it off, there is also an excellent [cheat sheet](https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf) created by the folks at RStudio. 
+
+### Lets get tidying
+
+```{r}
+library(tidyr)
+```
+
+Tidyr is designed to help manipulate data sets, allowing you to convert between wide and long formats, fill in missing values and combinations, separate or merge multiple columns, rename and create new variables, and summarize data according to grouping variables.
+
+Tidy data should have the following forms
+
+* Each variable forms a column
+* Each observation forms a row
+* Each type of observational unit forms a table
+
+The main verbs in tidyr
+
+- `gather()` and `spread()` convert data between wide and long format
+- `separate()` and `unite()` separate a single column into multiple columns and vice versa
+- `complete()` turns implicit missing values in explicit missing values by completing missing data combinations
+
+### and to dplyr
+
+There are many verbs in dplyr (check out the cheatsheet) but the main ones are
+
+- `filter()`  selects specific rows based on user-defined criteria
+- `select()`  selects specific columns
+- `arrange()` reorder rows
+- `mutate()` creates new columns (variables)
+- `summarise()` reduces variables to values
+- `group_by()` creates groups that can be operated on
+
+### Demonstrate on some "canned data"
+
+#### Getting the data set up
+
+R has many datasets that can be used to explore various functions.  
+
+```{r}
+library(tidyverse)
+data(mtcars)  #mtcar dataset
+
+head(mtcars)
+
+# mtcars has the make and model of the car in the rownames.  We should not keep important data as an attribute in the dataset.  Move the rownames to a column in the data
+
+mtcars$car_names <- rownames(mtcars)
+
+#remove that info from rownames
+
+rownames(mtcars) <- NULL
+
+head(mtcars)
+```
+
+#### gather()
+
+`gather()` is a useful function to take data from a wide format to a long format.  The function is pretty robust and many ways can be used to achieve the same outcome. 
+
+`gather()` requirements
+
+  1. data, if you are chaining (i.e., using pipes this is not required
+  2. new column name of the columns to gather (will use column headers)
+  3. new column name to put the values in (i.e., value from the element in the cell)
+  
+
+```{r}
+
+mtcars %>% 
+  gather(attribute, value, -car_names) %>%  # gather everything except car_names
+  head()
+
+mtcars %>% 
+  gather(attribute, value, 1:11) %>% # use the column numbers
+  head()
+
+mtcars.long<-mtcars %>% 
+              gather(attribute, value, mpg:carb)  # or the column names
+head(mtcars.long)
+
+```
+
+#### spread()
+
+`spread()` does the opposite of `gather()`.  It takes a column and spreads it among multiple columns.  We can use the long format that we just created and convert it to a wide format.  
+
+`spread()` requirements
+
+  1. data, if you are chaining (i.e., using pipes this is not required
+  2.  column name that will become the new column headers
+  3. the values that will be put into the elements of the spread columns
+
+```{r}
+
+mtcars.wide<-mtcars.long %>% 
+              spread(attribute,value)
+
+head(mtcars.wide)
+```
+
+#### separate()
+
+`separate()` takes the elements of a column (usually a string) and will break them into multiple columns.  
+
+`separate()` requirements
+
+  1. data, if you are chaining (i.e., using pipes this is not required
+  2. column name that will be split
+  3. names of the columns that will be created with a split.  Should be in ecapsulated in a parenthesis with the column names in quotes
+  4. the value that should be used as the separator 
+  5. any options
+
+```{r}
+
+mtcars.wide %>% 
+  separate(car_names, c("make","model"), sep = " ") %>%  #note that the elements with mutiple spaces in this case get dropped, as indicated by warnings
+  head()
+
+# These dropped elements can be preserved with a couple of options
+mtcars.wide %>% 
+  separate(car_names, c("make","model"), sep = " ", extra = "merge", fill="right") %>%  #note that the elements with mutiple spaces in this case get dropped
+  head()  #extra tells how to keep the extra elements and fill tells where to put it
+```
+
+#### unite()
+
+`unite()` takes the elements of multiple columns and will combine into a single columns.  
+
+`unite()` requirements
+
+  1. data, if you are chaining (i.e., using pipes this is not required
+  2. column name that will be split
+  3. names of the column that will be created with the combined dataset
+  4. the columns that will be combined
+  5. the seperator that will be used
+
+To do this, lets explore this with some made up data.
+
+```{r}
+
+set.seed(12345)
+
+date <- seq(as.Date("2016-01-01"),as.Date("2016-01-15"), by="day") # sequence of dates by 1 day increments
+hour <- sample(1:24, 15)  # random sample of 1 to 25, 15 values
+min <- sample(1:60, 15) # random sample of 1 to 60, 15 values
+sec <- sample(1:60, 15) # random sample of 1 to 60, 15 values
+event <- sample(letters, 15) # random sample of 15 letters
+
+made_up_data<-data.frame(date,hour, min, sec, event) # combine in a single data.frame
+
+head(made_up_data)
+```
+
+To create a column that has date and time, will require two steps.  First creating the time value (separtor = :) and then time and date (separator = " ").
+
+```{r}
+
+made_up_data %>% 
+  unite(time, hour, min, sec, sep=":") %>% # combine hour, min, sec, with a ':' separator
+  unite(datetime, date, time, sep = " ") # then create the previously created time column with the date with a " " separator
+
+```
+
+
+#### complete()
+
+There is often data that you will get that is 'incomplete', meaning that there is not a full factorial representation of the data (i.e., we do not have all possible combinations of the factors and data).  This can have profound influences in calculating catch or harvest per unit effort (i.e., a zero at one site is not being represented, thus inflating your CPUE).
+
+Previously, you had to use the function `expand.grid()`, then full join with the original dataset, and then replace the NAs with zeros.  This could, depending on your dataset, create several lines of code and prone to errors.
+
+tidyr's `complete()` simplifies this process.  
+
+`complete()` requirements
+
+  1. data, if you are chaining (i.e., using pipes this is not required
+  2. column name that will be split
+  3. names of the column that will be created with the combined dataset
+  4. the columns that will be combined
+  5. the seperator that will be used
+  
+First we will create a data set.  What do you notice about the data
+?
+```{r}
+fake_data <- data.frame(group = c(1:2,1),
+                        item_id = c(1:2,2),
+                        item_name = c("a","b","b"),
+                        value1 = c(1:3),
+                        value2 = c(4:6))
+
+fake_data
+```
+
+You should see we are missing a single row, the group 1, item_id 1, with item_name a.  We can fill that in with `complete()`
+
+```{r}
+fake_data %>% 
+  complete(group,nesting(item_id,item_name))
+
+# complete, by default, fills in missing values with NAs.  We can fill in other values with the fill() command.  Notice, you must list how each variable should be filled in
+
+fake_data %>% 
+  complete(group,nesting(item_id,item_name),fill = list(value1 = 0, value2 = 0))
+```
+
+### Now let's get looking at `dplyr()`
+
+To lets start looking at `dplyr()`, we should install the `hlflights` data set.  This data includes the characteristics of flights leaving and entering the houston airport.  
+
+```{r}
+
+# install.packages("hflights")
+library(hflights)
+data(hflights)
+head(hflights)
+
+str(hflights)
+
+```
+
+To 'move around' and select various of aspects of this data set we can use [indices](https://chrischizinski.github.io/SNR_R_Group/2016-09-02-DataStructures) ,as discussed last week,  but you can see this can get complicated when we want to incorporate multiple aspects across mutiple columns.  
+
+```{r}
+
+## data.frame of flights to DFW
+dfw.flights <- hflights[hflights$Dest == "DFW",]  # using the logical approach
+dfw.flights <- hflights[which(hflights$Dest == "DFW"),]  # using the row approach with which()
+
+# Month 1 and DayofMonth 1
+
+hflights[(hflights$month == 1 & hflights$DayofMonth == 1),]  # and
+hflights[(hflights$month == 1 | hflights$DayofMonth == 1),]  # or 
+```
+
+or we can use the simplified approach in `dplyr()`
+
+```{r}
+
+hflights %>% 
+  filter(Month ==1,
+         DayofMonth %in% c(1,6,7)) %>% head()  # use '%in%' to incorporate multiple values, '==' does not work
+
+hflights %>% 
+  filter(UniqueCarrier != "AA") # not equali
+
+hflights %>% 
+  filter(!UniqueCarrier %in% c("AA", "UA"))  #  choose multiple 'not' in categories.  NOTE: '!' flips the logical TRUE to FALSE
+
+hflights %>% 
+  filter(!is.na(UniqueCarrier)) # Bring up non-NAs
+
+```
+
+
+#### select()
+
+Now we can start using `dplyr` to select certain columns using the `select()` function.  
+
+
+```{r}
+head(hflights)  # look at the data
+
+hflights %>% 
+  select(-CancellationCode) %>% head()  # select everything except CancellationCode
+
+hflights %>% 
+  select(Month, UniqueCarrier, FlightNum) %>% head() # select specific columns, seperated by a','
+
+#  You can also use 'helper functions'
+hflights %>% 
+  select(starts_with("A")) %>% head() #selects only columns begining with "A"
+
+hflights %>% 
+  select(matches("Taxi")) %>% head()  #  Find columns that match "Taxi"
+
+hflights %>% 
+  select(contains("Taxi")) %>% head()  #Similar to match, find columns that contain "Taxi"
+
+hflights %>% 
+  select(everything()) %>% head()  #  Not sure what this actually does, might as well not use select()
+
+
+hflights %>% 
+  select(Year:FlightNum) %>% head()  # you can specifiy a sequence of column headers
+
+hflights %>% 
+  select(1:8) %>% head() # or specify the column numbers
+
+```
+
+#### arrange()
+
+There are many times that it helps to arrange the data in the fashion that you would like to manipulate it.  This is no more required than when you have time series data that the actual order of the data is important.  This used to be done using the `order()` function but dplyr has made this easier with `arrange()`.
+
+`arrange()` requirements
+
+  1. data, if you are chaining (i.e., using pipes this is not required
+  2. columns to be arranged
+    * default is assending but can be flipped with the `desc()` function
+    
+```{r}
+
+hflights %>% 
+  arrange(UniqueCarrier,Year,Month, DayofMonth) %>% head()
+
+# Using desc()
+hflights %>% 
+  arrange(desc(UniqueCarrier),desc(Year),Month, DayofMonth) %>% head()
+```
+
+#### mutate()
+
+`mutate()` can be used to create new columns, usually based on existing columns. 
+
+`arrange()` requirements
+
+  1. data, if you are chaining (i.e., using pipes this is not required
+  2. new column name preceeded by equals symbol '='.  multiple new columns can be separated by ',' 
+    
+    
+    # Note that we can work with columns created in subsequent order
+    
+```{r}
+
+hflights %>% 
+  select(UniqueCarrier,DepTime,ArrTime) %>%
+  mutate(TravTime = (ArrTime-DepTime), 
+         TravTime2 = TravTime/60)  # create a new column called 'TravTime' that is the difference between arrival time and departure time.  NOTE: yes i do know that dividing by travel time by 60 makes no sense, this is just illustrative
+
+```
+
+#### summarize()
+
+`summarize()` collapses your dataset based on your `group_by` statements.  Note unlike `mutate()` you will loose columns not specified in `group_by()` and you will not be able to subsequentley build on columns created within `summarize()` that you could do in `mutate()`.  
+
+
+
+```{r}
+
+  hflights %>% 
+    filter(Month %in% c(1:4)) %>% 
+    group_by(UniqueCarrier) %>% 
+    mutate(TravelTime = ArrTime - DepTime) %>% 
+    summarize(MeanTravel = mean(TravelTime,na.rm =T),
+              SDTravel = sd(TravelTime,na.rm =T)) %>%
+    mutate(CVTravel = SDTravel/MeanTravel)
+
+```
+
+### Lets work with some real data
+
+Here is what I would like you to do:
+
+1. Load the `FAO_GlobalProduction.csv` from our github repository
+2. Convert from **wide** to **long** format, with variables `year` and `prod`
+3. Rename the columns.  
+  * all columns to lowercase
+  * 'Country (Country)' to country
+  * 'Species (ASFIS species)' to common_name
+  * 'Production area (FAO major fishing area)' to prod_area
+  * 'Production source (Detailed production source)' to prod_source
+  * 'Measure (Measure)' to measure
+4. In prod, change '...' to NA
+5. Only rows with `Capture production`, `Quantity (tonnes)`, and without `NA` in prod 
+6. Create a new column called `inland` which is a binary value of whether the region is inland or not
+7. Arrange by country, common_name, and year
+8.  Create a new column called log_catch that is the log of prod
+
+Then
+Our first goals: 
+
+1. Generate a unique ID for each fishery
+
+2. Calculate the mean log lifetime catch of each fishery
+
+3. Calculate the coefficient of variation of each fishery
+
+4. Filter out fisheries with short time series (< 10 yrs)
+
+5.  If you are feeling up to it, display the regression of fishery vs CV.
