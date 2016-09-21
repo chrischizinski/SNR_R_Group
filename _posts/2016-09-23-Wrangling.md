@@ -1,7 +1,6 @@
 ---
 title: "Wrangling data"
 output: html_document
-tags: [R, 'Data input', tidyverse, tidyr, dplyr]
 ---
 
 
@@ -65,6 +64,33 @@ R has many datasets that can be used to explore various functions.
 
 {% highlight r %}
 library(tidyverse)
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## Loading tidyverse: tibble
+## Loading tidyverse: readr
+## Loading tidyverse: purrr
+## Loading tidyverse: dplyr
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## Conflicts with tidy packages ----------------------------------------------
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## filter(): dplyr, stats
+## lag():    dplyr, stats
+{% endhighlight %}
+
+
+
+{% highlight r %}
 data(mtcars)  #mtcar dataset
 
 head(mtcars)
@@ -8730,16 +8756,8 @@ Here is what I would like you to do:
 6. Create a new column called `inland` which is a binary value of whether the region is inland or not
 7. Arrange by country, common_name, and year
 8.  Create a new column called log_catch that is the log of prod
-
-Then
-Our first goals: 
-
-1. Generate a unique ID for each fishery
-
-2. Calculate the mean log lifetime catch of each fishery
-
-3. Calculate the coefficient of variation of each fishery
-
-4. Filter out fisheries with short time series (< 10 yrs)
-
-5.  If you are feeling up to it, display the regression of fishery vs CV.
+9. Generate a unique ID for each fishery
+10. Calculate the mean log lifetime catch of each fishery
+11. Calculate the coefficient of variation of each fishery
+12. Filter out fisheries with short time series (< 10 yrs)
+13.  If you are feeling up to it, display CVs among the fisheries.
