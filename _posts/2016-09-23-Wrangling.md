@@ -8760,4 +8760,6 @@ Here is what I would like you to do:
 10. Calculate the mean log lifetime catch of each fishery
 11. Calculate the coefficient of variation of each fishery
 12. Filter out fisheries with short time series (< 10 yrs)
-13.  If you are feeling up to it, display CVs among the fisheries.
+13.  If you are feeling up to it, display CVs among the fisheries (select a specific country or fishery).
+
+[Click here for answers]()
