@@ -1,0 +1,42 @@
+---
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(RCurl)
+library(tidyverse)
+
+fao_data<-read_csv(getURL("https://raw.githubusercontent.com/chrischizinski/SNR_R_Group/master/data/FAO_GlobalProduction.csv"))
+
+names(fao_data)
+
+fao_summary<-fao_data %>%
+      gather(year, prod, -(1:5)) %>% 
+      rename(country = `Country (Country)`,
+             commonname = `Species (ASFIS species)`,
+             prod_area = `Production area (FAO major fishing area)`,
+             prod_source = `Production source (Detailed production source)`,
+             measure = `Measure (Measure)`) %>% 
+      mutate(prod = ifelse(prod == '...', NA, prod),
+             prod = ifelse(prod == '0 0', 0, prod),
+             prod = as.numeric(prod)) %>% 
+      filter(prod_source == "Capture production",
+             measure == "Quantity (tonnes)",
+             !is.na(prod)) %>% 
+      mutate(inland = ifelse(grepl("Inland",prod_area),1,0),
+             log_prod = log(prod+1)) %>% 
+      arrange(country, commonname, year) %>% 
+      unite(uniq_fishery, country, commonname, remove=FALSE) %>%
+      group_by(country,uniq_fishery) %>% 
+      summarise(mean_log = mean(log_prod),
+                CV_prod = sd(prod)/mean(prod),
+                n_years = n()) %>% 
+      filter(n_years> 10) 
+
+head(fao_summary)
+```
+

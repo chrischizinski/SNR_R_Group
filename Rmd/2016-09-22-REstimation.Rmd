@@ -1,0 +1,303 @@
+---
+title: "Estimation"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Samples and populations
+
+Biologists want to make inferences about a population based on subsamples of that population.  
+ 
+ - collections of the population are the **sample**
+ - number of observations is the **sample size**
+ 
+ Basic method of sampling is simple random sampling (all observations have the same probability of being sampled)
+
+- rarely does this happen (Why is this a concern?)
+
+Random sampling is important because we want to use sample statistics to estimate the population parameters.  We can not directly measure the population parameters because it is too large. 
+
+A good estimator of a population should:
+
+- be unbiased. Repeated samples should produce estimates that do not under or over estimate the population parameter
+- consistent so with increases in sample size should bring the sample parameter closer to the population parameter.
+- should be efficient (has the lowest variance among competing estimates)
+
+There are two broad types of estimators:
+
+1. point estimates (single value)
+2. interval estimates (range of values)
+
+## Common parameters and statistics
+
+### Center (location of distribution)
+
+To explore these statistics, we will generate a large sample of data.  
+
+```{r}
+set.seed(9222016)
+
+rand_data <- data.frame(obs = 1:999,concentration = rnorm(999, 113, 16))
+head(rand_data)
+
+# minumum
+min(rand_data$concentration)
+
+# maximum 
+max(rand_data$concentration)
+
+```
+
+Lets visualize this using a histogram.  There are two approaches we can do this.  One is to generate the binned data with `dplyr` and the other is to use `geom_histogram` in ggplot.  
+
+```{r}
+library(ggplot2)
+library(dplyr)
+
+# We can set the number of bins to add the data
+
+ggplot(data = rand_data) +
+  geom_histogram(aes(x = concentration), fill = "dodgerblue", colour="black", bins = 50) + 
+  theme_bw()
+
+# or we can set how wide we want the binds to be
+ggplot(data = rand_data) +
+  geom_histogram(aes(x = concentration), fill = "dodgerblue", colour="black", binwidth = 5) + 
+  theme_bw()
+
+# use dplyr to create bins and then geom_bar to create plot
+
+summ_data<-rand_data %>% 
+            mutate(bin = cut(rand_data$concentration, seq(50,175, by = 5), labels =seq(50,170, by = 5))) %>% 
+            group_by(bin) %>% 
+            summarise(N = n()) %>% 
+            ungroup() %>% 
+            mutate(bin = as.numeric(as.character(bin)))
+
+ggplot(data = summ_data) + 
+  geom_bar(aes(x = bin, y = N), stat ="identity",fill = "dodgerblue", colour = "black", width = 5) +
+  theme_bw()
+
+```
+
+#### L-estimator
+
+L-estimator is based on ordering data from smalles to largest then using a linear combination of weighted-order statitistics
+
+##### Mean
+The mean is an unbiased estimator of population mean where each observation is weighted by 1/n.
+
+```{r}
+
+sum(rand_data$concentration) / length(rand_data$concentration)
+
+mean(rand_data$concentration)
+```
+
+##### Median
+
+Median is an unbiased estimator of population mean for normal distribution, better estimator in skewed distributions
+
+```{r}
+# First order the data from smallest to largest
+conc_ordered <- rand_data$concentration[order(rand_data$concentration)]
+
+length(conc_ordered)  # find number of values
+
+conc_ordered[500] # 500 is the midpoint of 999
+
+median(rand_data$concentration)
+```
+
+##### Trimmed mean
+
+Trimmed mean is the mean after trimming off a proportion of the data from the highest and lowest observations.  Can help deal with outliers.  
+
+```{r}
+concentration = c(2,4,6,7,11,21,81,90,105,121)
+
+# First order the data from smallest to largest
+conc_ordered <- concentration[order(concentration)]
+
+length(conc_ordered) *0.10  # need to remove the smallest and largest 50 values
+
+conc_ordered[-c(1,10)] # remove those values
+
+mean(conc_ordered[-c(1,10)])
+
+mean(conc_ordered, trim = 0.1) #  you can use the trim function in mean()
+ 
+```
+
+##### Winsorized mean
+
+Winsorized mean is similar to the trimmed mean but the values that are excluded are replaced by the neighboring value (substituted rather than dropped).
+
+```{r}
+# First order the data from smallest to largest
+conc_ordered <- concentration[order(concentration)]
+
+length(conc_ordered) *0.10  # need to remove the smallest and largest 50 values
+
+conc_ordered[-c(1,10)] # remove those values
+
+mean(conc_ordered[c(2,2,3,4,5,6,7,8,9,9)])
+
+```
+
+```{r eval = FALSE}
+install.packages('psych')
+```
+
+```{r}
+library(psych)
+
+winsor.mean(concentration, trim = 0.1)  
+```
+
+Notice that these numbers are slightly different.  That is because instead of replacing the trimmed values with the nearest number, `winsor.mean` replaces them with the 20% and 80% quantile.  
+
+#### M-estimators
+
+M-estimators give different weights gradually from the middle of the sample and incorporate a measure of variability in the estimation procedure.  Uses an iterative approach and are useful with extreme outliers.  
+
+Not commonly used but do have a role in robust regression and ANOVA techniques for analyzing linear models.
+
+
+```{r}
+library(MASS)  #requires the MASS package
+
+data(chem)  #load the chem dataset
+
+chem_data<-data.frame(ind = 1:length(chem),chem = chem)
+
+ggplot(data = chem_data) + 
+  geom_point(aes(x = ind, y= chem), size = 2, colour = "firebrick") +
+  theme_bw()
+```
+
+We can see from this data that there is one HUGE outlier.  Running `huber` and `mean` give us different results.  
+
+```{r}
+mean(chem)
+
+huber(chem)
+
+```
+
+
+#### R-estimators
+
+R-estimators based on the ranks of the observations rather than the observations themselves and form the basis for many rank- based “non-parametric” tests. 
+
+##### Hodges–Lehmann estimator
+
+Hodges–Lehmann estimator is the median of the averages of all possible pairs of observations
+
+```{r}
+fake_data<- rpois(20, 10)
+
+#all possible combinations
+all_combos <- expand.grid(x=(fake_data), y = (fake_data))
+
+all_combos$mean <- apply(all_combos,1,mean)
+
+median(all_combos$mean)
+
+# We can get the same answer from the wilcox test
+
+wilcox.test(fake_data,  conf.int = TRUE)$estimate
+
+```
+
+
+### Spread or variability of your sample
+
+Like estimators for the central tendency of your data, there are also numerous ways to assess the spread in your sample.
+
+
+Going back to our concentration data that we created earlier, we will look at some of these estimates.  
+
+#### Range
+
+The range is perhaps the simplest estimate of the spread of your data
+
+```{r}
+# range 
+range(rand_data$concentration) #minimum and maximum
+```
+
+#### Variance
+
+Variance is the average squared deviation from the mean.
+
+```{r}
+sum_squares<-sum((rand_data$concentration - mean(rand_data$concentration))^2)
+sum_squares / (length(rand_data$concentration) - 1) # variance
+
+var(rand_data$concentration)
+```
+
+#### Standard deviation
+
+Square root of the variance.  
+
+```{r}
+sqrt(var(rand_data$concentration))
+
+sd(rand_data$concentration)
+```
+
+
+#### Coefficient of variation
+
+Used to compare standard deviations across populations with different means because it is independent of the measurement units.   
+
+```{r}
+sd(rand_data$concentration) / mean(rand_data$concentration)
+```
+
+#### Median absolute deviation
+
+Less sensitive to outliers than the above measures and is presented in association with medians.  
+
+```{r}
+abs_deviation <-abs(rand_data$concentration - median(rand_data$concentration))
+median(abs_deviation) * 1.4826
+
+mad(rand_data$concentration)
+```
+
+#### Interquartile range
+
+The difference between the first quartile and the third quartile. Used in ggplots `geom_boxplot`. 
+
+```{r}
+quantz <- quantile(rand_data$concentration, c(0.75, 0.25))
+quantz[1] - quantz[2] 
+
+IQR(rand_data$concentration)
+```
+
+degrees of freedom is simply the number of observations in our sample that are “free to vary” when we are estimating the variance
+
+Standard error
+The standard error of the mean is telling us about the variation in our sample mean. 
+It is termed “error” because it is telling us about the error in using  ̄y to estimate
+(Snedecor & Cochran 1989). If the standard error is large, repeated samples would likely produce very different means, 
+and the mean of any single sample might not be close to the true population mean. 
+
+critical values
+```{r}
+critical.vals<-data.frame(ConfidenceInterval=c('99%','95%','90%','80%'),
+                          CriticalValue=c(abs(qt(0.010, 10000)),
+                                         abs(qt(0.025,10000)),
+                                         abs(qt(0.050, 10000)),
+                                         abs(qt(0.10, 10000))))
+
+```
+
+?lm
