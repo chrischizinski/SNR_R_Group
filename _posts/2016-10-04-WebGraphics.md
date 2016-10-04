@@ -1,6 +1,7 @@
-# Web graphics
-
-
+---
+title: "Web graphics"
+output: html_document
+---
 
 ## Plots for the web
 
@@ -12,6 +13,7 @@ ggvis follows the similar underlying theory of the grammar of graphics as ggplot
 
 ### `ggvis()`
 
+For some reason the `ggvis()` plots below are not rendering.  Please follow along with RStudio and the plots will be produced.  
 
 ```r
 #install.packages("ggvis")
