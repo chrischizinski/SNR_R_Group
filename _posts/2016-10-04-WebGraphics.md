@@ -13,6 +13,7 @@ ggvis follows the similar underlying theory of the grammar of graphics as ggplot
 
 ### `ggvis()`
 
+**NOTE**:  For some reason my `ggvis` figures are not rendering and I am not 100% sure why.  If you follow along with the below R code in RStudio these will generate.  Hopefully, I can figure out what the issues are and I will update the post. 
 
 ```r
 #install.packages("ggvis")
