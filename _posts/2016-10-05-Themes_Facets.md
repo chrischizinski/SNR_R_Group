@@ -8,7 +8,7 @@ output:
 
 
 # Themes
-One of my favorite aspects of **ggplot2** is the use of [themes] (http://docs.ggplot2.org/current/theme.html).  Not including a theme, the default ggplots theme is the ```theme_grey``` which has a dark grey background with white grid lines.  See the example below
+One of my favorite aspects of **ggplot2** is the use of [themes](http://docs.ggplot2.org/current/theme.html).  Not including a theme, the default ggplots theme is the ```theme_grey``` which has a dark grey background with white grid lines.  See the example below
 
 
 
