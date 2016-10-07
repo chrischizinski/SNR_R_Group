@@ -8762,4 +8762,4 @@ Here is what I would like you to do:
 12. Filter out fisheries with short time series (< 10 yrs)
 13.  If you are feeling up to it, display CVs among the fisheries (select a specific country or fishery).
 
-[Click here for answers](https://chrischizinski.github.io/SNR_R_Group/answer1.html)
+[Click here for answers](https://chrischizinski.github.io/SNR_R_Group/answers/answer1.html)
