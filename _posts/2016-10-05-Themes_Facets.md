@@ -14,35 +14,7 @@ One of my favorite aspects of **ggplot2** is the use of [themes] (http://docs.gg
 
 {% highlight r %}
 library(tidyverse)
-{% endhighlight %}
 
-
-
-{% highlight text %}
-## Loading tidyverse: tibble
-## Loading tidyverse: tidyr
-## Loading tidyverse: readr
-## Loading tidyverse: purrr
-## Loading tidyverse: dplyr
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Conflicts with tidy packages ----------------------------------------------
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## combine(): dplyr, gridExtra
-## filter():  dplyr, stats
-## lag():     dplyr, stats
-{% endhighlight %}
-
-
-
-{% highlight r %}
  p<- ggplot(diamonds, ) +
       geom_point(aes(x=carat, y = price,colour=cut)) 
 p
@@ -248,26 +220,7 @@ I do a lot of map creation using ggplot and therefore the canned themes and the 
 
 {% highlight r %}
 library(maps)
-{% endhighlight %}
 
-
-
-{% highlight text %}
-## 
-## Attaching package: 'maps'
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## The following object is masked from 'package:purrr':
-## 
-##     map
-{% endhighlight %}
-
-
-
-{% highlight r %}
 theme_map <- function(base_size = 12, base_family = "") {
   # Starts with theme_grey and then modify some parts
   theme_bw(base_size = base_size, base_family = base_family) %+replace%
@@ -542,6 +495,33 @@ grid.arrange(gA, gB, ncol = 1, left = textGrob("Y", gp = gpar(fontsize = 18), ro
 {% endhighlight %}
 
 ![plot of chunk unnamed-chunk-18](/SNR_R_Group/figs/2016-10-05-Themes_Facets/unnamed-chunk-18-1.png)
+
+# Outputting plots
+
+You have two options when you are trying to output a plot.  
+
+Check out the options `?ggsave`
+
+
+{% highlight r %}
+ p<- ggplot(diamonds, ) +
+      geom_point(aes(x=carat, y = price,colour=cut)) 
+
+p
+
+ggsave(filename = "path/to/where/you/want/your/file.png", dpi = 600, device = "png")
+{% endhighlight %}
+
+The other option that I use, particularly when you want to change the background color.
+
+Check out the options using `?png`
+
+
+{% highlight r %}
+png(filename = "path/to/where/you/want/your/file.png")
+  print(p)
+dev.off()
+{% endhighlight %}
 
 
 
