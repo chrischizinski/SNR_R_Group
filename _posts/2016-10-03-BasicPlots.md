@@ -1,4 +1,5 @@
 ---
+title: "Some basics on ggplots"
 output: html_document
 ---
 
