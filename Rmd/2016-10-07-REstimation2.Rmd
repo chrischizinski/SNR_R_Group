@@ -1,0 +1,88 @@
+---
+title: "Estimation of parameters"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Estimating parameters
+
+#### Sum of squares
+
+Simplest method of estimating parameters.  
+
+Several selling points:
+
+1. Simple, no assumptions about the uncertainty
+2. Long history of use in science
+3. Computational methods allow us to do remarkable calculations
+
+```{r}
+set.seed(456789)
+
+fake_data<-data.frame(x = rpois(30, 5))
+fake_data$y = fake_data$x *2 + rnorm(30, sd = 2)
+
+ggplot(data = fake_data) + 
+  geom_point(aes(x = x, y = y), size = 2) +
+  theme_bw()
+
+```
+
+```{r}
+start.val <- -2
+max.val <- 6
+
+poss.vals <- seq(start.val,max.val, by= 0.01)
+
+length(poss.vals)
+
+SS_stor<-data.frame(poss.val = poss.vals, SS = NA)
+
+for( i in 1:length(poss.vals)){
+  pred.vals<- fake_data$x * poss.vals[i]
+  
+  SS_stor$SS[i] <- sum((pred.vals - fake_data$y)^2)
+}
+
+beta_val<-SS_stor$poss.val[which(SS_stor$SS == min(SS_stor$SS))]
+
+ggplot(data=SS_stor) +
+  geom_line(aes(x = poss.vals, y = SS), size = 1) +
+  geom_vline(aes(xintercept = beta_val), colour = "red", linetype = "dashed") +
+  labs(x = "Possible values", y = "Sum of squares") +
+  scale_x_continuous(breaks = seq(start.val,max.val, by = 0.5)) +
+  theme_bw()
+```
+
+```{r}
+
+
+beta_pred <- data.frame(x = min(fake_data$x):max(fake_data$x))
+beta_pred$fit.y <- beta_pred$x * beta_val
+
+ggplot() + 
+  geom_point(data = fake_data, aes(x = x, y = y), size = 2) +
+  geom_line(data = beta_pred, aes(x = x, y = fit.y), colour="red") +
+  theme_bw()
+
+```
+
+What if we have two parameters?
+
+```{r}
+set.seed(345678)
+
+fake_data2<-data.frame(x1 = rpois(30, 5), x2 = rpois(30, 2))
+fake_data2$y = fake_data2$x1 *2 + rnorm(30, sd = 2) + fake_data2$x2 *-4 + rnorm(30, sd = 2)
+
+
+```
+
+#### Maximum liklihood
+
+Given a set of observations from the population, we can find estimates of one (or many) parameters that maximize the liklihood of observing those data.  The likelihood function provides the likelihood of the observed data for all possible values of the parameter we are trying to estimate. 
+
+Given a sample of observations from a population, we find estimates of one (or more) parameter(s) that maximise the likelihood of observing those data

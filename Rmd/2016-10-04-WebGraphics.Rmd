@@ -1,0 +1,451 @@
+---
+title: "Web graphics"
+output:
+  html_document:
+    keep_md: true
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(base.url = "/SNR_R_Group/")
+knitr::opts_chunk$set(fig.path = "figs/2016-10-04-WebGraphics/")
+```
+
+## Plots for the web
+
+There has been increasing need and desirability to produce interactive graphics online.  News outlets, like the The Economist, New York Times, Vox, 538, Pew, and Quartz, routinely use interactive displays.
+
+There are two packages (among several) that allow us to create interactive graphics.  The first is `ggivis`, which is based on `ggplot2` and the other is `googlevis`.  
+
+ggvis follows the similar underlying theory of the grammar of graphics as ggplot2 but is expressed a little bit differently.  It incorporates aspects from `shiny` as well as `dplyr`.  
+
+### `ggvis()`
+
+```{r}
+#install.packages("ggvis")
+
+library(tidyverse)
+
+library(ggvis)
+
+```
+
+
+Like `ggplot()`, every call to `ggvis` starts with the `ggvis()` statement.  
+
+```{r}
+point_plot<-mtcars %>%
+            ggvis(x = ~wt, y = ~mpg) %>%
+            layer_points()
+
+view_static(point_plot)
+```
+
+
+Like ggplot, you can mapping other visual properties like `fill`, `stroke`, `size` and `shape`.
+
+```{r}
+mtcars %>% ggvis(~mpg, ~disp, stroke = ~vs) %>% layer_points()
+
+mtcars %>% ggvis(~mpg, ~disp, fill = ~vs) %>% layer_points()
+
+mtcars %>% ggvis(~mpg, ~disp, size = ~vs) %>% layer_points()
+
+mtcars %>% ggvis(~mpg, ~disp, shape = ~factor(cyl)) %>% layer_points()
+```
+
+Unlike ggplot, you specify points a fixed colour or size, you need to use `:=` instead of `=`. The `:=` operator means to use a raw, unscaled value. 
+
+```{r}
+
+mtcars %>% ggvis(~wt, ~mpg, fill := "black", stroke := "firebrick") %>% layer_points()
+
+mtcars %>% ggvis(~wt, ~mpg, size := 400, opacity := 0.25) %>% layer_points()
+
+mtcars %>% ggvis(~wt, ~mpg, size := 100, shape := "square") %>% layer_points()
+
+```
+
+### Layers
+
+- Points, `layer_points()`, with properties `x`, `y`, `shape`, `stroke`, `fill`, `strokeOpacity`, `fillOpacity`, and `opacity`.
+
+```{r}
+mtcars %>% ggvis(~wt, ~mpg) %>% layer_points()
+
+```
+
+- Paths and polygons, `layer_paths()`
+
+```{r}
+set.seed(12345)
+
+df <- data.frame(x = 1:20, y = runif(20))
+df %>% ggvis(~x, ~y) %>% layer_paths()
+
+```
+
+
+If you add `fill`, you will get a polygon.
+
+```{r}
+vals<-rbind(data.frame(x = 1:10, y = 1),
+      data.frame(x = 1:10, y = 3),
+      data.frame(x = 1, y = 1:3),
+      data.frame(x = 10, y = 1:3))
+
+vals %>% ggvis(~x, ~y) %>% layer_paths(fill := "pink")
+
+```
+
+
+- Filled areas, `layer_ribbons()`. Use properties `y` and `y2` to control the extent of the area.
+
+```{r}
+df %>% ggvis(~x, ~y) %>% layer_ribbons(fill:="green", opacity:=0.3)
+
+df %>% ggvis(~x, ~y + 0.25, y2 = ~y - 0.25) %>% layer_ribbons(fill:="green", opacity:=0.3)
+```
+
+- Rectangles, `layer_rects()`. The location and size of the rectangle is controlled by the `x`, `x2`, `y` and `y2` properties.
+
+```{r}
+set.seed(12345)
+df <- data.frame(x1 = runif(2), x2 = runif(2), y1 = runif(2), y2 = runif(2))
+
+df %>% ggvis(~x1, ~y1, x2 = ~x2, y2 = ~y2, fillOpacity := 0.55, fill:= "blue") %>% layer_rects()
+```
+
+- Text, `layer_text()`. Many options to control the apperance of the text: `text` (the label), `dx` and `dy` (margin in pixels between text and anchor point), `angle` (rotate the text), `font` (font name), `fontSize` (size in pixels), `fontWeight` (bold or normal), and `fontStyle` (e.g. italic or normal)
+
+```{r}
+df2 <- data.frame(x = 4:1, y = c(1, 3, 2,4), label = c("a", "b", "c", "d"))
+
+df2 %>% ggvis(~x, ~y, text := ~label) %>% layer_text()
+
+df2 %>% ggvis(~x, ~y, text := ~label) %>% layer_text(fontSize := 50, fontWeight:= "bold", angle:= 45)
+
+```
+
+### Compound layers
+
+- `layer_lines()`  automatically orders by the x variable:
+
+```{r}
+t <- seq(0, 2 * pi, length = 20)
+
+df3 <- data.frame(x = sin(t), y = cos(t))
+
+df3 %>% ggvis(~x, ~y) %>% layer_paths()
+
+df3 %>% ggvis(~x, ~y) %>% layer_lines()
+
+```
+
+- `layer_histograms()` and `layer_freqpolys()` first bin the data with `compute_bin()` and then display the results with either rects or lines.
+
+```{r}
+mtcars %>% ggvis(~mpg) %>% layer_histograms(fill:= "red")
+
+mtcars %>% ggvis(~mpg) %>% layer_freqpolys(fill:= "red")
+```
+
+- `layer_smooths()` fits a smooth model to the data, and displays predictions with a line
+
+```{r}
+mtcars %>% ggvis(~wt, ~mpg) %>% layer_smooths()
+```
+
+### Multiple layers
+
+Like `ggplot2` we can combine multiple layers together.  
+
+```{r}
+mtcars %>% ggvis(~wt, ~mpg) %>% layer_points %>% layer_smooths()
+
+mtcars %>% ggvis(~wt, ~mpg) %>%
+  layer_points %>% 
+  layer_smooths(span = 1) %>%
+  layer_smooths(span = 0.5, stroke := "red")
+```
+
+### Scales
+
+Scales, to control the mapping between data and visual properties. These are described in the [properties and scales vignette](http://ggvis.rstudio.com/properties-scales.html)
+
+### Legends
+
+Legends and axes to control the appearance of the guides produced by the scales. See the axes and [legends vignette](http://ggvis.rstudio.com/axes-legends.html) for more details.
+
+### Basic interactivity
+
+#### `input_slider()
+
+```{r}
+mtcars %>% 
+  ggvis(x = ~wt, y = ~mpg) %>% 
+  layer_smooths(span = input_slider(0.5, 1, 1, label = "span")) %>% 
+  layer_points(size := input_slider(100, 1000, label = "size"))
+```
+
+#### `input_checkbox`
+
+```{r}
+mtcars %>% ggvis(~wt, ~mpg) %>%
+  layer_smooths(se = input_checkbox(label = "Confidence interval", value = TRUE))
+
+```
+
+### `input_radiobuttons`
+
+```{r}
+  mtcars %>% ggvis(x = ~wt, y = ~mpg) %>%
+  layer_points(
+    fill := input_radiobuttons(
+      choices = c("Red" = "red", "Green" = "green", "Blue" = "blue"),
+      label = "Colors",
+      selected = "red")
+  )
+```
+
+### `input_checkboxgroup`
+
+```{r}
+  mtcars %>% ggvis(x = ~wt, y = ~mpg) %>%
+  layer_points(
+    fill := input_checkboxgroup(
+      choices = c("Red" = "r", "Green" = "g", "Blue" = "b"),
+      label = "Point color components",
+      map = function(val) {
+        rgb(0.8 * "r" %in% val, 0.8 * "g" %in% val, 0.8 * "b" %in% val)
+      }
+    )
+  )
+```
+
+#### `input_text()`
+
+```{r}
+fill_text <- input_text(label = "Point color", value = "dodgerblue")
+mtcars %>% ggvis(~wt, ~mpg, fill := fill_text) %>% layer_points()
+````
+
+#### `input_numeric()`
+
+```{r}
+size_num <- input_numeric(label = "Point size", value = 25)
+mtcars %>% ggvis(~wt, ~mpg, size := size_num) %>% layer_points()
+```
+
+
+#### `input_select()`
+
+```{r}
+iris %>% 
+  ggvis(x = input_select(c('Petal.Width', 'Sepal.Length'), map = as.name)) %>% 
+  layer_points(y = ~Petal.Length, fill = ~Species)
+```
+
+
+#### Outputting your ggvis plot
+
+This is still in active development and is not especially user friendly.  For more information, visit [here](https://rdrr.io/cran/ggvis/man/print.ggvis.html)
+
+```{r}
+
+outfile <- iris %>% 
+  ggvis(x = input_select(c('Petal.Width', 'Sepal.Length'), map = as.name)) %>% 
+  layer_points(y = ~Petal.Length, fill = ~Species) %>%
+  view_dynamic() %>% htmltools::html_print(viewer = NULL)
+```
+
+
+#### Some last notes on `ggvis`
+
+ggvis is still actively being developed and there is a lot more detail than I have provided. In addition, there is still a lot that ggvis can not do.   I encourage you to check out the [ggvis website](http://ggvis.rstudio.com/) for more information and updates. 
+
+
+### googleVis
+
+The googleVis package provides an interface between R and the Google
+Charts API. Google Charts offer interactive charts which can be embedded
+into web pages.
+
+There are many options for figures and given our time constraint, we will only cover a portion of what is available.  I encourage you to look [here](https://cran.r-project.org/web/packages/googleVis/vignettes/googleVis_examples.html) and [here](https://developers.google.com/chart/interactive/docs/) for additional ideas and details. 
+
+```{r}
+# install.packages("googleVis")
+library(googleVis)
+
+op <- options(gvis.plot.tag='chart')
+```
+
+To get these to work in RMarkdown you will need to specify `results='asis'` in the chunk options.  
+
+### [Line plots](https://developers.google.com/chart/interactive/docs/gallery/linechart)
+
+```{r}
+df <- data.frame(time=c(1:70), 
+              val1=c(1:70)*3 +rnorm(70, sd = 6), 
+              val2=c(1:70)*5 +rnorm(70, sd = 10))
+```
+
+
+```{r results='asis', tidy = TRUE}
+Line_plot <- gvisLineChart(df, xvar = "time", yvar = c("val1","val2"))
+plot(Line_plot)
+```
+
+```{r results='asis', tidy = TRUE}
+Line_plot2 <- gvisLineChart(df, xvar = "time", yvar = c("val1","val2"),
+                            options=list(series="[{targetAxisIndex: 0}, {targetAxisIndex:1}]",
+                            vAxes="[{title:'val1'}, {title:'val2'}]"))
+plot(Line_plot2)
+
+```
+
+
+### [Bar plots](https://developers.google.com/chart/interactive/docs/gallery/barchart)
+
+```{r}
+mpg<-mtcars %>% 
+    mutate(gear = paste("gear",gear,sep="_")) %>% 
+    group_by(cyl, gear) %>% 
+    summarise(M_mpg = mean(mpg)) %>% 
+    spread(gear, M_mpg) %>% 
+    as.data.frame()
+
+mpg$gear_4[is.na(mpg$gear_4)] <-0
+
+```
+
+
+```{r results='asis', tidy = TRUE}
+mpg_side <- gvisBarChart(data=mpg, xvar = c("cyl"), yvar =c("gear_3","gear_4", "gear_5" ))
+
+plot(mpg_side)
+```
+
+
+```{r results='asis', tidy = TRUE}
+mpg_vert <- gvisColumnChart(data=mpg, xvar = c("cyl"), yvar =c("gear_3","gear_4", "gear_5" ),
+                            options=list(title = "The mean mpg per cylinder",
+                                         colors="['#cbb69d', '#603913', '#c69c6e']",
+                                         vAxes="[{title:'miles per gallon'}]",
+                                         hAxes="[{title:'Number of cylinders'}]"))
+plot(mpg_vert)
+```
+
+```{r}
+
+mpg_cars<-mtcars %>% 
+    mutate(gear = paste("gear",gear,sep="_")) %>% 
+    group_by(cyl, gear) %>% 
+    summarise(N = n()) %>% 
+    spread(gear, N) %>% 
+    as.data.frame()
+
+mpg$gear_4[is.na(mpg$gear_4)] <-0
+
+```
+
+```{r results='asis', tidy = TRUE}
+mpg_stack <- gvisColumnChart(data=mpg, xvar = c("cyl"), yvar =c("gear_3","gear_4", "gear_5" ),
+                            options=list(isStacked = TRUE,
+                                         title = "The mean mpg per cylinder",
+                                         colors="['#cbb69d', '#603913', '#c69c6e']",
+                                         vAxes="[{title:'Number of cars'}]",
+                                         hAxes="[{title:'Number of cylinders'}]"))
+plot(mpg_stack)
+
+
+```
+
+
+### [Area plots](https://developers.google.com/chart/interactive/docs/gallery/areachart)
+
+```{r }
+df4 <- data.frame(Year = c(2013:2016), Sales = c(1000, 1170, 660, 1030), Expenses = c(400, 460, 1120, 540))
+
+df4
+```
+
+
+```{r results='asis', tidy = TRUE}
+
+Area <- gvisAreaChart(df4, xvar = "Year", yvar = c("Sales","Expenses"))
+
+plot(Area)
+
+
+```
+
+```{r results='asis', tidy = TRUE}
+
+Area_stack <- gvisAreaChart(df4, xvar = "Year", yvar = c("Sales","Expenses"),
+                      options = list(isStacked = TRUE))
+
+plot(Area_stack)
+
+
+```
+
+
+### Combo plots
+
+```{r results='asis', tidy = TRUE}
+head(CityPopularity)
+
+CityPopularity$Mean=mean(CityPopularity$Popularity)
+CC <- gvisComboChart(CityPopularity, xvar='City',
+          yvar=c('Mean', 'Popularity'),
+          options=list(seriesType='bars',
+                       width=450, height=300,
+                       title='City Popularity',
+                       series='{0: {type:\"line\"}}'))
+plot(CC)
+```
+
+### [GeoChart plots](https://developers.google.com/chart/interactive/docs/gallery/map)
+
+```{r}
+library(datasets)
+states <- data.frame(state.name, state.x77)
+
+head(states)
+```
+
+
+```{r  results='asis', tidy = TRUE}
+GeoStates <- gvisGeoChart(states, "state.name", "Murder",
+                          options=list(region="US", 
+                                       displayMode="regions", 
+                                       resolution="provinces",
+                                       width=600, height=400,
+                                       colors="['skyblue','red']"))
+plot(GeoStates)
+
+```
+
+### Interactive plots
+
+Like using `ggvis`, you do have the option to make fully interactive plots.  You won't be able to get it to work in the console or in Rstudio because `googleVis` creates  javascript that is embedded into an HTML document . The only way to know for sure if it's working is to knit it to HTML, and then publish it to Rpubs (or anywhere else online). Once it is online it will work. Depending on your browser settings, you might be able to get it to work by opening the HTML locally, but the browser often blocks the embedded plot when opened locally
+
+```{r results='asis'}
+M <- gvisMotionChart(Fruits, "Fruit", "Year")
+```
+
+```{r results='asis'}
+plot(M, 'chart')
+```
+
+
+### Outputting `googlevis` plots
+
+```{r}
+# write the HTML body to a temporary file without header and footer
+cat(M$html$chart, file="/Users/cchizinski2/Documents/DataDepot/temp.html")
+```
+
+

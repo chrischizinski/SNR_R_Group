@@ -1,0 +1,44 @@
+---
+title: "Web graphics"
+output:
+  html_document:
+    keep_md: true
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(base.url = "/SNR_R_Group/")
+knitr::opts_chunk$set(fig.path = "figs/2016-10-04-WebGraphics/")
+```
+
+## Plots for the web
+
+There has been increasing need and desirability to produce interactive graphics online.  News outlets, like the The Economist, New York Times, Vox, 538, Pew, and Quartz, routinely use interactive displays.
+
+There are two packages (among several) that allow us to create interactive graphics.  The first is `ggivis`, which is based on `ggplot2` and the other is `googlevis`.  
+
+ggvis follows the similar underlying theory of the grammar of graphics as ggplot2 but is expressed a little bit differently.  It incorporates aspects from `shiny` as well as `dplyr`.  
+
+### `ggvis()`
+
+```{r}
+#install.packages("ggvis")
+
+library(tidyverse)
+
+library(ggvis)
+
+```
+
+
+Like `ggplot()`, every call to `ggvis` starts with the `ggvis()` statement.  
+
+```{r}
+plot_point<-mtcars %>%
+            ggvis(x = ~wt, y = ~mpg) %>%
+            layer_points()
+
+view_static(plot_point)
+```
+

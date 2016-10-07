@@ -1,0 +1,122 @@
+---
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+
+```
+
+## Basic plotting in ggplot
+
+ggplot is a package that has truly upped the level of producing quality graphics using R. The "g g" in ggplot refers to the grammar of graphics.  There has been a lot of development of the theory in what makes a good plot and I encourage you to read more on the [subject](http://vita.had.co.nz/papers/layered-grammar.pdf).
+
+From the [ggplot2 website](http://ggplot2.org/)
+
+> ggplot2 is a plotting system for R, based on the grammar of graphics, which tries to take the good parts of base and lattice graphics and none of the bad parts. It takes care of many of the fiddly details that make plotting a hassle (like drawing legends) as well as providing a powerful model of graphics that makes it easy to produce complex multi-layered graphics.
+
+The components of a plot are:
+
+- data and aesthetic mappings,
+- geometric objects,
+- scales, 
+- facet specification,
+- statistical transformations, and
+- the coordinate system.
+
+Plots using `ggplot()` are made in a series of layers.  Each layer is composed of:
+
+- data and aesthetic mappings,
+- a statistical transformation (stat),
+- a geometric object (geom), and
+- a position adjustment.
+
+To begin and explore ggplot, we will use the `diamonds` data set.  
+
+```{r}
+#install.packages("tidyverse")
+library(tidyverse)
+
+data(diamonds)
+head(diamonds)
+```
+Data needs to be in data.frame.  
+Layers are separated by `+`
+Plots can be saved as objects
+
+There are several ways we can specify data in ggplot.  By specifying it in the top of the hierarchy (i.e., in `ggplot()`), then all the subsequent layers will use this data set.  My personal feeling is to specify it in the layers so that it is clear which data you are using.  I feel the same way about the aesthetics as well, but sometimes this it is required to put them in the top (i.e., `position_dodge()` and error bars)
+
+```{r}
+ggplot(data = diamonds,aes(x=carat, y=price)) +
+  geom_point()
+
+#or
+
+ggplot() +
+  geom_point(data = diamonds,aes(x=carat, y=price))
+```
+
+We have lots of options of the aesthetics when we are building the plots.  The required aesthetics will depend on the geometry chosen.  There are numerous geometries [available](http://docs.ggplot2.org/current/).
+
+Common aesthetics:
+
+- `x`:  the x coordinates of the data that you wish to plot.  Can be numeric or categorical.
+- `y`:  the y-coordinates of the data that you wish to plot.
+- `color` or `colour`:  the color of points, lines, or edges.  Colors can be specified using any of the [R colors](http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf)
+- `fill`:  similar to color but this specifies the fill of of polygons, bars, or other shapes.
+- `size`:  the size of the points or the thickness of the line
+- `shape`:  used in geom_point to specify the [different points](http://www.cookbook-r.com/Graphs/Shapes_and_line_types/)
+- `linetype`:  the type of line to be plotted [(e.g., `solid`, `dashed`, `dotted`)](http://www.cookbook-r.com/Graphs/Shapes_and_line_types/)
+- `alpha`:  the transparency level of the layer
+
+When we put these on the **outside** the aesthetic statement `aes()`, all points are treated the same.   
+
+```{r}
+#color
+ggplot() +
+  geom_point(data = diamonds,aes(x=carat, y=price), colour ="dodgerblue")
+
+#shape
+ggplot() +
+  geom_point(data = diamonds,aes(x=carat, y=price), colour ="dodgerblue", shape = 17)
+
+#size
+ggplot() +
+  geom_point(data = diamonds,aes(x=carat, y=price), colour ="dodgerblue", shape = 17, size =5)
+
+#alpha
+ggplot() +
+  geom_point(data = diamonds,aes(x=carat, y=price), colour ="dodgerblue", shape = 17, size =5, alpha = 0.25)
+
+```
+
+When we put these on the **inside** the aesthetic statement `aes()`,  points are treated differently based on the **level** of the variable. These are then given a value in a legend.  Numeric values are given a continuous scale and characters or factors are given a discrete scale. 
+
+
+```{r}
+#color
+#numeric
+ggplot() +
+  geom_point(data = diamonds,aes(x=carat, y=price, colour=carat))
+
+#factor
+ggplot() +
+  geom_point(data = diamonds,aes(x=carat, y=price, colour=cut))
+
+#shape
+ggplot() +
+  geom_point(data = diamonds,aes(x=carat, y=price, colour=carat, shape = cut))
+
+#size
+ggplot() +
+  geom_point(data = diamonds,aes(x=carat, y=price, colour=carat,size = carat))
+
+#alpha
+ggplot() +
+  geom_point(data = diamonds,aes(x=carat, y=price, colour=carat, alpha = carat))
+
+```
+
+We can control how these values are presented by using the [scale commands](http://docs.ggplot2.org/current/index.html)
+
