@@ -12,7 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 # Themes
-One of my favorite aspects of **ggplot2** is the use of [themes] (http://docs.ggplot2.org/current/theme.html).  Not including a theme, the default ggplots theme is the ```theme_grey``` which has a dark grey background with white grid lines.  See the example below
+One of my favorite aspects of **ggplot2** is the use of [themes](http://docs.ggplot2.org/current/theme.html).  Not including a theme, the default ggplots theme is the ```theme_grey``` which has a dark grey background with white grid lines.  See the example below
 
 
 ```{r}
@@ -370,11 +370,61 @@ fake_data2 <- data.frame(x = 1:20)
 fake_data2$y <- fake_data2$x * 3 + rnorm(20, sd = 6)
 
 
-ggplot(data = fake_data) +
-  geom_line(aes(x = x, y = y), colour = "red", linetype = "dashed")
+plota<-ggplot(data = fake_data) +
+        geom_line(aes(x = x, y = y), colour = "red", linetype = "dashed") +
+  theme(axis.title.y = element_blank(),
+         axis.title.x = element_blank())
 
-ggplot(data = fake_data) +
-  geom_line(aes(x = x, y = y), colour = "red", linetype = "dashed")
+plotb<-ggplot(data = fake_data2) +
+  geom_line(aes(x = x, y = y), colour = "blue", linetype = "dotted") +
+  theme(axis.title.y = element_blank(),
+         axis.title.x = element_blank())
+
+
+grid.arrange(plota,plotb, ncol = 1, left = textGrob("Y", gp = gpar(fontsize = 18), rot = 90),
+             bottom =textGrob("X", gp = gpar(fontsize = 18)) )
 
 ```
+
+Notice that in the above plot, the two figures do not exactly line up.  This takes a little finagling.
+
+```{r}
+gA <- ggplotGrob(plota)
+gB <- ggplotGrob(plotb)
+
+maxWidth = grid::unit.pmax(gA$widths[2:5], gB$widths[2:5])
+gA$widths[2:5] <- as.list(maxWidth)
+gB$widths[2:5] <- as.list(maxWidth)
+
+grid.arrange(gA, gB, ncol = 1, left = textGrob("Y", gp = gpar(fontsize = 18), rot = 90), bottom =textGrob("X", gp = gpar(fontsize = 18)))
+```
+
+# Outputting plots
+
+You have two options when you are trying to output a plot.  
+
+Check out the options `?ggsave`
+
+```{r eval = FALSE}
+ p<- ggplot(diamonds, ) +
+      geom_point(aes(x=carat, y = price,colour=cut)) 
+
+p
+
+ggsave(filename = "path/to/where/you/want/your/file.png", dpi = 600, device = "png")
+```
+
+The other option that I use, particularly when you want to change the background color.
+
+Check out the options using `?png`
+
+```{r eval = FALSE}
+png(filename = "path/to/where/you/want/your/file.png")
+  print(p)
+dev.off()
+
+```
+
+
+
 
