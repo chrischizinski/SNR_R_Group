@@ -1,6 +1,7 @@
 ---
 title: "Joins"
 output: html_document
+tags: [R, dplyr, joins]
 ---
 
 

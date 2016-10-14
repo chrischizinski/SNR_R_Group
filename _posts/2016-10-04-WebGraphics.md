@@ -1,6 +1,7 @@
 ---
 title: "Web graphics"
 output: html_document
+tags: [R, ggvis, googleVis]
 ---
 
 ## Plots for the web

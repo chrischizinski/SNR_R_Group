@@ -1,7 +1,7 @@
 ---
 title: "Estimation of parameters"
 output: html_document
-tags: [R, Ordinary Least Squares, OLS, Likelihood]
+tags: [R, 'Ordinary Least Squares', OLS, Likelihood, MLE]
 ---
 
 
@@ -90,8 +90,6 @@ ggplot() +
 
 What if we have two parameters?
 
-[Click here for answers](https://chrischizinski.github.io/SNR_R_Group/answers/answer3.html)
-
 
 {% highlight r %}
 set.seed(345678)
@@ -101,6 +99,8 @@ fake_data2$y = fake_data2$x1 *2 + rnorm(30, sd = 2) + fake_data2$x2 *-4 + rnorm(
 {% endhighlight %}
 
 Use the above approach to estimate the values for the two parameters.
+
+[Click here for answer](https://chrischizinski.github.io/SNR_R_Group/answers/answer3.html)
 
 
 ## Maximum likelihood

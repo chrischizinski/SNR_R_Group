@@ -3,6 +3,8 @@ title: "Themes, facets, and outputting plots"
 output:
   html_document:
     keep_md: true
+    
+tags: [R, dplyr, ggplot2, grid.arrange, 'ggplot2 themes' ]
 ---
 
 

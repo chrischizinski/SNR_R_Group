@@ -1,6 +1,7 @@
 ---
 title: "Wrangling data"
 output: html_document
+tags: [R, dplyr, tidyr, tidyverse ]
 ---
 
 
