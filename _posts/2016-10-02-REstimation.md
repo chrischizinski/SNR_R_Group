@@ -1,7 +1,7 @@
 ---
 title: "Estimation"
 output: html_document
-tags: [R, 'central tendency', 'data spread', 'resampling']
+tags: [R, "central tendency", "data spread", "resampling"]
 ---
 
 
