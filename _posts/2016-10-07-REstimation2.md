@@ -1,6 +1,7 @@
 ---
 title: "Estimation of parameters"
 output: html_document
+tags: [R, Ordinary Least Squares, OLS, Likelihood]
 ---
 
 
@@ -88,6 +89,8 @@ ggplot() +
 ![plot of chunk unnamed-chunk-3](/SNR_R_Group/figs/2016-10-07-REstimation2/unnamed-chunk-3-1.png)
 
 What if we have two parameters?
+
+[Click here for answers](https://chrischizinski.github.io/SNR_R_Group/answers/answer3.html)
 
 
 {% highlight r %}
