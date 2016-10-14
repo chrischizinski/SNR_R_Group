@@ -1,0 +1,40 @@
+---
+title: "answer3"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+# Challenge 1
+
+set.seed(456789)
+
+fake_data2<-data.frame(x1 = rpois(50,5), x2 = rpois(50,2))
+fake_data2$y <- fake_data2$x1 *2 + rnorm(50, sd = 2) + fake_data2$x2 *-4 + rnorm(50, sd = 2)
+
+start.val1<- -4
+max.val1 <- 6
+  
+start.val2<- -8
+max.val2<- 0
+
+poss.vals.x1 <- seq(start.val1,max.val1, by = 0.05)
+poss.vals.x2 <- seq(start.val2,max.val2, by = 0.05)
+
+SS_stor2 <- expand.grid(x1 =poss.vals.x1, x2 = poss.vals.x2, SS = NA )
+
+for(i in 1:nrow(SS_stor2)){
+  pred.vals2 <- fake_data2$x1 *SS_stor2$x1[i] +  fake_data2$x2 *SS_stor2$x2[i]
+  
+  SS_stor2$SS[i] <- sum((fake_data2$y - pred.vals2)^2)
+}
+
+beta_vals2<- SS_stor2[which(SS_stor2$SS==min(SS_stor2$SS)),]
+
+beta_vals2
+```
+
