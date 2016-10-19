@@ -113,7 +113,7 @@ This approach allows us to develop confidence bounds around our parameters that 
 
 ### Likelihood and Maximum Likelihood
 
-The probability of observing the data \(Y_i\) given a particular parameter value $p$ is:
+The probability of observing the data \\( Y_i \\) given a particular parameter value $p$ is:
 $$ Pr(Y_i | p) $$
 
 The subscript on Y, indicates that there are many possible outcomes but only one parameter $p$. Thus we can ask, "Given these data, how likely are the possible hypothesis?"
