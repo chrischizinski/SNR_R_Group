@@ -113,12 +113,13 @@ This approach allows us to develop confidence bounds around our parameters that 
 
 ### Likelihood and Maximum Likelihood
 
-The probability of observing the data \\( Y_i \\) given a particular parameter value $p$ is:
+The probability of observing the data \\( Y_i \\) given a particular parameter value \\( p \\) is:
+
 $$ Pr(Y_i | p) $$
 
-The subscript on Y, indicates that there are many possible outcomes but only one parameter $p$. Thus we can ask, "Given these data, how likely are the possible hypothesis?"
+The subscript on Y, indicates that there are many possible outcomes but only one parameter \\( p \\). Thus we can ask, "Given these data, how likely are the possible hypothesis?"
 
-$L \{data | hypothesis \}$ or $L\{Y | p_m\}$.  Notice the difference from the previous equation.  In the likelihood function we have one observation but numerous potential hypotheses or parameter values. The key difference between likelihood and probability is that with the probability the hypothesis is known and data are unknown, whereas the likelihood the data are known and the hypotheses are unknown. 
+\\( L \{data | hypothesis \} \\) or \\( L\{Y | p_m\} \\).  Notice the difference from the previous equation.  In the likelihood function we have one observation but numerous potential hypotheses or parameter values. The key difference between likelihood and probability is that with the probability the hypothesis is known and data are unknown, whereas the likelihood the data are known and the hypotheses are unknown. 
 
 Thus there are parameter values that are more likely than others.  
 
@@ -155,7 +156,7 @@ $$ L\{Y | p_m \} = \frac{1}{10 \sqrt{2 \pi}} exp \left( - \frac{(Y - m)^2}{200} 
 
 and the negative log-likelihood for 10 of the ten heights is:
 
-$$ L\{Y | p_m \} = n[\log(10) + \frac{1}{2}\log(2 \pi) ] + \sum_{i=1}^n \frac{(Y_i - m)^2}{200}$$
+$$ L\{Y | p_m \} = n[\log(10) + \frac{1}{2}\log(2 \pi) ] + \sum_{i=1}^n \frac{(Y_i - m)^2}{200} $$
 
 
 {% highlight r %}
