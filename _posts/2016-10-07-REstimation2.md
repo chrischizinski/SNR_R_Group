@@ -119,7 +119,7 @@ $$ Pr(Y_i | p) $$
 
 The subscript on Y, indicates that there are many possible outcomes but only one parameter \\( p \\). Thus we can ask, "Given these data, how likely are the possible hypothesis?"
 
-\\( L \{data | hypothesis \} \\) or \\( L\{Y | p_m\} \\).  Notice the difference from the previous equation.  In the likelihood function we have one observation but numerous potential hypotheses or parameter values. The key difference between likelihood and probability is that with the probability the hypothesis is known and data are unknown, whereas the likelihood the data are known and the hypotheses are unknown. 
+\\( L \{ data | hypothesis \} \\) or \\( L \{ Y | p_m \} \\).  Notice the difference from the previous equation.  In the likelihood function we have one observation but numerous potential hypotheses or parameter values. The key difference between likelihood and probability is that with the probability the hypothesis is known and data are unknown, whereas the likelihood the data are known and the hypotheses are unknown. 
 
 Thus there are parameter values that are more likely than others.  
 
