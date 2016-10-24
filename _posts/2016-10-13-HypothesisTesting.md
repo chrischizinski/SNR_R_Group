@@ -6,6 +6,9 @@ tags: [R, ttest, bootstrap]
 
 The RMarkdown file for this lesson can be found [here](https://raw.githubusercontent.com/chrischizinski/SNR_R_Group/master/Rmd/2016-10-13-HypothesisTesting.Rmd)
 
+
+This lesson will follow Chapter 3 in Quinn and Keough (2002).
+
 ## Statistical hypothesis testing
 
 In the biological sciences, among other sciences, it is not often enough to just collect information on the central tendency of a population or parameter.  We often want to compare estimates among populations or against environmental variables.  Perhaps not surprisingly, there is still controversy on how this should be approached and the philosophies behind the approach.  Chapter two in the 

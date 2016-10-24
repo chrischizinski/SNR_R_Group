@@ -3,7 +3,9 @@ title: "Estimation"
 output: html_document
 ---
 
+The RMarkdown file for this lesson can be found [here](https://raw.githubusercontent.com/chrischizinski/SNR_R_Group/master/Rmd/2016-10-07-REstimation.Rmd).
 
+This lesson will follow Chapter 2 in Quinn and Keough (2002).
 
 ## Samples and populations
 

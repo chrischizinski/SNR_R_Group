@@ -7,6 +7,8 @@ tags: [R, correlation, parametric, non-parametric]
 
 The RMarkdown file for this lesson can be found [here](https://raw.githubusercontent.com/chrischizinski/SNR_R_Group/master/Rmd/2016-10-20-Correlation.Rmd)
 
+This lesson will follow Chapter 5 in Quinn and Keough (2002).
+
 ## Correlation analysis
 
 Consider a study, where we are interested in the relationship between two random variables. 
