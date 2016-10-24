@@ -261,14 +261,13 @@ wilcox.test(immer$Y1, immer$Y2, paired=TRUE)
 
 2. Load the  `furness` dataset from the `Chap3` folder on the github repository.
 
-> Furness & Bryant (1996) studied energy budgets of breeding northern fulmars (Fulmarus glacialis) in Shetland. As part of their study, they recorded various characteristics of individually labeled male and female fulmars. We will focus on differences between sexes in metabolic rate.
+> Furness & Bryant (1996) studied energy budgets of breeding northern fulmars (*Fulmarus glacialis*) in Shetland. As part of their study, they recorded various characteristics of individually labeled male and female fulmars. We will focus on differences between sexes in metabolic rate.
 
 3. Load the  `elgar` dataset from the `Chap3` folder on the github repository.
 
-> Elgar et al. (1996) studied the effect of lighting on the web structure of an orb- spinning spider. They set up wooden frames with two different light regimes (con- trolled by black or white mosquito netting), light and dim. A total of 17 orb spiders were allowed to spin their webs in both a light frame and a dim frame, with six days’ “rest” between trials for each spider, and the vertical and horizontal diameter of each web was measured. Whether each spider was allocated to a light or dim frame first was ran- domized. The null hypotheses were that the two variables (vertical diameter and horizontal diam- eter of the orb web) were the same in dim and light conditions.
+> Elgar et al. (1996) studied the effect of lighting on the web structure of an orb- spinning spider. They set up wooden frames with two different light regimes (controlled by black or white mosquito netting), light and dim. A total of 17 orb spiders were allowed to spin their webs in both a light frame and a dim frame, with six days’ “rest” between trials for each spider, and the vertical and horizontal diameter of each web was measured. Whether each spider was allocated to a light or dim frame first was randomized. The null hypotheses were that the two variables (vertical diameter and horizontal diameter of the orb web) were the same in dim and light conditions.
 
-2.  Calculate n, Mean, Median, Standard deviation, SE of the mean, 95% CI of mean for each group
-3.  Graphically evaluate the variance among the groups
-4.  Choose the correct type of test differences between each group. 
-
+4.  Calculate n, Mean, Median, Standard deviation, SE of the mean, 95% CI of mean for each group
+5.  Graphically evaluate the variance among the groups
+6.  Choose the correct type of test to test differences between each group. 
 

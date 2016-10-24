@@ -1,0 +1,109 @@
+---
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(RCurl)
+
+
+ward<-read_csv(getURL("https://raw.githubusercontent.com/chrischizinski/SNR_R_Group/master/data/ExperimentalDesignData/chpt3/ward.csv"))
+
+head(ward)
+
+ward_summ<-ward %>% 
+    group_by(ZONE) %>% 
+    summarize(N = n(),
+              Meaneggs = mean(EGGS),
+              Medianeggs = median(EGGS),
+              SDeggs = sd(EGGS)) %>% 
+    mutate(SEeggs = SDeggs/sqrt(N),
+           CI_hi = Meaneggs + 1.96* SEeggs,
+           CI_lo = Meaneggs - 1.96* SEeggs)
+
+ggplot(data = ward) + 
+  geom_boxplot(aes(x = ZONE, y = EGGS)) + 
+  theme_bw()
+
+ggplot(data = ward) + 
+  geom_violin(aes(x = ZONE, y = EGGS, fill = ZONE)) + 
+  theme_bw()
+
+data.frame(ZONE = ward_summ$ZONE, CV = ward_summ$SDeggs/ward_summ$Meaneggs)
+
+t.test(EGGS ~ ZONE, data = ward, var.equal = TRUE)
+
+t.test(EGGS ~ ZONE, data = ward, var.equal = FALSE)
+
+furness<-read_csv(getURL("https://raw.githubusercontent.com/chrischizinski/SNR_R_Group/master/data/ExperimentalDesignData/chpt3/furness.csv"))
+
+head(furness)
+
+furn_summ<-furness %>% 
+    group_by(SEX) %>% 
+    summarize(N = n(),
+              Meanmetrate = mean(METRATE),
+              Medianmetrate = median(METRATE),
+              SDmetrate = sd(METRATE)) %>% 
+    mutate(SEmetrate = SDmetrate/sqrt(N),
+           CI_hi = Meanmetrate + 1.96* SEmetrate,
+           CI_lo = Meanmetrate - 1.96* SEmetrate)
+
+ggplot(data = furness) + 
+  geom_boxplot(aes(x = SEX, y = METRATE)) + 
+  theme_bw()
+
+ggplot(data = furness) + 
+  geom_violin(aes(x = SEX, y = METRATE, fill = METRATE)) + 
+  theme_bw()
+
+data.frame(SEX = furn_summ$SEX, CV = furn_summ$SDmetrate/furn_summ$Meanmetrate)
+
+t.test(METRATE ~ SEX, data = furness, var.equal = TRUE)
+
+t.test(METRATE ~ SEX, data = furness, var.equal = FALSE)
+
+elgar<-read_csv(getURL("https://raw.githubusercontent.com/chrischizinski/SNR_R_Group/master/data/ExperimentalDesignData/chpt3/elgar.csv"))
+
+head(elgar)
+names(elgar) <-c("PAIR", "VERT_DIM", "HORIZ_DIM", "VERT_LIGH","HORIZ_LIGH")
+
+elgar %>% 
+  gather(type, value, -PAIR) %>% 
+  separate(type, c("DIMEN","L_COND"), sep = "_") %>% 
+  group_by(DIMEN,L_COND) %>% 
+  summarize(N = n(),
+              Meanradius = mean(value),
+              Medianradius = median(value),
+              SDradius = sd(value)) %>% 
+    mutate(SEradius = SDradius/sqrt(N),
+           CI_hi = Meanradius + 1.96* SEradius,
+           CI_lo = Meanradius - 1.96* SEradius)
+
+elgar %>% 
+  gather(type, value, -PAIR) %>% 
+  separate(type, c("DIMEN","L_COND"), sep = "_") %>% 
+  ggplot() +
+  geom_violin(aes(x = L_COND, y = value, fill = L_COND)) +
+  facet_wrap(~DIMEN, ncol = 1) +
+  theme_bw()
+
+elgar %>% 
+  gather(type, value, -PAIR) %>% 
+  separate(type, c("DIMEN","L_COND"), sep = "_") %>% 
+  mutate(DIMEN2 = factor(DIMEN, labels = c("beta", "sqrt(x,y)"))) %>% 
+  ggplot() +
+  geom_violin(aes(x = L_COND, y = value, fill = L_COND)) +
+  facet_wrap(~DIMEN, ncol = 2, labeller = label_bquote(cols = alpha^.(DIMEN))) +
+  theme_bw()
+
+head(elgar)
+
+t.test(elgar$VERT_DIM, elgar$VERT_LIGH, paired = TRUE)
+t.test(elgar$HORIZ_DIM, elgar$HORIZ_LIGH, paired = TRUE)
+```
+
