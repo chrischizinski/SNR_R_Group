@@ -1,15 +1,22 @@
 ---
-title: "Correlation and Regression"
+title: "Correlation"
 output: html_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
+```
+
+```{r}
 library(tidyverse)
 library(gridExtra)
 library(RCurl)
+library(MASS)
 ```
+
+
+The RMarkdown file for this lesson can be found [here]()
 
 ## Correlation analysis
 
@@ -165,10 +172,9 @@ p
 ```
 
 ```{r}
-# library(MASS)
-# dens1 <- kde2d(crabs$TOTMASS[crabs$SITE =="LS"], crabs$BURROWS[crabs$SITE =="LS"], n = 100, lims = c(0,8,0,120))
-# 
-# densdf <- data.frame(expand.grid(TOTMASS = dens1$x, BURROWS =dens1$y), z = as.vector(dens1$z), SITE = "LS")
+dens1 <- kde2d(crabs$TOTMASS[crabs$SITE =="LS"], crabs$BURROWS[crabs$SITE =="LS"], n = 100, lims = c(0,8,0,120))
+
+densdf <- data.frame(expand.grid(TOTMASS = dens1$x, BURROWS =dens1$y), z = as.vector(dens1$z), SITE = "LS")
 
 # library(ks)
 # d<-crabs[,c("TOTMASS","BURROWS")]
