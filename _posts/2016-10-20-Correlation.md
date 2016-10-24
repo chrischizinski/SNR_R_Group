@@ -5,6 +5,11 @@ tags: [R, correlation, parametric, non-parametric]
 ---
 
 
+The RMarkdown file for this lesson can be found [here](https://raw.githubusercontent.com/chrischizinski/SNR_R_Group/master/Rmd/2016-10-20-Correlation.Rmd)
+
+## Correlation analysis
+
+Consider a study, where we are interested in the relationship between two random variables. 
 
 
 {% highlight r %}
@@ -71,12 +76,6 @@ library(RCurl)
 library(MASS)
 {% endhighlight %}
 
-
-The RMarkdown file for this lesson can be found [here](https://raw.githubusercontent.com/chrischizinski/SNR_R_Group/master/Rmd/2016-10-20-Correlation.Rmd)
-
-## Correlation analysis
-
-Consider a study, where we are interested in the relationship between two random variables. 
 
 ### Bivariate normal distribution
 
