@@ -16,7 +16,7 @@ library(MASS)
 ```
 
 
-The RMarkdown file for this lesson can be found [here]()
+The RMarkdown file for this lesson can be found [here](https://raw.githubusercontent.com/chrischizinski/SNR_R_Group/master/Rmd/2016-10-20-Correlation.Rmd)
 
 ## Correlation analysis
 
@@ -140,6 +140,7 @@ cor(x1, y1, method ="kendall")
 
 ### Parametric and non-parametric confidence regions
 
+When representing a bivariate relationship with a scatterplot, it is often useful to include confidence regions.  The confidence region is the region within which we would expect the observation represented by the population mean of the two variables to occur a percent of the time under repeated sampling from this population.
 
 
 ```{r}
@@ -158,6 +159,10 @@ ggplot(data = crabs) +
 
 ```
 
+#### Confidence ellipse
+
+Assuming our two variables follow a bivariate normal distribution, the confidence band will always be an ellipse centered on the sample means of \\( y_{i1} \\) and \\(y_{i2} \\)  and the orientation of the ellipse is determined by the covariance or correlation.
+
 ```{r}
 p<-ggplot(data = crabs) +
   geom_point(aes(x = TOTMASS, y = BURROWS), size = 2) +
@@ -171,39 +176,47 @@ p<-ggplot(data = crabs) +
 p
 ```
 
+#### Kernel density
+
+Sometimes we are not interested in the population mean of \\( y_{i1} \\) and \\(y_{i2} \\) but we just want a confidence interval based on the observed data.  The kernel density for a value of *y
+* is the sum of hte estimates from a series of symmetrical distributuoins fitted to groups of local observations.  Note that they are not constrained to an elliptical shape.  
+
 ```{r}
+
+## For site LS
 dens1 <- kde2d(crabs$TOTMASS[crabs$SITE =="LS"], crabs$BURROWS[crabs$SITE =="LS"], n = 100, lims = c(0,8,0,120))
 
 densdf <- data.frame(expand.grid(TOTMASS = dens1$x, BURROWS =dens1$y), z = as.vector(dens1$z), SITE = "LS")
 
-# library(ks)
-# d<-crabs[,c("TOTMASS","BURROWS")]
-# hscv1 <- Hscv(d)
-# fhat <- ks::kde(d, H=hscv1, compute.cont=TRUE)
-# 
-# densdf <- data.frame(expand.grid(TOTMASS = fhat[["eval.points"]][[1]], BURROWS =fhat[["eval.points"]][[2]]), z = as.vector(fhat[['estimate']]), SITE = "LS")
-# d<-crabs[,c("TOTMASS","BURROWS")]
-# getLevel <- function(x,y,prob=0.95) {
-#     kk <- MASS::kde2d(x,y)
-#     dx <- diff(kk$x[1:2])
-#     dy <- diff(kk$y[1:2])
-#     sz <- sort(kk$z)
-#     c1 <- cumsum(sz) * dx * dy
-#     approx(c1, sz, xout = 1 - prob)$y
-# }
-# L95 <- getLevel(crabs$TOTMASS[crabs$SITE=="LS"],crabs$BURROWS[crabs$SITE=="LS"])
-# 
-# ggplot(data = crabs) +
-#   # geom_point(aes(x = TOTMASS, y = BURROWS), size = 2) +
-#   # stat_ellipse(geom = "polygon", aes(x = TOTMASS, y = BURROWS), type = "norm", level = 0.95, fill = "pink", alpha = 0.25, color = "black") +
-# 
-#   geom_contour(data=densdf,aes(x = TOTMASS, y = BURROWS,z=z), breaks=L95, color="red")
-#   geom_contour(data=densdf,aes(x = TOTMASS, y = BURROWS, z=z, breaks = L95)) +
-#   facet_wrap(~SITE, ncol = 2) +
-#   coord_cartesian(xlim = c(0,8), ylim = c(0, 120), expand = F) +
-#   scale_x_continuous(breaks = seq(0,8, by=2)) +
-#   labs(x = "Total crab biomass", y = "Number of burrows") +
-#   theme_bw()
+densdf$SITE<-factor(densdf$SITE, levels = c("LS","DS"))
+
+getLevel <- function(x,y,prob=0.95) {
+    kk <- MASS::kde2d(x,y)
+    dx <- diff(kk$x[1:2])
+    dy <- diff(kk$y[1:2])
+    sz <- sort(kk$z)
+    c1 <- cumsum(sz) * dx * dy
+    approx(c1, sz, xout = 1 - prob)$y
+}
+L95 <- getLevel(crabs$TOTMASS[crabs$SITE=="LS"],crabs$BURROWS[crabs$SITE=="LS"])
+
+## For site DS
+dens2 <- kde2d(crabs$TOTMASS[crabs$SITE =="DS"], crabs$BURROWS[crabs$SITE =="DS"], n = 100, lims = c(0,8,0,120))
+
+densdf2 <- data.frame(expand.grid(TOTMASS = dens2$x, BURROWS =dens2$y), z = as.vector(dens2$z), SITE = "DS")
+densdf2$SITE<-factor(densdf2$SITE, levels = c("LS","DS"))
+L952 <- getLevel(crabs$TOTMASS[crabs$SITE=="DS"],crabs$BURROWS[crabs$SITE=="DS"])
+
+
+ggplot(data = crabs) +
+  geom_point(aes(x = TOTMASS, y = BURROWS), size = 2) +
+  geom_contour(data=densdf,aes(x = TOTMASS, y = BURROWS,z=z), breaks=L95, color="red", linetype = "dashed") +
+    geom_contour(data=densdf2,aes(x = TOTMASS, y = BURROWS,z=z), breaks=L952, color="blue", linetype = "dashed") +
+  facet_wrap(~SITE, ncol = 2) +
+  coord_cartesian(xlim = c(0,8), ylim = c(0, 120), expand = F) +
+  scale_x_continuous(breaks = seq(0,8, by=2)) +
+  labs(x = "Total crab biomass", y = "Number of burrows") +
+  theme_bw()
 
 ```
 

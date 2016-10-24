@@ -241,10 +241,10 @@ wilcox.test(mpg ~ am, data=mtcars)
 
 Wilcoxon signed-rank test to test the H0 that the two sets of observations come from the same population against the HA that the pop- ulations differ in location (mean or median). 
 
-1. Calculate the difference between the obser- vations for each pair, noting the sign of each difference. If H0 is true, we would expect roughly equal numbers of   and   signs.
+1. Calculate the difference between the observations for each pair, noting the sign of each difference. If H0 is true, we would expect roughly equal numbers of   and   signs.
 2. Calculate the sum of the positive ranks and the sum of the negative ranks.
 3. Compare the smaller of these rank sums to the probability distribution of rank sums, based on randomization, and test in the usual manner.
-4. For larger sample sizes, the probability distribution of rank sums follows a normal distribu- tion and the z statistic can be used
+4. For larger sample sizes, the probability distribution of rank sums follows a normal distribution and the z statistic can be used
 
 ```{r}
 head(immer) 
@@ -270,4 +270,6 @@ wilcox.test(immer$Y1, immer$Y2, paired=TRUE)
 4.  Calculate n, Mean, Median, Standard deviation, SE of the mean, 95% CI of mean for each group
 5.  Graphically evaluate the variance among the groups
 6.  Choose the correct type of test to test differences between each group. 
+
+Click here for [answers](https://chrischizinski.github.io/SNR_R_Group/answers/answer4.html)
 
