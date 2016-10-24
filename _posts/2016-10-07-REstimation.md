@@ -1,7 +1,6 @@
 ---
 title: "Estimation"
 output: html_document
-tags: [R, "central tendency", "data spread", "resampling"]
 ---
 
 
@@ -88,7 +87,34 @@ Lets visualize this using a histogram.  There are two approaches we can do this.
 {% highlight r %}
 library(ggplot2)
 library(dplyr)
+{% endhighlight %}
 
+
+
+{% highlight text %}
+## 
+## Attaching package: 'dplyr'
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## The following objects are masked from 'package:stats':
+## 
+##     filter, lag
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union
+{% endhighlight %}
+
+
+
+{% highlight r %}
 # We can set the number of bins to add the data
 
 ggplot(data = rand_data) +
@@ -96,7 +122,7 @@ ggplot(data = rand_data) +
   theme_bw()
 {% endhighlight %}
 
-![plot of chunk unnamed-chunk-2](/SNR_R_Group/figs/2016-10-02-REstimation/unnamed-chunk-2-1.png)
+![plot of chunk unnamed-chunk-2](/SNR_R_Group/figs/2016-10-07-REstimation/unnamed-chunk-2-1.png)
 
 {% highlight r %}
 # or we can set how wide we want the binds to be
@@ -105,7 +131,7 @@ ggplot(data = rand_data) +
   theme_bw()
 {% endhighlight %}
 
-![plot of chunk unnamed-chunk-2](/SNR_R_Group/figs/2016-10-02-REstimation/unnamed-chunk-2-2.png)
+![plot of chunk unnamed-chunk-2](/SNR_R_Group/figs/2016-10-07-REstimation/unnamed-chunk-2-2.png)
 
 {% highlight r %}
 # use dplyr to create bins and then geom_bar to create plot
@@ -122,7 +148,7 @@ ggplot(data = summ_data) +
   theme_bw()
 {% endhighlight %}
 
-![plot of chunk unnamed-chunk-2](/SNR_R_Group/figs/2016-10-02-REstimation/unnamed-chunk-2-3.png)
+![plot of chunk unnamed-chunk-2](/SNR_R_Group/figs/2016-10-07-REstimation/unnamed-chunk-2-3.png)
 
 #### L-estimator
 
@@ -302,7 +328,26 @@ install.packages('psych')
 
 {% highlight r %}
 library(psych)
+{% endhighlight %}
 
+
+
+{% highlight text %}
+## 
+## Attaching package: 'psych'
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## The following objects are masked from 'package:ggplot2':
+## 
+##     %+%, alpha
+{% endhighlight %}
+
+
+
+{% highlight r %}
 winsor.mean(concentration, trim = 0.1)  
 {% endhighlight %}
 
@@ -324,7 +369,26 @@ Not commonly used but do have a role in robust regression and ANOVA techniques f
 
 {% highlight r %}
 library(MASS)  #requires the MASS package
+{% endhighlight %}
 
+
+
+{% highlight text %}
+## 
+## Attaching package: 'MASS'
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## The following object is masked from 'package:dplyr':
+## 
+##     select
+{% endhighlight %}
+
+
+
+{% highlight r %}
 data(chem)  #load the chem dataset
 
 chem_data<-data.frame(ind = 1:length(chem),chem = chem)
@@ -334,7 +398,7 @@ ggplot(data = chem_data) +
   theme_bw()
 {% endhighlight %}
 
-![plot of chunk unnamed-chunk-9](/SNR_R_Group/figs/2016-10-02-REstimation/unnamed-chunk-9-1.png)
+![plot of chunk unnamed-chunk-9](/SNR_R_Group/figs/2016-10-07-REstimation/unnamed-chunk-9-1.png)
 
 We can see from this data that there is one HUGE outlier.  Running `huber` and `mean` give us different results.  
 
@@ -418,7 +482,7 @@ wilcox.test(fake_data,  conf.int = TRUE)$estimate
 
 {% highlight text %}
 ## (pseudo)median 
-##       9.499973
+##       9.499999
 {% endhighlight %}
 
 
@@ -671,7 +735,7 @@ ggplot(data = x) +
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 {% endhighlight %}
 
-![plot of chunk unnamed-chunk-20](/SNR_R_Group/figs/2016-10-02-REstimation/unnamed-chunk-20-1.png)
+![plot of chunk unnamed-chunk-20](/SNR_R_Group/figs/2016-10-07-REstimation/unnamed-chunk-20-1.png)
 
 You can see the difference in the above plot.  Standard deviations describe the spread in the data, whereas the standard error describes where the mean (or predicted value) falls.  
 
@@ -744,7 +808,7 @@ ggplot(data = stor_vals) +
   theme_bw()
 {% endhighlight %}
 
-![plot of chunk unnamed-chunk-21](/SNR_R_Group/figs/2016-10-02-REstimation/unnamed-chunk-21-1.png)
+![plot of chunk unnamed-chunk-21](/SNR_R_Group/figs/2016-10-07-REstimation/unnamed-chunk-21-1.png)
 
 ##### Bootstrapping
 
@@ -809,7 +873,7 @@ ggplot(data = stor_vals_bs) +
   theme_bw()
 {% endhighlight %}
 
-![plot of chunk unnamed-chunk-22](/SNR_R_Group/figs/2016-10-02-REstimation/unnamed-chunk-22-1.png)
+![plot of chunk unnamed-chunk-22](/SNR_R_Group/figs/2016-10-07-REstimation/unnamed-chunk-22-1.png)
 
 #### Now it is your turn
 
