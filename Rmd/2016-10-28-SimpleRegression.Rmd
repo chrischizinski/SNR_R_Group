@@ -1,5 +1,5 @@
 ---
-title: "Regression"
+title: "Simple regression"
 output: html_document
 ---
 
@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 The RMarkdown file for this lesson can be found [here](https://raw.githubusercontent.com/chrischizinski/SNR_R_Group/master/Rmd/2016-10-20-XXXX.Rmd).
 
-This lesson will follow Chapter 5 and 6 in Quinn and Keough (2002).
+This lesson will follow Chapter 5 in Quinn and Keough (2002).
 
 Load the packages we will be using in this lesson
 
@@ -21,6 +21,10 @@ library(RCurl)
 library(mgcv)
 library(tidyverse)
 library(broom)
+library(Rfit)
+library(mgcv)
+library(gtable)
+library(lmodel2)
 ```
 
 
@@ -156,7 +160,6 @@ ggplot(data = cwd_data) +
   theme_bw()
 
 # or via a GAM
-library(mgcv)
 
 ggplot(data = cwd_data) + 
   geom_point(aes(x = RIP.DENS, y = CWD.DENS), size = 2) +
@@ -288,9 +291,6 @@ tidy(anova(mod_cwd))
 ####  Scatterplot with marginal boxplots
 
 ```{r}
-
-library(gtable)
-
 ## Create the base scatterplot
 
 p1 <- ggplot(data = cwd_data) + 
@@ -363,11 +363,9 @@ gt <- gtable_add_grob(gt, gt3, 2, 2)
 grid.newpage()
 grid.draw(gt)
 
-grid.rect(x = 0.5, y = 0.5, height = 0.995, width = 0.995, default.units = "npc", 
-    gp = gpar(col = "black", fill = NA, lwd = 1))
+# grid.rect(x = 0.5, y = 0.5, height = 0.995, width = 0.995, default.units = "npc", 
+#     gp = gpar(col = "black", fill = NA, lwd = 1))
 ```
-
-
 
 #### Assumptions of a regression model
 
@@ -517,7 +515,6 @@ ggplot(data = fake_pred) +
 
 ```{r}
  # install.packages('lmodel2')
- library(lmodel2)
  
  data(mod2ex2)
  
@@ -538,3 +535,67 @@ Ex2.res
 
 -  Minimize the sum of absolute values of the residuals rather than the sum of squared residuals 
     - not squaring the residuals, extreme observations have less influence on the fitted model
+    
+##### M-estimator
+
+- M-estimators involve minimizing the sum of some function of \\( e_i )\\
+- Huber M-estimators, [described earlier](https://chrischizinski.github.io/SNR_R_Group/2016-10-07-REstimation), weight the observations differently depending how far they are from the central tendency
+
+```{r}
+crime_data <- read_csv(getURL("https://raw.githubusercontent.com/chrischizinski/SNR_R_Group/master/data/crime_data.csv"))
+head(crime_data)
+
+crime_mod <- lm(crime ~ single, data = crime_data)
+summary(crime_mod)
+
+crime_fit <- data.frame(state = crime_data$state, augment(crime_mod))
+
+
+```
+
+```{r}
+ggplot(data = crime_fit) +
+  geom_line(aes(x = single,  y = .fitted), color = "red") +
+  geom_point(aes(x = single,  y = crime, colour = .std.resid ), size = 2) +
+  geom_text(aes(x = single,  y = crime, label = state ), hjust = 0, vjust = 1) +
+  scale_colour_continuous(low = "red", high = "blue") +
+  theme_bw()
+```
+
+```{r}
+mod_huber <- rlm(crime ~ single, data = crime_data)
+summary(mod_huber)
+
+huber_dat<-data.frame(state = crime_data$state, augment(mod_huber), weight = mod_huber$w)
+
+```
+
+
+```{r}
+ggplot(data = huber_dat) +
+  geom_line(aes(x = single,  y = .fitted), color = "red") +
+  geom_point(aes(x = single,  y = crime, colour = weight ), size = 2) +
+  geom_text(aes(x = single,  y = crime, label = state ), hjust = 0, vjust = 1) +
+  scale_colour_continuous(low = "red", high = "blue") +
+  theme_bw()
+```
+
+#### Rank-based regression
+
+- Does not assume any specific distribution of the error terms but still fits the usual linear regression model
+    - Transformations are either ineffective or misrepresent the underlying biological process
+
+```{r}
+# install.packages("Rfit")
+
+mod_rank <- rfit(crime ~ single, data = crime_data)
+summary(mod_rank)
+
+
+```
+
+### Relationship between regression and correlation
+
+- Simple correlation analysis is used when we seek to  measure the strength of the linear relationship (the correlation coefficient) between the two variables 
+- Regression analysis is used when we  can biologically distinguish a response \\(( Y \\) to a predictor variable \\( X \\) 
+    - We can construct a model relating \\(( Y \\) to \\( X \\) and this to predict \\(( Y \\) from \\( X \\)
