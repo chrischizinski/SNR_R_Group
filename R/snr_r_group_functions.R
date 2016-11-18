@@ -1,4 +1,4 @@
-scatter_with_box <- function(xvar,yvar, xlim=NULL, ylim=NULL, data){
+scatter_with_box <- function(xvar,yvar, xlim=NULL, ylim=NULL, xlabel=NULL, ylabel=NULL,data){
   require(ggplot2)
   require(gtable)
   
@@ -10,12 +10,20 @@ scatter_with_box <- function(xvar,yvar, xlim=NULL, ylim=NULL, data){
     ylim<-range(data[names(data)==yvar])
   }
   
+  if(is.null(xlabel)){
+    xlabel<-xvar
+  }
+  
+  if(is.null(ylabel)){
+    ylabel<-yvar
+  }
+  
   ## Create the base scatterplot
   
   p1 <- ggplot(data = data) + 
     geom_point(aes(x = eval(parse(text = xvar)), y = eval(parse(text = yvar)))) + 
     coord_cartesian(xlim = xlim, ylim = ylim, expand = FALSE) +
-    labs(x = "Predicted value", y = "Residual") +
+    labs(x = xlabel, y = ylabel) +
     theme_bw() +
     theme(plot.margin = unit(c(0.2, 0.2, 0.5, 0.5), "lines"))
   
