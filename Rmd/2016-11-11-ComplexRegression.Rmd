@@ -19,6 +19,9 @@ library(RCurl)
 library(tidyverse)
 library(broom)
 library(GGally)
+library(devtools)
+
+source_url('https://raw.githubusercontent.com/chrischizinski/SNR_R_Group/master/R/snr_r_group_functions.R')
 ```
 
 
@@ -70,6 +73,22 @@ summary(bird_mod)
 
 anova(bird_mod)
 ```
+
+And now take a look at the prediction with the residuals.  First we want to use the `augment()` function from the `broom` package to create the predictions. 
+
+```{r}
+mod_pred <- augment(bird_mod)
+glimpse(mod_pred)
+
+
+
+
+
+scatter_with_box(xvar=".fitted",yvar=".resid", xlim=c(0,45), ylim=c(-20,20), xlabel ="Predicted value", ylabel = "Residual", data=mod_pred)
+
+
+```
+
 
 create a residual plot (std.resid) and a marginal plot 
 How would we make plots of these predictions?
