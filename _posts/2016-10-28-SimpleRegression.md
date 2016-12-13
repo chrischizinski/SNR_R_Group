@@ -81,25 +81,9 @@ glimpse(cwd_data)
 
 
 {% highlight text %}
-## Observations: 16
-## Variables: 17
-## $ LAKE     <chr> "Bay", "Bergner", "Crampton", "Long", "Roach", "Tende...
-## $ AREA     <int> 69, 9, 24, 8, 20, 175, 254, 22, 240, 85, 12, 25, 58, ...
-## $ CABIN    <dbl> 0.0, 0.0, 0.0, 0.0, 0.0, 0.6, 1.9, 3.6, 4.1, 4.8, 6.0...
-## $ RIP.DENS <int> 1270, 1210, 1800, 1875, 1300, 2150, 1330, 964, 961, 1...
-## $ RIP.BASA <int> 53, 37, 37, 27, 43, 75, 86, 35, 33, 28, 47, 30, 31, 3...
-## $ CWD.DENS <int> 442, 338, 965, 833, 613, 637, 298, 203, 48, 278, 316,...
-## $ CWD.BASA <int> 121, 41, 183, 130, 127, 134, 65, 52, 12, 46, 54, 97, ...
-## $ L10CABIN <dbl> 0.0000000, 0.0000000, 0.0000000, 0.0000000, 0.0000000...
-## $ LCWD.BAS <dbl> 2.082785, 1.612784, 2.262451, 2.113943, 2.103804, 2.1...
-## $ RESID1   <dbl> 51.393669, -21.675367, 52.170151, -9.493554, 53.92818...
-## $ PREDICT1 <dbl> 69.60633, 62.67537, 130.82985, 139.49355, 73.07181, 1...
-## $ RESID2   <dbl> 20.600685, -59.399315, 82.600685, 29.600685, 26.60068...
-## $ PREDICT2 <dbl> 100.399315, 100.399315, 100.399315, 100.399315, 100.3...
-## $ RESID3   <dbl> -0.968746, -80.968746, 61.031254, 8.031254, 5.031254,...
-## $ PREDICT3 <dbl> 121.968746, 121.968746, 121.968746, 121.968746, 121.9...
-## $ RESID4   <dbl> -0.11210186, -0.58210286, 0.06756414, -0.08094386, -0...
-## $ PREDICT4 <dbl> 2.1948869, 2.1948869, 2.1948869, 2.1948869, 2.1948869...
+## Observations: 0
+## Variables: 1
+## $ 404: Not Found <chr>
 {% endhighlight %}
 
 
@@ -111,6 +95,12 @@ ggplot(data = cwd_data) +
   theme_bw()
 {% endhighlight %}
 
+
+
+{% highlight text %}
+## Error in eval(expr, envir, enclos): object 'RIP.DENS' not found
+{% endhighlight %}
+
 ![plot of chunk unnamed-chunk-2](/SNR_R_Group/figs/2016-10-28-SimpleRegression/unnamed-chunk-2-1.png)
 
 `lm()' is the function in R to conduct simple linear regression.
@@ -118,20 +108,24 @@ ggplot(data = cwd_data) +
 
 {% highlight r %}
 mod_cwd <- lm(CWD.DENS ~  RIP.DENS, data = cwd_data)
+{% endhighlight %}
 
+
+
+{% highlight text %}
+## Error in eval(expr, envir, enclos): object 'CWD.DENS' not found
+{% endhighlight %}
+
+
+
+{% highlight r %}
 mod_cwd # displays the coefficients
 {% endhighlight %}
 
 
 
 {% highlight text %}
-## 
-## Call:
-## lm(formula = CWD.DENS ~ RIP.DENS, data = cwd_data)
-## 
-## Coefficients:
-## (Intercept)     RIP.DENS  
-##   -482.0245       0.6524
+## Error in eval(expr, envir, enclos): object 'mod_cwd' not found
 {% endhighlight %}
 
 
@@ -143,24 +137,7 @@ summary(mod_cwd) # displays a bunch more information
 
 
 {% highlight text %}
-## 
-## Call:
-## lm(formula = CWD.DENS ~ RIP.DENS, data = cwd_data)
-## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -283.65  -89.99  -20.71   92.69  272.69 
-## 
-## Coefficients:
-##              Estimate Std. Error t value   Pr(>|t|)    
-## (Intercept) -482.0245   126.5724  -3.808    0.00192 ** 
-## RIP.DENS       0.6524     0.0969   6.733 0.00000958 ***
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## Residual standard error: 150.2 on 14 degrees of freedom
-## Multiple R-squared:  0.764,	Adjusted R-squared:  0.7472 
-## F-statistic: 45.33 on 1 and 14 DF,  p-value: 0.000009581
+## Error in summary(mod_cwd): object 'mod_cwd' not found
 {% endhighlight %}
 
 There is a lot of information stored in our object `mod_cwd`.
@@ -173,9 +150,7 @@ names(mod_cwd)
 
 
 {% highlight text %}
-##  [1] "coefficients"  "residuals"     "effects"       "rank"         
-##  [5] "fitted.values" "assign"        "qr"            "df.residual"  
-##  [9] "xlevels"       "call"          "terms"         "model"
+## Error in eval(expr, envir, enclos): object 'mod_cwd' not found
 {% endhighlight %}
 
 We can call on these directly from our `mod_cwd` or use several 'helper' functions.
@@ -189,8 +164,7 @@ mod_cwd$coefficients
 
 
 {% highlight text %}
-##  (Intercept)     RIP.DENS 
-## -482.0245271    0.6524071
+## Error in eval(expr, envir, enclos): object 'mod_cwd' not found
 {% endhighlight %}
 
 
@@ -203,8 +177,7 @@ coef(mod_cwd)
 
 
 {% highlight text %}
-##  (Intercept)     RIP.DENS 
-## -482.0245271    0.6524071
+## Error in coef(mod_cwd): object 'mod_cwd' not found
 {% endhighlight %}
 
 
@@ -217,10 +190,7 @@ mod_cwd$residuals[1:10]  # display the first 10 residuals
 
 
 {% highlight text %}
-##          1          2          3          4          5          6 
-##   95.46757   30.61199  272.69183   91.76130  246.89535 -283.65064 
-##          7          8          9         10 
-##  -87.67686   56.10412  -96.93865 -153.34535
+## Error in eval(expr, envir, enclos): object 'mod_cwd' not found
 {% endhighlight %}
 
 
@@ -233,10 +203,7 @@ resid(mod_cwd)[1:10]
 
 
 {% highlight text %}
-##          1          2          3          4          5          6 
-##   95.46757   30.61199  272.69183   91.76130  246.89535 -283.65064 
-##          7          8          9         10 
-##  -87.67686   56.10412  -96.93865 -153.34535
+## Error in resid(mod_cwd): object 'mod_cwd' not found
 {% endhighlight %}
 
 
@@ -248,23 +215,7 @@ mod_cwd$model
 
 
 {% highlight text %}
-##    CWD.DENS RIP.DENS
-## 1       442     1270
-## 2       338     1210
-## 3       965     1800
-## 4       833     1875
-## 5       613     1300
-## 6       637     2150
-## 7       298     1330
-## 8       203      964
-## 9        48      961
-## 10      278     1400
-## 11      316     1280
-## 12      269      976
-## 13        5      771
-## 14       36      833
-## 15       11      883
-## 16       17      956
+## Error in eval(expr, envir, enclos): object 'mod_cwd' not found
 {% endhighlight %}
 
 The `broom` package makes inspection of the models a bit easier (although they are not too difficult) in base R.  The biggest plus for broom, is that the outputs of the models are returned in a tidy format. 
@@ -278,9 +229,7 @@ tidy(mod_cwd)
 
 
 {% highlight text %}
-##          term     estimate    std.error statistic        p.value
-## 1 (Intercept) -482.0245271 126.57242447 -3.808290 0.001919139303
-## 2    RIP.DENS    0.6524071   0.09689906  6.732852 0.000009581278
+## Error in tidy(mod_cwd): object 'mod_cwd' not found
 {% endhighlight %}
 
 
@@ -294,20 +243,7 @@ head(augment(mod_cwd))
 
 
 {% highlight text %}
-##   CWD.DENS RIP.DENS  .fitted  .se.fit     .resid       .hat   .sigma
-## 1      442     1270 346.5324 37.60939   95.46757 0.06271192 153.4340
-## 2      338     1210 307.3880 37.72064   30.61199 0.06308346 155.6054
-## 3      965     1800 692.3082 65.39508  272.69183 0.18960407 131.2693
-## 4      833     1875 741.2387 71.46726   91.76130 0.22644969 153.1426
-## 5      613     1300 366.1046 37.88968  246.89535 0.06365013 138.8604
-## 6      637     2150 920.6506 95.17612 -283.65064 0.40161828 118.0974
-##       .cooksd .std.resid
-## 1 0.014422585  0.6565957
-## 2 0.001492878  0.2105813
-## 3 0.475910054  2.0169830
-## 4 0.070638454  0.6946947
-## 5 0.098101659  1.6989187
-## 6 2.000561396 -2.4415935
+## Error in augment(mod_cwd): object 'mod_cwd' not found
 {% endhighlight %}
 
 
@@ -320,10 +256,7 @@ glance(mod_cwd)
 
 
 {% highlight text %}
-##   r.squared adj.r.squared    sigma statistic        p.value df    logLik
-## 1 0.7640368     0.7471823 150.1832   45.3313 0.000009581278  2 -101.8245
-##        AIC      BIC deviance df.residual
-## 1 209.6489 211.9667 315769.8          14
+## Error in glance(mod_cwd): object 'mod_cwd' not found
 {% endhighlight %}
 
 ##### Confidence intervals
@@ -343,6 +276,12 @@ ggplot(data = cwd_data) +
   theme_bw()
 {% endhighlight %}
 
+
+
+{% highlight text %}
+## Error in eval(expr, envir, enclos): object 'RIP.DENS' not found
+{% endhighlight %}
+
 ![plot of chunk unnamed-chunk-7](/SNR_R_Group/figs/2016-10-28-SimpleRegression/unnamed-chunk-7-1.png)
 
 We can also use `geom_smooth` to explore other non-linear relationships between \\( X \\) and \\( Y \\).
@@ -356,7 +295,13 @@ ggplot(data = cwd_data) +
   theme_bw()
 {% endhighlight %}
 
-![plot of chunk unnamed-chunk-8](/SNR_R_Group/figs/2016-10-28-SimpleRegression/unnamed-chunk-8-1.png)
+
+
+{% highlight text %}
+## Error in eval(expr, envir, enclos): object 'RIP.DENS' not found
+{% endhighlight %}
+
+
 
 {% highlight r %}
 # or via a GAM
@@ -368,7 +313,13 @@ ggplot(data = cwd_data) +
   theme_bw()
 {% endhighlight %}
 
-![plot of chunk unnamed-chunk-8](/SNR_R_Group/figs/2016-10-28-SimpleRegression/unnamed-chunk-8-2.png)
+
+
+{% highlight text %}
+## Error in eval(expr, envir, enclos): object 'RIP.DENS' not found
+{% endhighlight %}
+
+![plot of chunk unnamed-chunk-8](/SNR_R_Group/figs/2016-10-28-SimpleRegression/unnamed-chunk-8-1.png)
 
 While using `geom_smooth` makes nice visuals, I think you have a lot more flexibility when you build your own predictions.  The `predict()` function is one of my favorite functions in R.  
 
@@ -381,14 +332,24 @@ If we run the `predict()` with just the model, we get results the same as in the
 
 {% highlight r %}
 pred_values <- predict(mod_cwd)
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## Error in predict(mod_cwd): object 'mod_cwd' not found
+{% endhighlight %}
+
+
+
+{% highlight r %}
 head(pred_values)
 {% endhighlight %}
 
 
 
 {% highlight text %}
-##        1        2        3        4        5        6 
-## 346.5324 307.3880 692.3082 741.2387 366.1046 920.6506
+## Error in head(pred_values): object 'pred_values' not found
 {% endhighlight %}
 
 
@@ -401,7 +362,7 @@ head(augment(mod_cwd)$.fitted)
 
 
 {% highlight text %}
-## [1] 346.5324 307.3880 692.3082 741.2387 366.1046 920.6506
+## Error in augment(mod_cwd): object 'mod_cwd' not found
 {% endhighlight %}
 
 It helps to bind, your predictions (and the standard error) with those from your original data.  **NOTE**:  that augment already does this for you.  
@@ -409,7 +370,17 @@ It helps to bind, your predictions (and the standard error) with those from your
 
 {% highlight r %}
 fitted_vals <- cbind(cwd_data[,c("RIP.DENS","CWD.DENS")],predict(mod_cwd, se.fit = TRUE))
+{% endhighlight %}
 
+
+
+{% highlight text %}
+## Error: Unknown columns 'RIP.DENS', 'CWD.DENS'
+{% endhighlight %}
+
+
+
+{% highlight r %}
 ggplot(data = fitted_vals) + 
   geom_point(aes(x = RIP.DENS, y = CWD.DENS), size = 2) +
   geom_ribbon(aes(x = RIP.DENS, ymax = fit + 1.96*se.fit, ymin = fit - 1.96*se.fit), fill="#0E3386", alpha = 0.5) +
@@ -420,7 +391,11 @@ ggplot(data = fitted_vals) +
   theme_bw()
 {% endhighlight %}
 
-![plot of chunk unnamed-chunk-10](/SNR_R_Group/figs/2016-10-28-SimpleRegression/unnamed-chunk-10-1.png)
+
+
+{% highlight text %}
+## Error in ggplot(data = fitted_vals): object 'fitted_vals' not found
+{% endhighlight %}
 
 While these values are helpful in displaying the basic model fit, there are often times (especially when doing multiple linear regression) when you want to look at predictions based off specific values.  We can do this by using the `newdata` in `predict()`.  **NOTE** that the column header names need to reflect the independent values in your model.  
 
@@ -429,20 +404,24 @@ While these values are helpful in displaying the basic model fit, there are ofte
 nd <- data.frame(RIP.DENS = 800:2100)
 
 fitted_vals <- cbind(nd,predict(mod_cwd,newdata = nd, se.fit = TRUE))
+{% endhighlight %}
 
+
+
+{% highlight text %}
+## Error in predict(mod_cwd, newdata = nd, se.fit = TRUE): object 'mod_cwd' not found
+{% endhighlight %}
+
+
+
+{% highlight r %}
 head(fitted_vals)
 {% endhighlight %}
 
 
 
 {% highlight text %}
-##   RIP.DENS      fit   se.fit df residual.scale
-## 1      800 39.90112 57.35375 14       150.1832
-## 2      801 40.55352 57.28054 14       150.1832
-## 3      802 41.20593 57.20739 14       150.1832
-## 4      803 41.85834 57.13432 14       150.1832
-## 5      804 42.51075 57.06132 14       150.1832
-## 6      805 43.16315 56.98838 14       150.1832
+## Error in head(fitted_vals): object 'fitted_vals' not found
 {% endhighlight %}
 
 
@@ -457,19 +436,33 @@ ggplot(data = fitted_vals) +
   theme_bw()
 {% endhighlight %}
 
-![plot of chunk unnamed-chunk-11](/SNR_R_Group/figs/2016-10-28-SimpleRegression/unnamed-chunk-11-1.png)
+
+
+{% highlight text %}
+## Error in ggplot(data = fitted_vals): object 'fitted_vals' not found
+{% endhighlight %}
 
 
 ##### Residuals
 
-This difference between each observed  \\( \y_{i} \\) and each predicted \\( \hat{y_i} \\) is called a residual \\( \e_{i} \\):
+This difference between each observed  \\( y_{i} \\) and each predicted \\( \hat{y_i} \\) is called a residual \\( e_{i} \\):
 
 $$ e_i = y_i - \hat{y_i} $$
 
 
 {% highlight r %}
 fitted_vals <- cbind(cwd_data[,c("RIP.DENS","CWD.DENS")],predict(mod_cwd, se.fit = TRUE))
+{% endhighlight %}
 
+
+
+{% highlight text %}
+## Error: Unknown columns 'RIP.DENS', 'CWD.DENS'
+{% endhighlight %}
+
+
+
+{% highlight r %}
 ggplot(data = fitted_vals) +
     geom_segment(aes(x = RIP.DENS, xend = RIP.DENS,  y = CWD.DENS, yend = fit), linetype = 'dotted', alpha = 0.5) +
   geom_point(aes(x = RIP.DENS, y = CWD.DENS), size = 1, colour ="black") + 
@@ -478,7 +471,11 @@ ggplot(data = fitted_vals) +
   theme_bw()
 {% endhighlight %}
 
-![plot of chunk unnamed-chunk-12](/SNR_R_Group/figs/2016-10-28-SimpleRegression/unnamed-chunk-12-1.png)
+
+
+{% highlight text %}
+## Error in ggplot(data = fitted_vals): object 'fitted_vals' not found
+{% endhighlight %}
 
 #### Analysis of variance
 
@@ -509,11 +506,15 @@ ggplot(data = fitted_vals) +
   theme_bw()
 {% endhighlight %}
 
-![plot of chunk unnamed-chunk-13](/SNR_R_Group/figs/2016-10-28-SimpleRegression/unnamed-chunk-13-1.png)
+
+
+{% highlight text %}
+## Error in ggplot(data = fitted_vals): object 'fitted_vals' not found
+{% endhighlight %}
 
 - The \\( SS_{total} \\) increases with sample size.  The Mean SS is a measure of variability that does not depend on sample size.  MS is calculated by dividing SS by their df and thus, are not additive.  
 
-- The \\( MS_{Residual} \\) estimates the common variance of the error terms \\( \e_{i} \\), and therefore of the Y-values at each \\( x_i )\\.  **NOTE** a key assumption is homogeneity of variances. 
+- The \\( MS_{Residual} \\) estimates the common variance of the error terms \\( e_{i} \\), and therefore of the Y-values at each \\( x_i \\).  **NOTE** a key assumption is homogeneity of variances. 
 
 We can calculate the ANOVA table from our linear model in R by using the `anova()` statment. 
 
@@ -525,16 +526,14 @@ tidy(anova(mod_cwd))
 
 
 {% highlight text %}
-##        term df     sumsq     meansq statistic        p.value
-## 1  RIP.DENS  1 1022446.7 1022446.67   45.3313 0.000009581278
-## 2 Residuals 14  315769.8   22554.98        NA             NA
+## Error in anova(mod_cwd): object 'mod_cwd' not found
 {% endhighlight %}
 
-#### Variance explaned ( \\(r^2\\) or \\(R^2) \\))
+#### Variance explaned ( \\(r^2\\) or \\( R^2 \\))
 
 - descriptive measure of association between Y and X (also termed coefficient of variation). the proportion of the total variation in Y that is explained by its linear relationship with X. 
 
-- \\( 1 = \frac{SS_{residual}}{SS_{total}}
+- \\( 1 = \frac{SS_{residual}}{SS_{total}} \\)
 
 ####  Scatterplot with marginal boxplots
 
@@ -580,8 +579,36 @@ p3 <- ggplot(data = cwd_data) +
 
 {% highlight r %}
 gt1 <- ggplot_gtable(ggplot_build(p1))
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## Error in eval(expr, envir, enclos): object 'RIP.DENS' not found
+{% endhighlight %}
+
+
+
+{% highlight r %}
 gt2 <- ggplot_gtable(ggplot_build(p2))
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## Error in eval(expr, envir, enclos): object 'RIP.DENS' not found
+{% endhighlight %}
+
+
+
+{% highlight r %}
 gt3 <- ggplot_gtable(ggplot_build(p3))
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## Error in eval(expr, envir, enclos): object 'CWD.DENS' not found
 {% endhighlight %}
 
 
@@ -589,14 +616,73 @@ gt3 <- ggplot_gtable(ggplot_build(p3))
 {% highlight r %}
 # Get maximum widths and heights
 maxWidth <- unit.pmax(gt1$widths[2:3], gt2$widths[2:3])
-maxHeight <- unit.pmax(gt1$heights[4:5], gt3$heights[4:5])
+{% endhighlight %}
 
+
+
+{% highlight text %}
+## Error in unit.pmax(gt1$widths[2:3], gt2$widths[2:3]): object 'gt1' not found
+{% endhighlight %}
+
+
+
+{% highlight r %}
+maxHeight <- unit.pmax(gt1$heights[4:5], gt3$heights[4:5])
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## Error in unit.pmax(gt1$heights[4:5], gt3$heights[4:5]): object 'gt1' not found
+{% endhighlight %}
+
+
+
+{% highlight r %}
 # Set the maximums in the gtables for gt1, gt2 and gt3
 gt1$widths[2:3] <- as.list(maxWidth)
-gt2$widths[2:3] <- as.list(maxWidth)
+{% endhighlight %}
 
+
+
+{% highlight text %}
+## Error in as.list(maxWidth): object 'maxWidth' not found
+{% endhighlight %}
+
+
+
+{% highlight r %}
+gt2$widths[2:3] <- as.list(maxWidth)
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## Error in as.list(maxWidth): object 'maxWidth' not found
+{% endhighlight %}
+
+
+
+{% highlight r %}
 gt1$heights[4:5] <- as.list(maxHeight)
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## Error in as.list(maxHeight): object 'maxHeight' not found
+{% endhighlight %}
+
+
+
+{% highlight r %}
 gt3$heights[4:5] <- as.list(maxHeight)
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## Error in as.list(maxHeight): object 'maxHeight' not found
 {% endhighlight %}
 
 
@@ -606,16 +692,53 @@ gt <- gtable(widths = unit(c(7, 1), "null"), height = unit(c(1, 7), "null"))
 
 # Insert gt1, gt2 and gt3 into the new gtable
 gt <- gtable_add_grob(gt, gt1, 2, 1)
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## Error in is.grob(grobs): object 'gt1' not found
+{% endhighlight %}
+
+
+
+{% highlight r %}
 gt <- gtable_add_grob(gt, gt2, 1, 1)
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## Error in is.grob(grobs): object 'gt2' not found
+{% endhighlight %}
+
+
+
+{% highlight r %}
 gt <- gtable_add_grob(gt, gt3, 2, 2)
+{% endhighlight %}
 
 
+
+{% highlight text %}
+## Error in is.grob(grobs): object 'gt3' not found
+{% endhighlight %}
+
+
+
+{% highlight r %}
 # And render the plot
 grid.newpage()
 grid.draw(gt)
 {% endhighlight %}
 
-![plot of chunk unnamed-chunk-18](/SNR_R_Group/figs/2016-10-28-SimpleRegression/unnamed-chunk-18-1.png)
+
+
+{% highlight text %}
+## Error in mapply(child_vp, vp_name = vpname(x$layout), t = x$layout$t, : zero-length inputs cannot be mixed with those of non-zero length
+{% endhighlight %}
+
+
 
 {% highlight r %}
 # grid.rect(x = 0.5, y = 0.5, height = 0.995, width = 0.995, default.units = "npc", 
@@ -639,23 +762,84 @@ grid.draw(gt)
   
 ##### Leverage 
 
-- Leverage is a measure of how extreme an observation is for the \\(X)\\-variable
+- Leverage is a measure of how extreme an observation is for the \\(X \\)-variable
 
 - Generally concerned when a value is 2 or 3 times greater than the mean value
 
 
 {% highlight r %}
 fitted_vals2 <- cbind(cwd_data[,c("RIP.DENS","CWD.DENS")],predict(mod_cwd, se.fit = TRUE))
+{% endhighlight %}
 
+
+
+{% highlight text %}
+## Error: Unknown columns 'RIP.DENS', 'CWD.DENS'
+{% endhighlight %}
+
+
+
+{% highlight r %}
 mod_hat<-hatvalues(mod_cwd)
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## Error in hatvalues(mod_cwd): object 'mod_cwd' not found
+{% endhighlight %}
+
+
+
+{% highlight r %}
 mean_hat <- mean(mod_hat)
+{% endhighlight %}
 
+
+
+{% highlight text %}
+## Error in mean(mod_hat): object 'mod_hat' not found
+{% endhighlight %}
+
+
+
+{% highlight r %}
 fitted_vals2$resid.out <- 0
+{% endhighlight %}
 
+
+
+{% highlight text %}
+## Error in fitted_vals2$resid.out <- 0: object 'fitted_vals2' not found
+{% endhighlight %}
+
+
+
+{% highlight r %}
 fitted_vals2$resid.out[which(mod_hat > 2*mean_hat)] <- 1
+{% endhighlight %}
 
+
+
+{% highlight text %}
+## Error in fitted_vals2$resid.out[which(mod_hat > 2 * mean_hat)] <- 1: object 'fitted_vals2' not found
+{% endhighlight %}
+
+
+
+{% highlight r %}
 fitted_vals2$resid.out <- as.factor(fitted_vals2$resid.out )
+{% endhighlight %}
 
+
+
+{% highlight text %}
+## Error in is.factor(x): object 'fitted_vals2' not found
+{% endhighlight %}
+
+
+
+{% highlight r %}
 ggplot(data = fitted_vals2)  +
   geom_point(aes(x = RIP.DENS, y = CWD.DENS, colour = resid.out), size = 2) + 
   geom_line(aes(x = RIP.DENS, y = fit), color = "#002B5C", size = 1, linetype = "dashed") +
@@ -667,7 +851,11 @@ ggplot(data = fitted_vals2)  +
   theme(legend.position = c(0.90, 0.25))
 {% endhighlight %}
 
-![plot of chunk unnamed-chunk-19](/SNR_R_Group/figs/2016-10-28-SimpleRegression/unnamed-chunk-19-1.png)
+
+
+{% highlight text %}
+## Error in ggplot(data = fitted_vals2): object 'fitted_vals2' not found
+{% endhighlight %}
 
 
 ##### Residuals 
@@ -680,9 +868,29 @@ ggplot(data = fitted_vals2)  +
 
 {% highlight r %}
 std_res <- studres(mod_cwd)
+{% endhighlight %}
 
+
+
+{% highlight text %}
+## Error in lmwork(object): object 'mod_cwd' not found
+{% endhighlight %}
+
+
+
+{% highlight r %}
 fitted_vals2$resid.std <- std_res
+{% endhighlight %}
 
+
+
+{% highlight text %}
+## Error in eval(expr, envir, enclos): object 'std_res' not found
+{% endhighlight %}
+
+
+
+{% highlight r %}
 ggplot(data = fitted_vals2)  +
   geom_point(aes(x = RIP.DENS, y = resid.std), size = 2) + 
   coord_cartesian(ylim = c(-4, 4), xlim = c(750, 2200), expand = FALSE)  +
@@ -692,7 +900,13 @@ ggplot(data = fitted_vals2)  +
   theme_bw()
 {% endhighlight %}
 
-![plot of chunk unnamed-chunk-20](/SNR_R_Group/figs/2016-10-28-SimpleRegression/unnamed-chunk-20-1.png)
+
+
+{% highlight text %}
+## Error in ggplot(data = fitted_vals2): object 'fitted_vals2' not found
+{% endhighlight %}
+
+
 
 {% highlight r %}
 #outlier.test in car package
@@ -702,24 +916,30 @@ outlierTest(mod_cwd)
 
 
 {% highlight text %}
-## 
-## No Studentized residuals with Bonferonni p < 0.05
-## Largest |rstudent|:
-##    rstudent unadjusted p-value Bonferonni p
-## 6 -3.104947          0.0083667      0.13387
+## Error in outlierTest(mod_cwd): object 'mod_cwd' not found
 {% endhighlight %}
 
 
 ##### Influence
 
-- Cook’s distance statistic, \\( D_i )\\, is the measure of the influence each observation has on the fitted regression line and the estimates of the regression parameters.
+- Cook’s distance statistic, \\( D_i \\), is the measure of the influence each observation has on the fitted regression line and the estimates of the regression parameters.
 
-- A large \\( D_i )\\ indicates that removal of that observation would change the estimates of the regression parameters considerably
+- A large \\( D_i \\) indicates that removal of that observation would change the estimates of the regression parameters considerably
 
 
 {% highlight r %}
 fitted_vals3<-augment(mod_cwd)
+{% endhighlight %}
 
+
+
+{% highlight text %}
+## Error in augment(mod_cwd): object 'mod_cwd' not found
+{% endhighlight %}
+
+
+
+{% highlight r %}
 ggplot(data = fitted_vals3)  +
   geom_point(aes(x = RIP.DENS, y = CWD.DENS, colour = .cooksd ), size = 2) + 
   coord_cartesian(ylim = c(0, 1000), xlim = c(750, 2200), expand = FALSE)  +
@@ -729,16 +949,20 @@ ggplot(data = fitted_vals3)  +
   theme_bw()
 {% endhighlight %}
 
-![plot of chunk unnamed-chunk-21](/SNR_R_Group/figs/2016-10-28-SimpleRegression/unnamed-chunk-21-1.png)
+
+
+{% highlight text %}
+## Error in ggplot(data = fitted_vals3): object 'fitted_vals3' not found
+{% endhighlight %}
 
 
 #### Weighted least squares
 
 - Responses are averages with known sample sizes
 - Responses are estimates and SEs are available
-  - \\( w_i = \frac{1}{se(Y_i)^2} )\\
+  - \\( w_i = \frac{1}{se(Y_i)^2} \\)
 - Variance is proportional to X
-  -  \\( w_i = \frac{1}{X_i} )\\ or \\( w_i = \frac{1}{X_i^2} )\\
+  -  \\( w_i = \frac{1}{X_i} \\) or \\( w_i = \frac{1}{X_i^2} \\)
 
 
 {% highlight r %}
@@ -867,11 +1091,11 @@ ggplot(data = fake_pred) +
 - Model II Regression and the approach is controversial
 - If the purpose of regression is **prediction**, then OLS 
 - If the purpose of regression is **mechanisms**, then **not** OLS (?)
-  - error variability associated with both Y \\( \sigma_\epsilon^2 \\) and X \\( \sigma_\gamma^2 \\) and the OLS estimate of \\( \beta_1 \\) is biased towards zero 
+  - error variability associated with both Y \\( \sigma_{\epsilon}^2 \\) and X \\( \sigma_{\gamma}^2 \\) and the OLS estimate of \\( \beta_1 \\) is biased towards zero 
 - Major axis (MA) regression fits line minimizing the sum of squared perpendicular distances from each observation to the fitted line
-  - \\( \sigma_\epsilon^2 \\) = \\( \sigma_\gamma^2 \\)
+  - \\( \sigma_{\epsilon}^2 \\) = \\( \sigma_{\gamma}^2 \\)
 - Reduced major axis (RMA) regression or standard major axis (SMA) regression is fitted by minimizing the sum of areas of the triangles formed by vertical and horizontal lines from each observation to the fitted line
- - \\( \sigma_\epsilon^2 \propto \sigma_\x^2\\) and \\( \sigma_\gamma^2 \propto \sigma_\y^2\\)
+ - \\( \sigma_{\epsilon}^2 \propto \sigma_x^2 \\) and \\( \sigma_{\gamma}^2 \propto \sigma_y^2\\)
  
  
 
@@ -936,7 +1160,7 @@ Ex2.res
     
 ##### M-estimator
 
-- M-estimators involve minimizing the sum of some function of \\( e_i )\\
+- M-estimators involve minimizing the sum of some function of \\( e_i \\)
 - Huber M-estimators, [described earlier](https://chrischizinski.github.io/SNR_R_Group/2016-10-07-REstimation), weight the observations differently depending how far they are from the central tendency
 
 
