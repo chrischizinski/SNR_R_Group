@@ -22,11 +22,11 @@ library(multcomp)
 ## Comparing groups or treatments
 
 - Analysis of variance (ANOVA) is a  statistical technique to partition and analyze the variation of a continuous response variable
-- [Previously]() we used ANOVA to partition the variation in a response variable into that explained by the linear regression with one or more continuous predictor variables and that unexplained by the regression model
+- [Previously](https://chrischizinski.github.io/SNR_R_Group/2016-10-28-SimpleRegression) we used ANOVA to partition the variation in a response variable into that explained by the linear regression with one or more continuous predictor variables and that unexplained by the regression model
 - The statistical distinction between “classical regression” and “classical ANOVA” is artificial, which is why we can use the `lm()` with `anova()` or the `aov` function in R
 - Two prime reasons to use classical ANOVA:
-     1) examine the relative contribution of  sources of variation to the total amount of the variability in the response variable
-     2) test the null hypothesis (H0) that population group or treatment means are equal
+     1. examine the relative contribution of  sources of variation to the total amount of the variability in the response variable
+     2. test the null hypothesis (H0) that population group or treatment means are equal
      
 ### Single factor
 
@@ -45,7 +45,7 @@ library(multcomp)
      - Random - we are only using a random selection of all the possible levels of the factor 
           - usually make inferences about all the possible groups from our sample of groups
           - called: random effect models or Model 2 ANOVAs
-          - analogous to [Model 2 regression]()
+          - analogous to [Model 2 regression](https://chrischizinski.github.io/SNR_R_Group/2016-10-28-SimpleRegression)
           - draw conclusions about the population of groups from which we have randomly chosen a subset (like site or time)
           
 Lets begin exploring this in R, using the `medley` data
@@ -191,7 +191,7 @@ summary(med_aov)
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 {% endhighlight %}
 
-- Remember we can partition the total sum of squares (\\ SS_{T} \\) can be partitioned into two components:
+- Remember we can partition the total sum of squares \\( SS_{T} \\) can be partitioned into two components:
       - `ZINC` represents variation due to the difference between group means
             - calculated as \\( \bar{y_i} \\) - \\( \bar{y} \\)
             - df is the number of groups minus 1
@@ -200,7 +200,7 @@ summary(med_aov)
             - df is sum of the sample sizes minus the number of groups
             
 -  The mean squares from the ANOVA are sample variances
-      - \\( MS_{residuals} \\) estimates \\( \alpha_{\epsilon}^2 } \\) , the pooled population variance of the error terms within groups. (Assumes homogeneity of error variances)
+      - \\( MS_{residuals} \\) estimates \\( \alpha_{\epsilon}^2  \\) , the pooled population variance of the error terms within groups. (Assumes homogeneity of error variances)
       - \\( MS_{groups} \\) estimates the pooled variance of the error terms across groups plus:
             - a component representing the squared effects of the chosen
 groups if the factor is fixed
@@ -211,7 +211,7 @@ groups if the factor is fixed
 - Fixed effects: the null hypothesis tested in a single factor ANOVA is usually one of no difference between group means or no effect of treatments
 - Random effects:  the null hypothesis is that the variance between all possible groups equals zero
 
-If the H0 for a fixed factor is true, all \\( \alpha_i \\) equal zero (no group effects) and both \\( MS_{groups} \\) and \\( MS_{residual} \\) estimate \\( \alpha_{\epsilon}^2 } \\) and their ratio should be one. The ratio of two variances (or mean squares) is called an F-ratio.  
+If the H0 for a fixed factor is true, all \\( \alpha_i \\) equal zero (no group effects) and both \\( MS_{groups} \\) and \\( MS_{residual} \\) estimate \\( \alpha_{\epsilon}^2 \\) and their ratio should be one. The ratio of two variances (or mean squares) is called an F-ratio.  
 
 - If the H0 is false, then at least one \\( \alpha_i \\) will be different from zero. Therefore, \\( MS_{groups} \\) has a larger expected value than \\( MS_{residual} \\) and their F-ratio will be greater than one.
 
@@ -249,14 +249,15 @@ ggplot(data = f_prob) +
 
 ![plot of chunk unnamed-chunk-4](/SNR_R_Group/figs/2016-12-09-ANOVA_1factor/unnamed-chunk-4-1.png)
 
--Construction of the tests of null hypotheses is identical for fixed and random factors in the single factor ANOVA model but these null hypotheses have very different interpretations
+
+- Construction of the tests of null hypotheses is identical for fixed and random factors in the single factor ANOVA model but these null hypotheses have very different interpretations
       - The H0 for the fixed factor refers only to the groups used in the study whereas the H0 for the random factor refers to all the possible groups that could have been used
       - The assumption of equal within group variances is so important. For example, if \\( \alpha_{i1} \\) does not equal \\( \alpha_{i2} \\), then \\( MS_{residual} \\) does not estimate a single population variance , and we cannot construct a reliable F-ratio for testing the H0 of no group effects
 
 #### Unbalanced designs
 
 - Unequal sample sizes among groups can cause some problems:
-      1. Different group means will be estimated with dif-ferent levels of precision, which can make interpretation difficult 
+      1. Different group means will be estimated with different levels of precision, which can make interpretation difficult 
       2. ANOVA F test is more sensitive to violations of assumptions (i.e., homogeneity of variances) if sample sizes differ
       3. Estimation of group effects is  more difficult
       4. Power calculations for random effects models are difficult
@@ -302,7 +303,7 @@ What can be some of the issues with this measure?
 
 -  There are two variance components of interest
       - true variance between replicate observations within each group, averaged across groups is estimated by \\( MS_{residual} \\) or \\( \sigma_{\epsilon}^2 \\)
-      - true variance between the means of all the possible groups we could have used in our study is is termed the added variance component due to groups \\( \sigma_{\a}^2 \\)
+      - true variance between the means of all the possible groups we could have used in our study is is termed the added variance component due to groups \\( \sigma_{a}^2 \\)
 
 Explore this lets make a balanced dataset
 
