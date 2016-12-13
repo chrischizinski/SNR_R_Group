@@ -5,7 +5,7 @@ output: html_document
 
 
 
-The RMarkdown file for this lesson can be found [here](https://raw.githubusercontent.com/chrischizinski/SNR_R_Group/master/Rmd/2016-10-20-XXXX.Rmd).
+The RMarkdown file for this lesson can be found [here](https://raw.githubusercontent.com/chrischizinski/SNR_R_Group/master/Rmd/2016-11-11-MultipleRegression.Rmd).
 
 This lesson will follow Chapter 6 in Quinn and Keough (2002).
 
