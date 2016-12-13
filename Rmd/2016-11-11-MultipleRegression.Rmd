@@ -1,0 +1,221 @@
+---
+title: "Multiple regression"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+```
+
+The RMarkdown file for this lesson can be found [here](https://raw.githubusercontent.com/chrischizinski/SNR_R_Group/master/Rmd/2016-10-20-XXXX.Rmd).
+
+This lesson will follow Chapter 6 in Quinn and Keough (2002).
+
+Load the packages we will be using in this lesson
+
+```{r, message=FALSE}
+library(RCurl)
+library(tidyverse)
+library(broom)
+library(GGally)
+library(devtools)
+library(gridExtra)
+
+source_url('https://raw.githubusercontent.com/chrischizinski/SNR_R_Group/master/R/snr_r_group_functions.R')
+```
+
+
+## Multiple Linear regression analysis
+
+Our previous lesson was based on regression models with a single predictor and single response variable.  We can expand on these by increasing the number of predictor variables, which are called are *multiple linear regression* models.  Many of the tools that we covered to assess outliers and model fit can also be used in multiple linear regression.  We will not spend a lot of time going back over these in this lesson.  
+
+- Similar assumptions of the model to the simple models
+- Fixed Xs, random Y
+
+Model represented as: 
+$$ y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \dots + \beta_j x_{ij} + \dots \beta_p x_{ip} +    \epsilon_i  $$ 
+
+Lets illustrate these models using the `lyon` data found in `chapt6` folder found in the github repository.
+
+> Loyn (1987) selected 56 forest patches in southeastern Victoria, Australia, and related the abundance of forest birds in each patch to six predictor variables: patch area (ha), distance to nearest patch (km), distance to nearest larger patch (km), grazing stock (1 to 5 indicating light to heavy), altitude (m) and years since isolation (years). 
+
+```{r}
+bird_abund <- read_csv("https://raw.githubusercontent.com/chrischizinski/SNR_R_Group/master/data/ExperimentalDesignData/chpt06/loyn.csv")
+
+bird_abund$GRAZE <- as.factor(bird_abund$GRAZE)
+bird_abund$YEAR_SINCE <- 1987 - bird_abund$YR.ISOL
+
+glimpse(bird_abund)
+
+```
+
+Lets look at the correlation between the variables using the [`ggcorr()` function](https://briatte.github.io/ggcorr/) in  `GGally` package.
+
+```{r}
+# install.packages("GGally")
+
+ggcorr(bird_abund[, 1:10])
+
+ggcorr(bird_abund[, 1:10], geom = "blank", label = TRUE, hjust = 0.75) +
+  geom_point(size = 10, aes(color = coefficient > 0, alpha = abs(coefficient) > 0.5)) +
+  scale_alpha_manual(values = c("TRUE" = 0.25, "FALSE" = 0)) +
+  guides(color = FALSE, alpha = FALSE)
+
+```
+
+We run the regression similarly to the simple regression model.
+
+
+```{r}
+bird_mod <- lm(ABUND ~ L10AREA + L10DIST + L10LDIST + GRAZE + ALT + YEAR_SINCE, data = bird_abund)
+
+summary(bird_mod)
+
+anova(bird_mod)
+```
+
+And now take a look at the prediction with the residuals.  First we want to use the `augment()` function from the `broom` package to create the predictions. 
+
+```{r}
+mod_pred <- augment(bird_mod)
+glimpse(mod_pred)
+
+scatter_with_box(xvar=".fitted",yvar=".resid", xlim=c(0,45), ylim=c(-20,20), xlabel ="Predicted value", ylabel = "Residual", data=mod_pred)
+
+
+```
+
+### Predictions
+
+There is an increased level of complication when u
+
+### Interactions
+
+So far the models we have been working on have been additive.  Often when researching biological situations, we might anticipate that there are interactions between the independent variables where the influence on our dependent variable is multiplicative.  
+
+Take for an example this model: 
+
+$$ y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \epsilon_i  $$ 
+
+This assumes that the partial regression slope of \\( Y \\) on \\( X_1 \\) is independent of \\( X_2 \\) and vice-versa.  
+
+Consider this model:
+
+$$ y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \beta_3 x_{i1}x_{i2}+ \epsilon_i  $$ 
+
+The new term \\(\beta_3 x_{i1}x_{i2} \)) in this model represents the interactive effect of \\(X_1\\) and \\(X_2\\) on Y. It measures the dependence of the partial regression slope of Y against \\(X_1\\) on the value of \\(X_2\\) and the dependence of the partial regression slope of Y against \\(X_2\\) on the value of \\(X_1\\). These partial slopes are no longer independent.
+
+To look at this, lets use the the `parulo.csv` data set in `chapt06`
+
+```{r}
+paruelo <- read_csv("https://raw.githubusercontent.com/chrischizinski/SNR_R_Group/master/data/ExperimentalDesignData/chpt06/paruelo.csv")
+
+glimpse(paruelo)
+```
+
+Lets fit a couple of models of the abundance of the C3 grasses with Lattitude, Longitude, and then all variables with an interaction.  
+
+```{r}
+mod1 <- lm(C3 ~ LAT, data = paruelo)
+mod2 <- lm(C3 ~ LONG, data = paruelo)
+mod3 <- lm(C3 ~ LAT+LONG, data = paruelo)
+mod4 <- lm(C3 ~ LAT*LONG, data = paruelo)
+
+summary(mod1)
+summary(mod2)
+summary(mod3)
+summary(mod4)
+```
+
+##### Interpretation
+
+The estimate of \\( \beta_1 \\) is  the regression slope of Y on \\(X_1\\) when \\(X_2\\) is constant. If there is an interaction (i.e., \\( \beta_3\\) does not equal zero), the slope will  change for  values of \\(X_2\\); if there is not an interaction (\\ \beta_3\\) equals zero), then this slope will be constant for all levels of \\(X_2\\). Thus, when there is a significant interaction, we care little about the main effects in the model. 
+
+```{r}
+range(paruelo$LAT)
+range(paruelo$LONG)
+
+newdata <- expand.grid(LAT = seq(min(paruelo$LAT), max(paruelo$LAT), by = 1),
+                       LONG = range(paruelo$LONG))
+
+mod_pred1 <- augment(mod3, newdata = newdata)
+
+mod_pred2 <- augment(mod4, newdata = newdata)
+```
+
+```{r}
+ggplot(data = mod_pred1) + 
+  geom_line(aes(x = LAT, y= .fitted, colour=as.factor(LONG)), size = 1) +
+  labs(x = "Lattitude", y = "C3 Grass abundance", title ="No interaction") +
+  theme_bw()
+
+p1<-ggplot(data = mod_pred2) + 
+  geom_line(aes(x = LAT, y= .fitted, colour=as.factor(LONG)), size = 1) +
+  labs(x = "Lattitude", y = "C3 Grass abundance", title ="With interaction") +
+  theme_bw()
+
+p
+
+```
+
+
+
+
+##### Centering
+
+One issue with including interactions, is that \\(X_1\\) and \\(X_2\\) are highly correlated with \\(X_1* X_2\\).
+
+As an example lets look at `LAT` and `LONG`
+
+```{r}
+paruelo$LATxLONG <- paruelo$LAT * paruelo$LONG
+
+
+ggcorr(paruelo[, c(1,7,8,15)], geom = "blank", label = TRUE, hjust = 0.75) +
+  geom_point(size = 10, aes(color = coefficient > 0, alpha = abs(coefficient) > 0.5)) +
+  scale_alpha_manual(values = c("TRUE" = 0.25, "FALSE" = 0)) +
+  guides(color = FALSE, alpha = FALSE)
+
+```
+
+Remember that with highly correlated variables are all the computational issues as well as inflated variances of the coefficients.   One way to get around the high degree of multicollinearity is centering.  
+
+
+When we have an interaction in the model, the estimated slope for Y on \\(X_1\\) when \\(X_2\\) is zero is not very informative because zero is not usually within the range of our observations for any of the predictor variables. Remember the ranges of our `LAT` and `LONG` variables.  
+
+However, if the predictors are centered, then the estimate of (\\ \beta_1\\) is now the regression slope of Y on \\( X_1 \\) for the mean of \\( X_1 \\).
+
+
+```{r}
+paruelo$CLAT <- as.numeric(scale(paruelo$LAT, center = TRUE, scale = FALSE))
+paruelo$CLONG <- as.numeric(scale(paruelo$LONG, center = TRUE, scale = FALSE))
+
+mod5 <- lm(C3 ~ CLAT*CLONG, data = paruelo)
+summary(mod5)
+```
+
+
+```{r}
+range(paruelo$CLAT)
+range(paruelo$CLONG)
+
+newdata <- expand.grid(CLAT = seq(min(paruelo$CLAT), max(paruelo$CLAT), by = 1),
+                       CLONG = range(paruelo$CLONG))
+
+mod_pred3 <- augment(mod5, newdata = newdata)
+
+```
+
+```{r}
+p2<-ggplot(data = mod_pred3) + 
+  geom_line(aes(x = CLAT, y= .fitted, colour=as.factor(CLONG)), size = 1) +
+  labs(x = "Lattitude", y = "C3 Grass abundance", title ="Centered") +
+  theme_bw()
+
+grid.arrange(p1,p2, ncol=2)
+
+```
+
+What can be some issues with centering?
+
