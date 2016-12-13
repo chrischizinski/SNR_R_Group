@@ -257,7 +257,7 @@ Consider this model:
 $$ y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \beta_3 x_{i1}x_{i2} + \epsilon_i  $$ 
 
 
-The new term \\( \beta_3 \\) in this model represents the interactive effect of \\ (X_1 \\) and \\( X_2 \\) on Y. It measures the dependence of the partial regression slope of Y against \\( X_1 \\) on the value of \\( X_2 \\) and the dependence of the partial regression slope of Y against \\( X_2 \\) on the value of \\( X_1 \\). These partial slopes are no longer independent.
+The new term \\( \beta_3 \\) in this model represents the interactive effect of \\( X_1 \\) and \\( X_2 \\) on Y. It measures the dependence of the partial regression slope of Y against \\( X_1 \\) on the value of \\( X_2 \\) and the dependence of the partial regression slope of Y against \\( X_2 \\) on the value of \\( X_1 \\). These partial slopes are no longer independent.
 
 To look at this, lets use the the `parulo.csv` data set in `chapt06`
 
@@ -521,7 +521,7 @@ Remember that with highly correlated variables are all the computational issues 
 
 When we have an interaction in the model, the estimated slope for Y on \\(X_1\\) when \\(X_2\\) is zero is not very informative because zero is not usually within the range of our observations for any of the predictor variables. Remember the ranges of our `LAT` and `LONG` variables.  
 
-However, if the predictors are centered, then the estimate of (\\ \beta_1\\) is now the regression slope of Y on \\( X_1 \\) for the mean of \\( X_1 \\).
+However, if the predictors are centered, then the estimate of \\( \beta_1 \\) is now the regression slope of Y on \\( X_1 \\) for the mean of \\( X_1 \\).
 
 
 
