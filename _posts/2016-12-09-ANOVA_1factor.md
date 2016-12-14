@@ -191,13 +191,12 @@ summary(med_aov)
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 {% endhighlight %}
 
-- Remember we can partition the total sum of squares \\( SS_{T} \\) can be partitioned into two components:
-      - `ZINC` represents variation due to the difference between group means
-            - calculated as \\( \bar{y_i} \\) - \\( \bar{y} \\)
-            - df is the number of groups minus 1
-      - `Residuals` difference between the observations within each group
-            - calculated as \\( y_{ij} \\) - \\( \bar{y_i} \\)
-            - df is sum of the sample sizes minus the number of groups
+Remember we can partition the total sum of squares \\( SS_{T} \\) can be partitioned into two components
+- `ZINC` represents variation due to the difference between group means
+      - calculated as \\( \bar{y_i} \\) - \\( \bar{y} \\); df is the number of groups minus 1
+            
+ - `Residuals` difference between the observations within each group
+      - calculated as \\( y_{ij} \\) - \\( \bar{y_i} \\); df is sum of the sample sizes minus the number of groups
             
 -  The mean squares from the ANOVA are sample variances
       - \\( MS_{residuals} \\) estimates \\( \alpha_{\epsilon}^2  \\) , the pooled population variance of the error terms within groups. (Assumes homogeneity of error variances)
@@ -378,7 +377,7 @@ sigma_a/ (sigma_a + sigma_e) #proportion of total variance due to the random fac
 
 - More problematic than in the random effect models
       - Several have criticized measures of variance explained for fixed factors. They argued that the population “variance” of a set of fixed groups makes no sense and this measure cannot be compared to the average population variance between observations within groups, which is a true variance
-- Two approaches have been developed omega squared (\\( \omega^2 \\); variance of the group means)  and Cohen's effect size (*f*; difference among means measured in units of the standard deviation between replicates within group)
+- Two approaches have been developed omega squared ( \\( \omega^2 \\); variance of the group means)  and Cohen's effect size (*f*; difference among means measured in units of the standard deviation between replicates within group)
 - Cohen suggests that f values of 0.1, 0.25, and 0.4 represent small, medium, and large effect sizes respectively
 
 Let's go back to the `medley` dataset to explore these
