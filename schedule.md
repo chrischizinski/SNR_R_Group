@@ -3,7 +3,7 @@ layout: page
 
 ---
 
-# 2016 Fall Semester - *Experimental Design and Analysis in R*
+# 2017 Spring:  Ecological Detective:  Confronting Models with Data in R
 
 <img style="float: right;" src="/SNR_R_Group/figs/R.jpeg">
 
@@ -16,7 +16,7 @@ layout: page
 
 
 ## Course Aims
-This course has two principal aims: 1) to describe common experimental designs used in natural resources research and 2) provide a means to analyze experiments using R. Topics covered include linear and logistic regression, simple and complex ANOVA models (e.g., factorial, nested, block, split-plot and repeated measures and covariance designs), and log- linear models. Multivariate techniques, including classification and ordination are introduced. Emphasis will be placed on checking assumptions, exploratory data analysis, and presentation of results.
+This course will follow Hilborn and Mangel's [The Ecological Detective](http://press.princeton.edu/titles/5987.html).  Following the pseudo code in the book, we will use R programming for the generation of hypotheses, exploration of data, and comparison of different models. Special emphasis will be placed on checking assumptions, exploratory data analysis, presentation of results, and developing sound coding skills.  Everyone taking the course should purchase a copy of the book and should have taken a college level statistics course. 
 
 ## Material repository
 
@@ -26,7 +26,7 @@ Material can be found in the SNR R User group repository on [github](https://git
 
 Much of the lectures in this class will revolve around material available in these books:
 
-> Quinn, G. P.,and M. J.  Keough. 2002. Experimental design and data analysis for biologists. Cambridge University Press.
+> Hilborn, R. and Mangel, M., 1997. The Ecological Detective: Confronting Models with Data (Vol. 28). Princeton University Press.
 
 and
 
@@ -36,21 +36,21 @@ and
 
 This schedule is tentative and we may change the schedule a depending on the interest of the class.  
 
-| Week  |  Date |  Topic |
-|---|---|---|
-| 1 | Aug 26 | Getting to know R and R basics | 
-| 2 | Sep 02 | Data wrangling and graphics | 
-| 3 | Sep 09 | Estimation | 
-| 4 | Sep 16 | Correlation and regression | 
-| 5 | Sep 23 | Design and power analysis | 
-| 6 | Sep 30 | Comparing groups or treatments - ANOVA | 
-| 7 | Oct 07 | Multifactor ANOVA | 
-| 8 | Oct 14 | Randomized blocks and simple repeated measures | 
-| 9 | Oct 21 | Split plot and repeated measures | 
-| 10 | Oct 28 | Analysis of covariance (ANCOVA) | 
-| 11 | Nov 04 | General linear models | 
-| 12 | Nov 11 |  Multivariate analysis of variance and discriminant analysis | 
-| 13 | Nov 18 | Principal components and correspondence analysis | 
-| 14 | Nov 25 | Thanksgiving Break | 
-| 15 | Dec 02 |  Multidimensional scaling and cluster analysis  | 
-| 16 | Dec 09 | Dealer's choice | 
+| Week  |  Date |  Topic | Chapter |
+|---|---|---|---|
+| 1 | January 13 | Introduction | None |
+| 2 | January 20 | Markdown documents | None |
+| 3 | January 27 | No Class | None |
+| 4 | February 03 | Eco detective tools | 1; 2 |
+| 5 | February 10 | Probability and probability models | 3; 4|
+| 6 | February 17 | Sum of squares | 5|
+| 7 | Febraury 24 | Sum of squares | 6|
+| 8 | March 03 | Likelihood | 7 |
+| 9 | March 10 | Maximum likelihood | 7; 8|
+| 10 | March 17 | Maximum likelihood | 7; 8| 
+| 11 | March 24 | Spring break |  None |
+| 12 | March 31 |  Bayes goodness of fit | 9 |
+| 13 | April 07 | Bayes goodness of fit | 9; 10 |
+| 14 | April 14 | How best fit is found | 11 |
+| 15 | April 21 |  Competing models  | 12 |
+| 16 | April 28 | Dealer's choice | None |
