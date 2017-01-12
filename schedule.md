@@ -1,8 +1,8 @@
 ---
 layout: page
-
+title: ""
 ---
-
+# Spring 2017:  Ecological Detective:  Confronting models with data in R
 
 <img style="float: right;" src="/SNR_R_Group/figs/R.jpeg">
 
