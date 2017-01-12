@@ -74,7 +74,7 @@ Often the intercept does not contain a lot of usable information because rarely 
 Lets begin to explore this with the coarse woody debris data in lakes.  `christ` data in `Chap 5` on github.  
 
 ```{r}
-cwd_data <- read_csv(getURL('https://raw.githubusercontent.com/chrischizinski/SNR_R_Group/master/data/ExperimentalDesignData/chpt5/christ.csv'))
+cwd_data <- read_csv(getURL('https://raw.githubusercontent.com/chrischizinski/SNR_R_Group/master/data/ExperimentalDesignData/chpt05/christ.csv'))
 
 glimpse(cwd_data)
 

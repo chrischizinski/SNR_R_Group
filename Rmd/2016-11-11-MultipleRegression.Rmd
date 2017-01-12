@@ -8,7 +8,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```
 
-The RMarkdown file for this lesson can be found [here](https://raw.githubusercontent.com/chrischizinski/SNR_R_Group/master/Rmd/2016-10-20-XXXX.Rmd).
+The RMarkdown file for this lesson can be found [here](https://raw.githubusercontent.com/chrischizinski/SNR_R_Group/master/Rmd/2016-11-11-MultipleRegression.Rmd).
 
 This lesson will follow Chapter 6 in Quinn and Keough (2002).
 
@@ -36,7 +36,7 @@ Our previous lesson was based on regression models with a single predictor and s
 Model represented as: 
 $$ y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \dots + \beta_j x_{ij} + \dots \beta_p x_{ip} +    \epsilon_i  $$ 
 
-Lets illustrate these models using the `lyon` data found in `chapt6` folder found in the github repository.
+Lets illustrate these models using the `lyon` data found in `chapt06` folder found in the github repository.
 
 > Loyn (1987) selected 56 forest patches in southeastern Victoria, Australia, and related the abundance of forest birds in each patch to six predictor variables: patch area (ha), distance to nearest patch (km), distance to nearest larger patch (km), grazing stock (1 to 5 indicating light to heavy), altitude (m) and years since isolation (years). 
 
@@ -64,7 +64,7 @@ ggcorr(bird_abund[, 1:10], geom = "blank", label = TRUE, hjust = 0.75) +
 
 ```
 
-We run the regression similarly to the simple regression model.
+We run the regression similarly to the simple regression model. 
 
 
 ```{r}
@@ -102,9 +102,10 @@ This assumes that the partial regression slope of \\( Y \\) on \\( X_1 \\) is in
 
 Consider this model:
 
-$$ y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \beta_3 x_{i1}x_{i2}+ \epsilon_i  $$ 
+$$ y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \beta_3 x_{i1}x_{i2} + \epsilon_i  $$ 
 
-The new term \\(\beta_3 x_{i1}x_{i2} \)) in this model represents the interactive effect of \\(X_1\\) and \\(X_2\\) on Y. It measures the dependence of the partial regression slope of Y against \\(X_1\\) on the value of \\(X_2\\) and the dependence of the partial regression slope of Y against \\(X_2\\) on the value of \\(X_1\\). These partial slopes are no longer independent.
+
+The new term \\( \beta_3 \\) in this model represents the interactive effect of \\( X_1 \\) and \\( X_2 \\) on Y. It measures the dependence of the partial regression slope of Y against \\( X_1 \\) on the value of \\( X_2 \\) and the dependence of the partial regression slope of Y against \\( X_2 \\) on the value of \\( X_1 \\). These partial slopes are no longer independent.
 
 To look at this, lets use the the `parulo.csv` data set in `chapt06`
 
@@ -130,7 +131,7 @@ summary(mod4)
 
 ##### Interpretation
 
-The estimate of \\( \beta_1 \\) is  the regression slope of Y on \\(X_1\\) when \\(X_2\\) is constant. If there is an interaction (i.e., \\( \beta_3\\) does not equal zero), the slope will  change for  values of \\(X_2\\); if there is not an interaction (\\ \beta_3\\) equals zero), then this slope will be constant for all levels of \\(X_2\\). Thus, when there is a significant interaction, we care little about the main effects in the model. 
+The estimate of \\( \beta_{1} \\) is  the regression slope of Y on \\( X_1 \\) when \\( X_2 \\) is constant. If there is an interaction (i.e., \\( \beta_{3} \\) does not equal zero), the slope will  change for  values of \\( X_2 \\); if there is not an interaction \\( \beta_{3} \\) = 0), then this slope will be constant for all levels of \\(X_2\\). Thus, when there is a significant interaction, we care little about the main effects in the model. 
 
 ```{r}
 range(paruelo$LAT)
@@ -155,12 +156,9 @@ p1<-ggplot(data = mod_pred2) +
   labs(x = "Lattitude", y = "C3 Grass abundance", title ="With interaction") +
   theme_bw()
 
-p
+p1
 
 ```
-
-
-
 
 ##### Centering
 
@@ -184,7 +182,7 @@ Remember that with highly correlated variables are all the computational issues 
 
 When we have an interaction in the model, the estimated slope for Y on \\(X_1\\) when \\(X_2\\) is zero is not very informative because zero is not usually within the range of our observations for any of the predictor variables. Remember the ranges of our `LAT` and `LONG` variables.  
 
-However, if the predictors are centered, then the estimate of (\\ \beta_1\\) is now the regression slope of Y on \\( X_1 \\) for the mean of \\( X_1 \\).
+However, if the predictors are centered, then the estimate of \\( \beta_1 \\) is now the regression slope of Y on \\( X_1 \\) for the mean of \\( X_1 \\).
 
 
 ```{r}
@@ -218,4 +216,21 @@ grid.arrange(p1,p2, ncol=2)
 ```
 
 What can be some issues with centering?
+
+#### Selecting against competing models
+
+```{r}
+library(AICcmodavg)
+
+cand.models <- list()
+
+cand.models[[1]] <- lm(C3~ LAT, data = paruelo)
+cand.models[[2]] <- lm(C3~ LONG, data = paruelo)
+cand.models[[3]] <- lm(C3~ LAT+LONG, data = paruelo)
+cand.models[[4]] <- lm(C3~ LAT*LONG, data = paruelo)
+
+mod.names <-c("Lat only","Long only","Lat Long additive","Lat Long interaction")
+
+aictab(cand.set = cand.models, modnames = mod.names)
+```
 

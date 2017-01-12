@@ -1,0 +1,60 @@
+---
+title: "Multiple factor ANOVA"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+```
+
+The RMarkdown file for this lesson can be found [here](https://raw.githubusercontent.com/chrischizinski/SNR_R_Group/master/Rmd/2016-12-16-ANOVA_multifactor.Rmd).
+
+This lesson will follow Chapter 9, 10, and in Quinn and Keough (2002).
+
+Load the packages we will be using in this lesson
+
+```{r, message=FALSE}
+library(tidyverse)
+library(broom)
+library(multcomp)
+# install.packages('afex')
+library(afex)
+```
+
+## Nested designs
+
+Common extension of the [single factor design](https://chrischizinski.github.io/SNR_R_Group/2016-12-09-ANOVA_1factor) is the nested design
+- additional factors are included that are nested within the main factor of interest
+- characteristic feature that distinguishes from other multifactor designs is that the categories of the nested factor(s) within each level of the main factor are different. Main factor can be fixed or random whereas the nested factor(s) is(are) usually random in biology (levels of subsampling or replication in a spatial or temporal hierarchy)
+
+Examples:  
+ - [Quinn & Keough (1993)](https://www.researchgate.net/profile/Mick_Keough/publication/250215193_Potential_effect_of_enclosure_size_on_field_experiments_with_herbivorous_intertidal_gastropods/links/53e0d37c0cf24f90ff60ba97.pdf)  examined the effect of different sized enclosures on growth of the rocky intertidal limpet *Cellana tramoserica*. There were two  enclosure sizes, with five replicate enclosures nested within each size and four or five replicate limpets from each enclosure. 
+- [Caselle & Warner (1996)](http://onlinelibrary.wiley.com/doi/10.2307/2265748/full) examined recruitment densities of a coral reef fish at five sites on the north shore of the US Virgin Islands, with six random transects within each site and replicate observations of density of recruits along each transect.
+
+Lets explore nested ANOVA using the `andrew` dataset in `chpt09`
+
+> Andrew & Underwood (1993) manipulated the density of sea urchins in the shallow subtidal region of a site near Sydney to test the effects on the percentage cover of filamentous algae. There were four urchin treatments (no urchins, 33% of original density, 66% of original density and 100% of orginal density). The treatments were replicated in four distinct patches (3–4 m2) per treatment and percentage cover of filamentous algae (response variable) was measured in five random quadrats per patch. This is a nested design with treatment (fixed factor), patch nested within treatment (random factor) and quadrats as the residual.
+
+```{r}
+andrew <- read_csv("https://raw.githubusercontent.com/chrischizinski/SNR_R_Group/master/data/ExperimentalDesignData/chpt09/andrew.csv")
+
+glimpse(andrew)
+
+andrew$PATCH <- as.factor(andrew$PATCH)
+andrew$QUAD<- as.factor(andrew$QUAD)
+
+xtabs(~ TREAT +  PATCH, andrew, drop = TRUE, sparse = TRUE)
+
+xtabs(~ TREAT +  QUAD, andrew, drop = TRUE, sparse = TRUE)
+
+```
+
+
+```{r}
+aov_mod<-aov(ALGAE ~ TREAT + Error(PATCH), data = andrew)
+
+summary(aov_mod)
+
+```
+
