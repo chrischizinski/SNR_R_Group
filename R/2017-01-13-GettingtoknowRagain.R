@@ -148,4 +148,35 @@ ggplot(data = survey_data_rev) +
   theme(legend.position = c(0.9,0.10),
         axis.text.x = element_text(angle = 90))
   
+### Who is going to be in the class
+
+glimpse(survey_data)
+
+survey_data %>% 
+  group_by(Q3) %>% 
+  summarise(N = n()) 
+
+Q3summ<-survey_data %>% 
+          mutate(Q3 = factor(Q3, levels = c("Yes", "Maybe", "No"))) %>% 
+          group_by(Q3) %>% 
+          summarise(N = n()) %>%
+          ungroup() %>% 
+          mutate(prop = N/sum(N))
+
+ggplot(Q3summ) + 
+  geom_bar(aes(x = Q3, y = N , fill = Q3), stat = "identity",colour = "black") +
+  coord_cartesian(ylim = c(0, 20), xlim = c(0.5, 3.5), expand = FALSE) +
+  theme_bw() + 
+  theme(legend.position = "none")
+
+
+ggplot(Q3summ) + 
+  geom_bar(aes(x = Q3, y = N , fill = Q3), stat = "identity",colour = "black") +
+  geom_text(aes(x = Q3, y = N + 1 , label = round(prop,digits = 2))) +
+  coord_cartesian(ylim = c(0, 20), xlim = c(0.5, 3.5), expand = FALSE) +
+  theme_bw() + 
+  theme(legend.position = "none")
+
+
+
 
