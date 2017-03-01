@@ -1,4 +1,5 @@
 ---
+title: "Getting to know R again (with some new stuff thrown in)"
 output: html_document
 ---
 
