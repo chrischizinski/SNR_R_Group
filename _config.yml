@@ -44,7 +44,7 @@ footer-links-active:
 url-pretty: "chrischizinski.github.io/SNR_R_Group/"
 
 # --- Pagination options --- #
-paginate: 5
+paginate: 15
 paginate_path: "/blog/page:num/"
 
 # --- Misc --- #
