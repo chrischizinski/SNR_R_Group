@@ -239,7 +239,7 @@ See the R Markdown Reference Guide for a complete list of knitr chunk options.
 Global Options
 To set global options that apply to every chunk in your file, call `knitr::opts_chunk$set` in a code chunk. Knitr will treat each option that you pass to `knitr::opts_chunk$set` as a global default that can be overwritten in individual chunk headers.
 
-## Building tables 
+
 
 
 
