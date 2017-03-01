@@ -106,7 +106,7 @@ This is a link to my [website](http://chrischizinski.github.io/).
 
 To include a figure you use:  `![Caption for the picture.](/path/to/image.png)` 
 
-To a file path:  ![R extravaganza.](/Users/cchizinski2/Desktop/Rmd/_figs/Rextravaganza.png) 
+To a file path:  ![R extravaganza.](/figs//Rextravaganza.png) 
 
 or to a website: ![R image.](https://www.r-project.org/Rlogo.png)
 
