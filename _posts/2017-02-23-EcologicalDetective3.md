@@ -9,6 +9,13 @@ First lets bring in the data from the previous lesson
 
 
 {% highlight r %}
+library(tidyverse)
+library(broom)
+{% endhighlight %}
+
+
+
+{% highlight r %}
 fish_data <- read_csv("https://raw.githubusercontent.com/chrischizinski/MWFWC_FishR/master/CourseMaterial/data/wrkshp_data.csv")
 {% endhighlight %}
 
@@ -65,18 +72,18 @@ Now lets plot the basic relationship between age and length of this species.
 
 {% highlight r %}
 ggplot(data = FishAge) +
-  geom_point(aes(x = Age, y = FishLength), size = 1, alpha = 0.35, colour = "red") +
+  geom_point(aes(x = Age, y = FishLength), size = 3, alpha = 0.35, colour = "red") +
   theme_bw()
 {% endhighlight %}
 
-![plot of chunk unnamed-chunk-2](/SNR_R_Group/figs/2017-02-23-EcologicalDetective3/unnamed-chunk-2-1.png)
+![plot of chunk unnamed-chunk-3](/SNR_R_Group/figs/2017-02-23-EcologicalDetective3/unnamed-chunk-3-1.png)
 
 How does fish age relate to fish length?
 
-1) Linear
-2) Polynomial
-3) Logarithmic
-4) Non-linear
+1. Linear
+2. Polynomial
+3. Logarithmic
+4. Non-linear
 
 
 {% highlight r %}
@@ -208,90 +215,24 @@ Plot the curves to the data
 newdata <- data.frame(Age = seq(0,8,by = 1))
 
 lm_pred<- data.frame(model = "linear",augment(lm_mod, newdata = newdata))
-{% endhighlight %}
 
-
-
-{% highlight text %}
-## Error in data.frame(model = "linear", augment(lm_mod, newdata = newdata)): could not find function "augment"
-{% endhighlight %}
-
-
-
-{% highlight r %}
 poly_pred<- data.frame(model = "polynomial",augment(poly_mod, newdata = newdata))
-{% endhighlight %}
 
-
-
-{% highlight text %}
-## Error in data.frame(model = "polynomial", augment(poly_mod, newdata = newdata)): could not find function "augment"
-{% endhighlight %}
-
-
-
-{% highlight r %}
 log_pred<- data.frame(model = "log",augment(log_mod, newdata = newdata))
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in data.frame(model = "log", augment(log_mod, newdata = newdata)): could not find function "augment"
-{% endhighlight %}
-
-
-
-{% highlight r %}
 # log_pred$.fitted <- exp(log_pred$.fitted) 
 
 nl_pred<- data.frame(model = "nonlinear",augment(nl_mod, newdata = newdata))
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in data.frame(model = "nonlinear", augment(nl_mod, newdata = newdata)): could not find function "augment"
-{% endhighlight %}
-
-
-
-{% highlight r %}
 nl_pred$.se.fit<-NA
-{% endhighlight %}
 
-
-
-{% highlight text %}
-## Error in nl_pred$.se.fit <- NA: object 'nl_pred' not found
-{% endhighlight %}
-
-
-
-{% highlight r %}
 all.pred<- rbind(lm_pred,poly_pred,log_pred,nl_pred)
-{% endhighlight %}
 
-
-
-{% highlight text %}
-## Error in rbind(lm_pred, poly_pred, log_pred, nl_pred): object 'lm_pred' not found
-{% endhighlight %}
-
-
-
-{% highlight r %}
 ggplot(data = FishAge) +
   geom_point(aes(x = Age, y = FishLength), size = 1, alpha = 0.35, colour = "red") +
   geom_line(data=all.pred, aes(x = Age, y = .fitted, colour = model)) +
   theme_bw()
 {% endhighlight %}
 
-
-
-{% highlight text %}
-## Error in fortify(data): object 'all.pred' not found
-{% endhighlight %}
+![plot of chunk unnamed-chunk-5](/SNR_R_Group/figs/2017-02-23-EcologicalDetective3/unnamed-chunk-5-1.png)
 
 Lets look at the distribution of the residuals of each model to the actual data.  What would you expect to see?
 
@@ -299,72 +240,25 @@ Lets look at the distribution of the residuals of each model to the actual data.
 
 {% highlight r %}
 resid_lm<-data.frame(model = "linear",resid = augment(lm_mod)$.resid)
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in data.frame(model = "linear", resid = augment(lm_mod)$.resid): could not find function "augment"
-{% endhighlight %}
-
-
-
-{% highlight r %}
 resid_log<-data.frame(model = "log",resid = augment(log_mod)$.resid)
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in data.frame(model = "log", resid = augment(log_mod)$.resid): could not find function "augment"
-{% endhighlight %}
-
-
-
-{% highlight r %}
 resid_poly<-data.frame(model = "poly",resid = augment(poly_mod)$.resid)
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in data.frame(model = "poly", resid = augment(poly_mod)$.resid): could not find function "augment"
-{% endhighlight %}
-
-
-
-{% highlight r %}
 resid_nl<-data.frame(model = "nonlinear",resid = augment(nl_mod)$.resid)
-{% endhighlight %}
 
 
-
-{% highlight text %}
-## Error in data.frame(model = "nonlinear", resid = augment(nl_mod)$.resid): could not find function "augment"
-{% endhighlight %}
-
-
-
-{% highlight r %}
 all_resid<-rbind(resid_lm, resid_log, resid_poly, resid_nl)
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in rbind(resid_lm, resid_log, resid_poly, resid_nl): object 'resid_lm' not found
-{% endhighlight %}
-
-
-
-{% highlight r %}
 head(all_resid)
 {% endhighlight %}
 
 
 
 {% highlight text %}
-## Error in head(all_resid): object 'all_resid' not found
+##    model       resid
+## 1 linear -44.3284415
+## 2 linear   7.7139542
+## 3 linear -12.2754468
+## 4 linear  22.7033553
+## 5 linear -13.3178426
+## 6 linear  -0.3072437
 {% endhighlight %}
 
 
@@ -376,7 +270,10 @@ glimpse(all_resid)
 
 
 {% highlight text %}
-## Error in glimpse(all_resid): object 'all_resid' not found
+## Observations: 328
+## Variables: 2
+## $ model <chr> "linear", "linear", "linear", "linear", "linear", "linea...
+## $ resid <dbl> -44.3284415, 7.7139542, -12.2754468, 22.7033553, -13.317...
 {% endhighlight %}
 
 
@@ -387,27 +284,19 @@ ggplot(data = all_resid) +
   theme_bw()
 {% endhighlight %}
 
-
-
-{% highlight text %}
-## Error in ggplot(data = all_resid): object 'all_resid' not found
-{% endhighlight %}
+![plot of chunk unnamed-chunk-6](/SNR_R_Group/figs/2017-02-23-EcologicalDetective3/unnamed-chunk-6-1.png)
 
 ## Experiments, Events, and Probability
 
 - In probability theory, we are concerned with the occurence of events that can be thought of as outcomes of experiments
 
-- The probability of event A occurring is \\( Pr\{A\} = probability that the event occurs \\)
+- The probability of event A occurring is \\( Pr \{ A \} \\) = probability that the event occurs 
 
- - The _Frequentist_ interpretation of probability \\( Pr\{A\}\\) is the proportion of A outcomes as the total number of trials in an experiment goes to infinity. 
- 
- - The _Bayesian_ interpretation of probability is the degrees of belief. For a Bayesian, \\( Pr\{A\}\\) is a measure of certainty; a quantication of an investigator’s belief that A is true.
- 
- - Differences in Frequentist and Bayesian perspectives are most important pertaining to inferential procedures (e.g., parameter estimation and hypothesis testing). They are irrelevant to the mathematical principles of probability.
+ - The _Frequentist_ interpretation of probability \\( Pr \{ A \} \\) is the proportion of A outcomes as the total number of trials in an experiment goes to infinity. 
  
  Coin flipping example:
  
- For example, it can be demonstrated that the proportion of heads from a series of fair coin  flips will approach the constant 0.5 as the number of trials grows large, that is, \\( Pr\{Head\} = 0.5\\)
+ For example, it can be demonstrated that the proportion of heads from a series of fair coin  flips will approach the constant 0.5 as the number of trials grows large, that is, \\( Pr \{ Head \} \\) = 0.5
  
 
 {% highlight r %}
@@ -445,7 +334,7 @@ ggplot(data = N_flips) +
   theme_bw()
 {% endhighlight %}
 
-![plot of chunk unnamed-chunk-7](/SNR_R_Group/figs/2017-02-23-EcologicalDetective3/unnamed-chunk-7-1.png)
+![plot of chunk unnamed-chunk-8](/SNR_R_Group/figs/2017-02-23-EcologicalDetective3/unnamed-chunk-8-1.png)
 
 Lets look at the whole range
 
@@ -458,5 +347,8 @@ ggplot(data = N_flips) +
   theme_bw()
 {% endhighlight %}
 
-![plot of chunk unnamed-chunk-8](/SNR_R_Group/figs/2017-02-23-EcologicalDetective3/unnamed-chunk-8-1.png)
+![plot of chunk unnamed-chunk-9](/SNR_R_Group/figs/2017-02-23-EcologicalDetective3/unnamed-chunk-9-1.png)
 
+- The _Bayesian_ interpretation of probability is the degrees of belief. For a Bayesian, \\( Pr\{A\}\\) is a measure of certainty; a quantication of an investigator’s belief that A is true.
+ 
+ - Differences in Frequentist and Bayesian perspectives are most important pertaining to inferential procedures (e.g., parameter estimation and hypothesis testing). They are irrelevant to the mathematical principles of probability.
