@@ -10,10 +10,6 @@ output:
     toc_float: true
 ---
 
-```{r}
- .libPaths("P:/RLibrary2")
-```
-
 This is just a gentle introduction to what you can do with [Rmarkdown](http://rmarkdown.rstudio.com/lesson-1.html).  There are lots of tutorials out there to help you further ([Software carpentry](http://swcarpentry.github.io/r-novice-gapminder/15-knitr-markdown/), [Data carpentry](http://www.datacarpentry.org/semester-biology/materials/knitr/)).  There is also a lot more you can do with it than  I have shown here.  For example, you can  alter the look of your html using CSS.  In addition, given the limitation of the computers in the lab (i.e., no MikeTEX), we are going to limit ourselves to html this lesson.  This should provide you a basic background to start creating your own documents. 
 
 

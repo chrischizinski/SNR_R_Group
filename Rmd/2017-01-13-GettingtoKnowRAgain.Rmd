@@ -1,0 +1,210 @@
+---
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Getting to know R again (with some new stuff thrown in)
+
+### Using data from Google sheets (kind of)
+
+[Google Forms](https://www.google.com/forms/about/) is a quick and cheap way to put together an online survey.  I asked you all to do the survey through Google Forms so that we can run some of the analysis with your responses.  The survey responses were scrubbed of any individual information.  
+
+Getting data straight into used to be a bit more complicated but thanks to the [`googlesheets`](https://cran.r-project.org/web/packages/googlesheets/vignettes/basic-usage.html) package it is a lot easier.  **NOTE**: this does require you to accept some permissions before using with your individual account.  Information on this can be found [here](https://cran.r-project.org/web/packages/googlesheets/vignettes/basic-usage.html).
+
+Install `googlesheets` using:
+
+```{r eval = FALSE}
+install.packages('googlesheets')
+```
+
+And then load the required libraries 
+
+```{r message = FALSE}
+library(googlesheets)
+library(tidyverse)
+
+```
+
+**NOTE**:  googlesheets will not let me run the code but I will describe what is done below.
+We can identify what google sheets are available on your googledrive by using the `gs_ls()` command.
+
+```{r eval = FALSE}
+gs_ls()  #  This displays the avaliable googlesheets on your google drive
+
+ed <- gs_title("EcologicalDetective")  #  This registers the sheet "EcologicalDetective" so that we can read it in
+
+survey_data <- gs_read(ss=ed)  # bring data in from google drive
+```
+
+
+Since the `googlesheets` will not work in a Rmarkdown environment, we can also read it in from `github`.
+
+```{r}
+survey_data <- read_csv("https://raw.githubusercontent.com/chrischizinski/SNR_R_Group/master/data/EcologicalDetective.csv")
+
+glimpse(survey_data)
+```
+
+As you can see above, the column headers are very long and messy.  One way we can deal with that is to rename the headers, but we do want to preserve the original headings.  We will do this by creating a new data.frame that has the new column name and the original column name.
+
+```{r}
+survey_questions <- data.frame(new = c("Timestamp", paste("Q", 2:ncol(survey_data), sep="")), old = names(survey_data))
+
+survey_questions
+```
+
+And then rename the survey_data with the new column names. 
+
+```{r}
+names(survey_data) <- survey_questions$new
+glimpse(survey_data)
+```
+
+### Messing with dates and times
+
+Anyone that has tried using dates and times in R, has usually run into a giant headache at one time.  The primary difficulty I always had is remembering and then typing out the correct format so that the character string can be parsed into the correct units of time.  
+
+```{r}
+survey_data$Timestamp
+class(survey_data$Timestamp)
+
+test <- as.POSIXlt(survey_data$Timestamp, format = "%m/%d/%Y %H:%M:%S")
+test
+class(test)
+```
+
+Luckily, the [`lubridate` package](https://cran.r-project.org/web/packages/lubridate/vignettes/lubridate.html) has come along that has greatly simplified the process of dealing with dates and times.  `lubridate` will parse out your data using typical characters ("/" or "-" and it will tell you if it can't figure them out), if you provide the order that your date is formatted. 
+
+```{r}
+library(lubridate)
+
+# ymd() year month day
+# dmy() day month year
+# hms() hours minutes seconds
+# ymd_hms() year month day hours minutes seconds
+# dmy_hm day month year hours minutes
+# and so on
+
+# As an example using our survey data
+mdy_hms(survey_data$Timestamp, tz = "America/Chicago")
+
+# A few other examples
+mdy_hms("Jan 1 2017 12:00:00")
+mdy_hms("January 1, 2017 12:00:00")
+
+mdy_hms("1-1,2017 12:00:00")
+
+# Write the formatting to our data
+survey_data$Timestamp <- mdy_hms(survey_data$Timestamp, tz = "America/Chicago")
+
+#And take a look
+glimpse(survey_data)
+```
+
+There are also several helper functions that will help you retrieve various bits of information associated with the dates and times
+
+```{r}
+hour(survey_data$Timestamp) # Retrieves the hour
+minute(survey_data$Timestamp) # Retrieves the minute
+second(survey_data$Timestamp) # Retrieves the second
+
+year(survey_data$Timestamp) # Retrieves the year
+leap_year(survey_data$Timestamp) #TRUE/FALSE if the year is a leap year
+month(survey_data$Timestamp) # Retrieves the month
+day(survey_data$Timestamp) # Retrieves the day
+
+wday(survey_data$Timestamp) # Retrieves the day of the week, numeric
+wday(survey_data$Timestamp, label = TRUE)  # Retrieves the day of week, word
+yday(survey_data$Timestamp) # Retrieves the day of year
+mday(survey_data$Timestamp) # Retrieves the day of month
+```
+
+
+We can even use lubridate to look at periods of time 
+
+```{r}
+email_sent <- mdy_hms("January 9, 2017 9:39:00",tz = "America/Chicago") 
+email_sent
+
+intv_data <- interval(email_sent, survey_data$Timestamp)  # Create intervals between the timestamps of each survey and when I sent the email invitation
+intv_data
+
+as.period(intv_data) # Convert to period
+as.period(intv_data, unit = "s") # Specify seconds
+
+as.numeric(as.period(intv_data, unit = "s")) # convert that period to numeric so you can analyze
+as.numeric(as.period(intv_data, unit = "s"))/60 # Decimal minutes
+```
+
+You can also use `lubridate` to add periods of time to dates and times 
+
+```{r}
+survey_data$Timestamp + days(2)  # Add two days to all the times
+survey_data$Timestamp + seconds(30) # Add 30 seconds to all the times
+```
+
+
+### Manipulating and plotting the data
+
+Let's use dplyr and tidyr to manipulate the data 
+
+```{r}
+survey_data_rev <- survey_data %>% 
+                    select(-Q2) %>%  # remove Q2
+                    arrange(Timestamp) %>% # order by the timestamp
+                    mutate(TakeSurvey = 1,  # Create new column called TakeSurvey
+                           cuml_Order = cumsum(TakeSurvey), # Calculate the cumulative sum 
+                           prop_Order = cuml_Order/sum(TakeSurvey))  # Calculate the cumulative proportion of when people took the survey
+
+glimpse(survey_data_rev)
+```
+
+Now plot the data 
+
+```{r}
+ggplot(data = survey_data_rev) +
+  geom_line(aes(x = Timestamp, y = prop_Order), linetype = "dashed") + # Create dashed lines with x as Timestamp and y the cumulative proportion
+  geom_point(aes(x = Timestamp, y = prop_Order, color = Q3), size = 2) + # Add points at each of the times
+  labs(y = "Cumulative order", x = "Date") + #set the axis lables
+  scale_color_manual(values = c("Maybe" = "purple", "Yes" = "blue", "No" = "red")) +  # Set the colours of the points
+  theme_bw() + # Use the canned black and white theme
+  theme(legend.position = c(0.75,0.25))  # Change the location of the legend
+
+```
+
+Adjust the x-axis with dates and times 
+
+```{r message=FALSE}
+library(scales)
+
+email_sent
+time_stop <- email_sent + days(4)  # Add four days past when the initial email was sent
+
+ggplot(data = survey_data_rev) +
+  geom_line(aes(x = Timestamp, y = prop_Order), linetype = "dashed") + 
+  geom_point(aes(x = Timestamp, y = prop_Order, color = Q3), size = 2) +
+  labs(y = "Cumulative order", x = "Date") +
+  coord_cartesian(ylim = c(0,1.01), expand = FALSE) + 
+  scale_color_manual(values = c("Maybe" = "purple", "Yes" = "blue", "No" = "red")) +
+  scale_x_datetime(limits = c(email_sent - days(1), time_stop)) + #Set the date limits
+  theme_bw() + 
+  theme(legend.position = c(0.75,0.25))
+```
+
+And add different breaks and date/time formatting
+
+```{r}
+ggplot(data = survey_data_rev) +
+  geom_line(aes(x = Timestamp, y = prop_Order), linetype = "dashed") + 
+  geom_point(aes(x = Timestamp, y = prop_Order, color = Q3), size = 2) +
+  labs(y = "Cumulative order", x = "Date") +
+  coord_cartesian(ylim = c(0,1.01), expand = FALSE) + 
+  scale_color_manual(values = c("Maybe" = "purple", "Yes" = "blue", "No" = "red")) +
+  scale_x_datetime(limits = c(email_sent - days(1), time_stop), breaks = date_breaks("1 day"), labels = date_format("%b-%d")) + 
+  theme_bw() + 
+  theme(legend.position = c(0.75,0.25))
+```
+

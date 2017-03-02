@@ -1,0 +1,155 @@
+---
+title: "Ecological Detective - Relationships and probability"
+output: html_document
+---
+
+## Exploring the relationship between two variables
+
+First lets bring in the data from the previous lesson
+
+```{r message=FALSE}
+library(tidyverse)
+library(broom)
+```
+
+
+```{r}
+fish_data <- read_csv("https://raw.githubusercontent.com/chrischizinski/MWFWC_FishR/master/CourseMaterial/data/wrkshp_data.csv")
+
+fish_data %>% 
+  select(WaterbodyCode:Age) %>% 
+  mutate(Age = as.numeric(Age)) %>% 
+  filter(!is.na(Age),
+         WaterbodyCode == 4999,
+         SpeciesCode %in% c(780)) -> FishAge  
+
+```
+
+
+Now lets plot the basic relationship between age and length of this species. 
+
+```{r}
+ggplot(data = FishAge) +
+  geom_point(aes(x = Age, y = FishLength), size = 3, alpha = 0.35, colour = "red") +
+  theme_bw()
+```
+
+How does fish age relate to fish length?
+
+1. Linear
+2. Polynomial
+3. Logarithmic
+4. Non-linear
+
+```{r}
+# linear response
+lm_mod <- lm(FishLength ~ Age, data = FishAge)
+summary(lm_mod)
+
+# polynomial response
+poly_mod <- lm(FishLength ~ poly(Age,3), data = FishAge)
+summary(poly_mod)
+
+# logarithmic
+
+log_mod <- lm(FishLength ~ log(Age +1), data = FishAge)
+summary(log_mod)
+
+# non linear
+
+nl_mod <- nls(FishLength ~ exp(a + Age*b), start = list(a = 0, b = 1), data = FishAge)
+summary(nl_mod)
+```
+
+Plot the curves to the data 
+
+```{r}
+newdata <- data.frame(Age = seq(0,8,by = 1))
+
+lm_pred<- data.frame(model = "linear",augment(lm_mod, newdata = newdata))
+
+poly_pred<- data.frame(model = "polynomial",augment(poly_mod, newdata = newdata))
+
+log_pred<- data.frame(model = "log",augment(log_mod, newdata = newdata))
+# log_pred$.fitted <- exp(log_pred$.fitted) 
+
+nl_pred<- data.frame(model = "nonlinear",augment(nl_mod, newdata = newdata))
+nl_pred$.se.fit<-NA
+
+all.pred<- rbind(lm_pred,poly_pred,log_pred,nl_pred)
+
+ggplot(data = FishAge) +
+  geom_point(aes(x = Age, y = FishLength), size = 1, alpha = 0.35, colour = "red") +
+  geom_line(data=all.pred, aes(x = Age, y = .fitted, colour = model)) +
+  theme_bw()
+```
+
+Lets look at the distribution of the residuals of each model to the actual data.  What would you expect to see?
+
+
+```{r}
+resid_lm<-data.frame(model = "linear",resid = augment(lm_mod)$.resid)
+resid_log<-data.frame(model = "log",resid = augment(log_mod)$.resid)
+resid_poly<-data.frame(model = "poly",resid = augment(poly_mod)$.resid)
+resid_nl<-data.frame(model = "nonlinear",resid = augment(nl_mod)$.resid)
+
+
+all_resid<-rbind(resid_lm, resid_log, resid_poly, resid_nl)
+head(all_resid)
+glimpse(all_resid)
+
+ggplot(data = all_resid) +
+  geom_violin(aes(x = model, y  =resid, fill = model)) + 
+  theme_bw()
+```
+
+## Experiments, Events, and Probability
+
+- In probability theory, we are concerned with the occurence of events that can be thought of as outcomes of experiments
+
+- The probability of event A occurring is \\( Pr \{ A \} \\) = probability that the event occurs 
+
+ - The _Frequentist_ interpretation of probability \\( Pr \{ A \} \\) is the proportion of A outcomes as the total number of trials in an experiment goes to infinity. 
+ 
+ Coin flipping example:
+ 
+ For example, it can be demonstrated that the proportion of heads from a series of fair coin  flips will approach the constant 0.5 as the number of trials grows large, that is, \\( Pr \{ Head \} \\) = 0.5
+ 
+```{r}
+
+## Binomial distribution
+?rbinom
+set.seed(12345)
+
+N_flips<-data.frame(N = c(1:5000))
+N_flips$N_heads <- unlist(lapply(lapply(N_flips$N, rbinom, size = 1, prob = 0.50), sum))
+N_flips$prop <- N_flips$N_heads/N_flips$N
+
+head(N_flips)
+
+```
+
+If we look at the first 100, you can see 
+
+```{r}
+ggplot(data = N_flips) +
+  geom_line(aes(x = N, y = prop)) + 
+  geom_hline(aes(yintercept = 0.5), colour = "red", linetype = "dotted") +
+  coord_cartesian(xlim = c(0, 100)) +
+  theme_bw()
+
+```
+
+Lets look at the whole range
+
+```{r}
+ggplot(data = N_flips) +
+  geom_line(aes(x = N, y = prop)) + 
+  geom_hline(aes(yintercept = 0.5), colour = "red", linetype = "dotted") +
+  coord_cartesian(xlim = c(0, 5000)) +
+  theme_bw()
+```
+
+- The _Bayesian_ interpretation of probability is the degrees of belief. For a Bayesian, \\( Pr\{A\}\\) is a measure of certainty; a quantication of an investigator’s belief that A is true.
+ 
+ - Differences in Frequentist and Bayesian perspectives are most important pertaining to inferential procedures (e.g., parameter estimation and hypothesis testing). They are irrelevant to the mathematical principles of probability.

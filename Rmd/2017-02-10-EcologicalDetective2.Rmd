@@ -1,0 +1,98 @@
+---
+title: "Ecological Detective - Know your data"
+output: html_document
+---
+
+
+```{r, echo = FALSE, message = FALSE}
+# .libPaths("P:/RLibrary2")
+
+library(tidyverse)
+
+```
+
+## Recreating Figure 2.1 in Ecological Detective 
+
+There are many different hypotheses that can explain the basic relationship between two variables.  Figure 2.1 in the Ecologial Detective suggest 4 possible models.  The models have no parameter values.  Try to iteratively find the parameter values to get your figure to look like the one in Figure 2.1.
+
+```{r}
+S <- seq(1,15, by = 1)  # 1:15
+Null_hypothesis<- 2.5
+
+our_data <- data.frame(S = S, Null = Null_hypothesis)
+our_data$Model_A <- 0.5 *S
+our_data$Model_B <- (0.9 *S)/(1 + 0.1*S)
+our_data$Model_C <- 1.8 *S * exp(-0.18*S)
+
+plot_labels = data.frame(x = c(14,14,8, 4), y = c(7.5,5.5,2.75,3.5), labels = c("Model A", "Model B", "NULL", "Model C"))
+
+
+ggplot() +
+  geom_line(data = our_data,aes(x = S, y = Null), colour="black") +
+  geom_line(data = our_data,aes(x = S, y = Model_A), colour="blue") +
+  geom_line(data = our_data,aes(x = S, y = Model_B), colour="green") +
+  geom_line(data = our_data,aes(x = S, y = Model_C), colour="red") +
+  geom_text(data = plot_labels, aes(x=x, y= y, label = labels)) +
+  coord_cartesian(ylim = c(0,9), xlim = c(0, 16), expand = FALSE) +
+  scale_x_continuous(breaks = seq(0,16,by=2)) +
+  scale_y_continuous(breaks = seq(1,8,by=1)) +
+  labs(x = "Flock size", y = "Consumption rate") +
+  theme_bw()
+```
+
+
+## Probability and probability models 
+
+- Ecological data (and most other kinds of data) involve different levels of randomness
+- Most models represent the mean of the population 
+- Comparing models requires understanding the probability of individual observations (based on the distribution) 
+
+- Most people understand the **normal** or Gaussian distribution, but htere are many, many different types of distributions  
+
+**WORD OF ADVICE**:  Always plot your data 
+
+```{r}
+fish_data <- read_csv("https://raw.githubusercontent.com/chrischizinski/MWFWC_FishR/master/CourseMaterial/data/wrkshp_data.csv")
+
+glimpse(fish_data)
+
+fish_data %>% 
+  select(WaterbodyCode:Age) %>% 
+  mutate(Age = as.numeric(Age)) %>% 
+  filter(!is.na(Age),
+         WaterbodyCode == 4999,
+         SpeciesCode %in% c(780)) -> FishAge  
+
+glimpse(FishAge)
+
+```
+
+
+Let's look at distribution plots of `FishLength` and `Age`
+
+```{r}
+ggplot(data = FishAge) + 
+  geom_histogram(aes(x = Age), binwidth = 1, fill = "green", colour = "black") +
+  theme_bw()
+
+ggplot(data = FishAge,aes(x = Age)) + 
+  geom_histogram(aes(y = ..density..),binwidth = 1, fill = "green", colour = "black") +
+  geom_density(colour = "red", fill = "red", alpha = 0.5) +
+  theme_bw()
+
+ggplot(data = FishAge) +
+  geom_histogram(aes(x = FishLength), binwidth = 10, fill = "red", colour = "black" ) + 
+  theme_bw()
+
+ggplot(data = FishAge) +
+  geom_violin(aes(x = "", y = FishLength), fill = "red", colour = "black" ) + 
+  theme_bw()
+
+ggplot(data = FishAge) +
+  geom_point(aes(x = "", y = FishLength), position = "jitter") +
+  geom_boxplot(aes(x = "", y = FishLength), fill = "red", colour = "black", alpha = 0.25, outlier.colour = NA) + 
+  theme_bw()
+  
+```
+
+
