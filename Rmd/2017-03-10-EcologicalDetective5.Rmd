@@ -1,0 +1,232 @@
+---
+title: "Ecological Detective - Probability and probability models. Part 1"
+output: html_document
+---
+
+```{r message = FALSE}
+library(tidyverse)
+```
+
+## Classical Probability
+
+Sources of the notes for this lecture are a combination of [Aho(2013)](http://www2.cose.isu.edu/~ahoken/book/) (Chapters 2 and 3) and Ecological Detective (Chapters 3 and 4).
+
+- As we become familiar with the behavior of random variables, we may become aware of probabilistic patterns
+
+### Disjoint
+
+If two events can not occur simultaneously, then we call them **mutually exclusive** or **disoint**
+
+```{r, echo = FALSE}
+rect_1<-data.frame(outcome = factor(c(1,2)), xmin = c(0,3), xmax = c(3, 4), ymin = c(0,0), ymax = c(4,4))
+
+ggplot(data = rect_1) + 
+  geom_rect(aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax, fill = outcome), alpha = 0.25) +
+  coord_equal(expand = FALSE) +
+  geom_text(aes(x = c(1.5,3.6), y = c(2,2), label = c("P(A) = 0.75", "P(B) = 0.25"))) +
+  theme_minimal() +
+  theme(legend.position = "none",
+        axis.text = element_blank(),
+        axis.title = element_blank())
+```
+
+If for two outcomes *A* and *B*, we wanted to know the probability of the event *A* or *B* (expressed as:  \\(P( A \cup B) = P(A) + P(B) \\))
+
+We can also think of events that are not mutually exclusive.  Suppose an organism has a probability of being in a habitat with environmental variable *A* with P = 0.3 and a habitat with environmental variable *B* with P = 0.3 and habitat with environmental variable *A* and *B* with P = 0.09
+
+```{r, echo = FALSE}
+rect_1<-data.frame(outcome = factor(c(1,2)), xmin = c(0,0.21), xmax = c(0.3, 0.51), ymin = c(0,0), ymax = c(0.51,0.51))
+
+ggplot(data = rect_1) + 
+  geom_rect(aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax, fill = outcome), alpha = 0.25) +
+  coord_equal(expand = FALSE) +
+  annotate("text", x = 0.1, y = 0.25, label = "P(A) = 0.3") +
+  annotate("text", x = 0.4, y = 0.25, label = "P(B) = 0.3") +
+  annotate("text", x = 0.25, y = 0.25, label = as.character(expression(paste("P(A",intersect("B"),") = 0.09"))), parse = TRUE) +
+  theme_minimal() +
+  theme(legend.position = "none",
+        axis.text = element_blank(),
+        axis.title = element_blank())
+```
+
+If *A* and *B* are not mutually exclusive we can sill calcualte the union of *A* and *B* as \\(P( A \cup B) = P(A) + P(B)  - P( A \cap B)\\))
+
+### Independence 
+
+- When event A occurs it does not affect the probability of B, then we say that A and B are independent.
+
+## Conditional probability 
+
+- There can be many events that are not independent 
+- Suppose A is the outcome of a prey organism surviving a predator experiment on day 1 and B is the outcome of the same prey organism surviving the predator experiment the next day.   If the the prey can learn and alter it's behavior on day 1 then the outcome on day 2 is not independent.  We can denote this as \\( P(B\|A)\\) or the probability of *B* given *A*
+
+## Odds
+
+- Closely related to probability
+- The ratio between the number of favorable outcomes to the number of unfavorable outcomes.  The odds of rolling a two on a dice are 1:5.  Total number of outcomes = 6, Number of favorable outcomes = 1, and unfavorable outcomes (6-1) = 5.
+
+### Odds ratio and relative risk
+
+- Ratio of the odds for two outcomes is their *odds ratio*
+- Ratio of the probability of two events is *relative risk*
+
+## Probability density functions
+
+- A *probability distribution* assigns probabilities to outcomes from a random variable
+- The mathematical expression \\(f(x)\\) that defines a probability distribution is called a *probability density function* or *pdf*
+- The output of the *pdf* is called *density*
+
+Example
+
+```{r}
+rand_vals<-data.frame(x = rnorm(10000))
+
+ggplot(rand_vals) + 
+  geom_histogram(aes(x = x), fill = "red", colour = "black", binwidth = 1) +
+  theme_bw()
+
+ggplot(rand_vals) + 
+  geom_histogram(aes(x = x), fill = "red", colour = "black", binwidth = 0.25) +
+  theme_bw()
+
+ggplot(rand_vals) + 
+  geom_histogram(aes(x = x), fill = "red", colour = "black", binwidth = 0.05) +
+  theme_bw()
+
+#  Add a density curve
+ggplot(rand_vals,aes(x = x)) + 
+  geom_histogram(aes(y = ..density..), fill = "red", colour = "black", binwidth = 0.05) +
+  geom_density(size = 2, colour = "blue") +
+  theme_bw()
+
+```
+
+1. Both discrete and continuous pdfs calculate a quantity called density. 
+    - The “height” of any pdf “curve” at an outcome x will equal the density of x, given as \\( f(x) \\)
+2. Density is equivalent to probability for a discrete pdf, but not for a continuous pdf. 
+
+
+## Cumulative density functions
+
+- *Cumulative distribution function* (*cdf)* for a random variable X is denoted \\(F(x)\\). 
+    - cdf is obtained by summing (discrete) or integrating (continuous) the pdf between \\(-\inf\\) and an outcome *x*
+    - cdf gives the lower tail probability \\( P(X \leq x) \\) for the both discrete and continuous random variables.
+
+## Common distributions
+
+### Discrete
+
+#### Binomial
+
+- The binomial distribution defines the probability of a particular number of successes given n independent and identically distributed Bernoulli trials
+- two parameters: the number of trials (*n*) and the probability of success for a single trial ( \\( \pi \\))
+
+Psuedo code 3.1
+
+```{r}
+p = 0.1
+N = 10
+
+P_N = (1-p)^N
+
+psuedo_dat <- data.frame(k = 1:N)
+psuedo_dat$P_N <- (factorial(N)/(factorial(psuedo_dat$k)*factorial((N - psuedo_dat$k)))) * (p^psuedo_dat$k)*(1-p)^(N -psuedo_dat$k) 
+psuedo_dat$P_1 <- dbinom(x = 1:10, size = 10, p = 0.1)
+psuedo_dat$P_2 <- dbinom(x = 1:10, size = 10, p = 0.2)
+psuedo_dat$P_3 <- dbinom(x = 1:10, size = 10, p = 0.3)
+
+psuedo_dat %>% 
+  select(k, P_1:P_3) %>% 
+  gather(probability, value, P_1:P_3) -> psuedo_dat.long
+
+ggplot(psuedo_dat.long) + 
+  geom_bar(aes(x = k, y = value, fill = probability, group = probability), stat = "identity", width = 0.75, position = "dodge") +
+  coord_cartesian(ylim = c(0,0.40), xlim = c(0, 10), expand = FALSE) +
+  scale_x_continuous(breaks = 1:10) +
+  labs(y="density",x = "Number of fruit sampled") +
+  theme_bw()
+
+```
+
+#### Poisson distribution 
+
+- *Poisson distribution* is functionally similar to the binomial distribution
+- the distribution gives the probability for a defined number of successes, x, given a series of independent trials. 
+- As number of trials goes to infinity, the Poisson pdf will be equivalent to the binomial pdf
+- No explicit maximum value for x because the Poisson distribution considers successes in the context of a  fixed success rate instead of a fixed sample size (binomial)
+- One variable \\( \lambda \\) is the mean and variance, calculated as r (rate of succcesses) * t (unit of time)
+
+Psuedo Code 3.2
+
+Suppose the rate parameter *r* is 0.5 (probability a bird flys by in a given minute) and we want to watch over time *t* is 10. Given that we have and r of 0.5 and we will watch for t = 10, then we would expect that approximately 5 birds would fly by mu = r*t. 
+
+
+```{r}
+r = 0.5
+t = 10
+cutoff = 1 - 1e-9
+
+sum_val <- exp(-r*t)
+
+k = 1
+pois_stor<-NULL
+
+while(sum_val <= cutoff){
+  
+  p_kt<-((exp(-r * t) * (r*t)^k)/factorial(k))
+  
+  pois_stor<-rbind(pois_stor,data.frame(k = k, p_kt = p_kt))
+  
+  sum_val = sum_val +p_kt
+  
+  k<- k +1
+  
+}
+
+# Final K
+k
+# Final p_kt
+p_kt
+
+pois_stor
+```
+
+Or we can use `dpois`
+
+```{r}
+pois_stor$p_kt1 <- dpois(1:23, r*t, log = FALSE)
+
+ggplot(pois_stor) + 
+  geom_bar(aes(x = k, y = p_kt1), stat = "identity", width = 0.75, fill = "lightblue") +
+  coord_cartesian(ylim = c(0,0.20), xlim = c(0, 23), expand = FALSE) +
+  scale_x_continuous(breaks = 1:23) +
+  labs(y="density",x = "k") +
+  theme_bw()
+```
+
+Calculate the cdf
+
+```{r}
+pois_stor$cdf_kt1 <-cumsum(pois_stor$p_kt1)
+pois_stor
+```
+
+And plot the cdf
+
+```{r}
+ggplot(pois_stor) + 
+  geom_bar(aes(x = k, y = cdf_kt1), stat = "identity", width = 0.75, fill = "lightblue") +
+  coord_cartesian(ylim = c(0,1), xlim = c(0, 23), expand = FALSE) +
+  scale_x_continuous(breaks = 1:23) +
+  labs(y="cumulative density",x = "k") +
+  theme_bw()
+```
+
+What is the probability of 4 birds flying by in 10 minutes?
+
+```{r}
+sum(dpois(0:4, r*t, log = FALSE))
+
+ppois(4, r*t)
+```
+
