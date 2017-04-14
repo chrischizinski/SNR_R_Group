@@ -405,4 +405,3 @@ ggplot(data = lagged_data2) +
 ```
 
 We can see in this figure that the process uncertainty and observation uncertainty we start getting a much weaker relationship (\\(R^2\\) = `r glance(lm_mod2)$r.squared`) by scattering the points even more along the mean. We also  see that the birth rate (`r tidy(lm_mod2)$estimate[1] `) is off from our specified birth rate (`r b`), as is the survival rate (`r tidy(lm_mod2)$estimate[2] `) compared to our specified survival rate (`r s`).
-
