@@ -93,9 +93,9 @@ $$ (Range)_j = 2\frac{S_j}{\sqrt{N_{tow}}}t_q $$
 5. If (Range) is less than the specified range criterion for success, increase the number of successes by 1. 
 6. Repeat steps 2-5 for j = 1 to \\(N_{sim}\\). Estimate the probability of success when Nr.ow tows are observed by dividing the total number of successes by N_{tow}.
 
-Start the loop.  **NOTE**:  I changed the way the loop was run from the psuedo code by nesting iterations within tows.  
+Start the loop.  **NOTE**:  I changed the way the loop was run from the psuedo code by nesting iterations within tows.   **NOTE** 
 
-```{r}
+```{r message = FALSE}
 set.seed(12345)
 
 ## Create a function that will allow us to more easily find the corresponding catch for each random number
@@ -106,13 +106,16 @@ find_catch <- function(pc,rand_val){
    return(p_c$c[id])
   }
 
-s_stor <- data.frame(Ntows =1:Ntows, s = NA, iter = iter)
+tows <- seq(25,Ntows,by = 25)
+s_stor <- data.frame(tows = tows, s = NA, iter = iter)
 
-  for(i in 3:Ntows){
+tows <- seq(25,Ntows,by = 25)
+
+  for(i in 1:length(tows)){
     s = 0
-    print(paste("Ntows = ",i,sep = ""))
+    print(paste("Ntows = ",tows[i],sep = ""))
     for(j in 1:iter){
-      rand_uni<-runif(i)  #generate j number of random uniform variables
+      rand_uni<-runif(tows[i])  #generate j number of random uniform variables
       catch<- sapply(rand_uni, function(x) find_catch(pc,x)) # use the find_catch function to find the corresponding numbr of birds from our find_catch function
       
       M_j = mean(catch)  # Step 3 in the psuedo code
@@ -125,6 +128,8 @@ s_stor <- data.frame(Ntows =1:Ntows, s = NA, iter = iter)
     s_stor$s[i] <-s
   
   }
+
+s_stor
 
 ```
 
