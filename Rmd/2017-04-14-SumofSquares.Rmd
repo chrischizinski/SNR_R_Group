@@ -10,7 +10,7 @@ library(broom)
 
 Sources of the notes for this lecture are from Ecological Detective (Chapter 5).
 
-- Simplest technique for the confrontatin between models and data is sum of squares
+- Simplest technique for the confrontation between models and data is sum of squares
 
     1. It is simple and makes few assumptions
     2. Long and successful history in science
@@ -28,7 +28,7 @@ where \\(W_i\\) is process uncertainty, and *A*, *B*, and *C* are parameters.
 - The best model (i.e., values for *A*, *B*, and *C*) will have the lowest sum of squares
 
 ### Basic approach:  Psuedocode 5.1
-1. Input the data and generate a range of potental values for *A*, *B*, and *C*
+1. Input the data and generate a range of potential values for *A*, *B*, and *C*
     - Potential values should go from a minimum value to a maximum value by set increments
 2. Starting at the minimum values of the parameters generate a prediction of Y for each value of X. Calculate the sum of squares
 3. Compare sum of squares to the current lowest value of sum of squares, if it is less than the lowest value of sum of squares, then replace the current lowest sum of squares with the new one and the parameter values associated with the lowered sum of squares.  
@@ -68,7 +68,7 @@ all_possible$SS <- NA
 all_possible$SSW <- NA
 
 for( i in 1:nrow(all_possible)){
-  print(i)
+  # print(i)
   pred_Y = all_possible$A[i] + all_possible$B[i]*X + all_possible$C[i]*(X^2)
   
   

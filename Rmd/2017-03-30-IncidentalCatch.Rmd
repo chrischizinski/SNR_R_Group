@@ -93,9 +93,9 @@ $$ (Range)_j = 2\frac{S_j}{\sqrt{N_{tow}}}t_q $$
 5. If (Range) is less than the specified range criterion for success, increase the number of successes by 1. 
 6. Repeat steps 2-5 for j = 1 to \\(N_{sim}\\). Estimate the probability of success when Nr.ow tows are observed by dividing the total number of successes by N_{tow}.
 
-Start the loop.  **NOTE**:  I changed the way the loop was run from the psuedo code by nesting iterations within tows.   **NOTE** 
+Start the loop.  **NOTE**:  I changed the way the loop was run from the psuedo code by nesting iterations within tows.   **NOTE**:  This simulation will take a few minutes to run.  I have run the simulations ahead of time and put them up on [github]()
 
-```{r message = FALSE}
+```{r message = FALSE, eval = FALSE}
 set.seed(12345)
 
 ## Create a function that will allow us to more easily find the corresponding catch for each random number
@@ -109,18 +109,17 @@ find_catch <- function(pc,rand_val){
 tows <- seq(25,Ntows,by = 25)
 s_stor <- data.frame(tows = tows, s = NA, iter = iter)
 
-tows <- seq(25,Ntows,by = 25)
-
   for(i in 1:length(tows)){
     s = 0
     print(paste("Ntows = ",tows[i],sep = ""))
     for(j in 1:iter){
+      # print(j)
       rand_uni<-runif(tows[i])  #generate j number of random uniform variables
       catch<- sapply(rand_uni, function(x) find_catch(pc,x)) # use the find_catch function to find the corresponding numbr of birds from our find_catch function
       
       M_j = mean(catch)  # Step 3 in the psuedo code
       S_j2 = var(catch)
-      Range_j = 2*(sqrt(S_j2)/sqrt(i))*tq # Step 4 in the psuedo code
+      Range_j = 2*(sqrt(S_j2)/sqrt(tows[i]))*tq # Step 4 in the psuedo code
 
       s = ifelse(Range_j < crit_success & Range_j > 0, s+1,s) # Step 5 in the psuedo code
     }
@@ -129,8 +128,23 @@ tows <- seq(25,Ntows,by = 25)
   
   }
 
-s_stor
-
+incidental<-s_stor
 ```
 
+Plot the results 
+
+```{r}
+#  if reading from the github, otherwise comment this out if you are using your own simulation. 
+incidental<-read_csv("https://raw.githubusercontent.com/chrischizinski/SNR_R_Group/master/data/incidental.csv")
+
+incidental$prop <- incidental$s/incidental$iter
+
+ggplot(data = incidental) + 
+  geom_point(aes(x = tows, y = prop), size = 1, alpha = 0.5) +
+  geom_smooth(aes(x = tows, y = prop),method = "lm", formula = y ~ splines::bs(x, 25), colour = "red",se = FALSE) +
+  coord_cartesian(ylim=c(0,1.05), xlim = c(0,5000), expand = FALSE) +
+  theme_bw()
+  
+
+```
 
