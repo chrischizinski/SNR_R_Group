@@ -1,5 +1,5 @@
 ---
-title: "Intro to R"
+title: "Applied Multivarite:  Intro to R"
 output: html_document
 ---
 
@@ -10,6 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 Welcome back to another semester of our UseR.  
 
 [R script from class](https://github.com/chrischizinski/SNR_R_Group/blob/master/R/2017-08-25-Intro_dataimport.R)
+
 [Powerpoint from class](/SNR_R_Group/figs/Intro to programming.pdf)
 
 
