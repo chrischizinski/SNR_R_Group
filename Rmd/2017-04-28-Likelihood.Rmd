@@ -1,0 +1,151 @@
+---
+title: "Maximum likelihood"
+output: html_document
+---
+
+```{r message = FALSE}
+library(tidyverse)
+library(broom)
+```
+
+Sources of the notes for this lecture are from Ecological Detective (Chapter 4).
+
+## Overview
+
+- Sum of squares can be used to find the best fit of a model to the data under minimal assumptions about the sources of uncertainty
+- There are many cases in which the form of the probability distributions of the uncertain terms can be justified
+- likelihood methods allow us to calculate confidence bounds on parameters and to test hypotheses in the traditional manner
+- forms the foundation for Bayesian analysis
+
+The probability of observing data \\(Y_i\\) given a parameter \\(p\\) is \\( Pr\\{Y_i\|p\\}\\).
+- The subscript on *Y* indicates that there are multiple Y values given a value of *p*
+
+For example, if *Y* follows a Poisson distribution with a rate parameter *r*, then we would have 
+$$ Pr \{Y_i = k | r\} \frac{e^{-r}r^k}{k!} $$
+
+This tells us the probability of the "data" given the "hypothesis," where the "data" are k events in one unit of time and the "hypothesis" is that the rate parameter is r
+
+- When confronting models with data, we usually want to know how well the data support the alternative hypotheses
+- "Given these data, how likely are the possible hypotheses?"
+
+$$ \mathcal{L} \{data | hypothesis\} $$
+
+or
+
+$$ \mathcal{L} \{Y | p_m\} $$
+
+Notice the shift in the equation.  We no longer have subscripts under *Y* but we do for *p*.  This is because we have known Y from the data collected but there are several *p* possible that could explain our observed data. 
+
+A key to the distinction between likelihood and proba bility is that with probability the hypothesis is known and the data are unknown, whereas with likelihood the data are known and the hypotheses unknown
+
+Example:
+Suppose that the data were k = 4 events in one unit of time.  What is the likelihood of possible values of r.
+
+$$  \mathcal{L}\{4 | r\} \frac{e^{-r}r^4}{4!} $$
+
+How does the possible values of *r* change if *k* is 6.
+
+```{r}
+test_data<-data.frame(r = 1:16)
+
+test_data$r4<-(exp(-test_data$r)*test_data$r^4)/factorial(4)
+test_data$r6<-(exp(-test_data$r)*test_data$r^6)/factorial(6)
+
+ggplot(data = test_data) +
+  geom_line(aes(x = r, y = r4), colour = "red", size = 1) + 
+  geom_line(aes(x = r, y = r6), colour = "blue", size = 1) +
+  labs(y = "likelihood", x = "r")+
+  coord_cartesian(ylim = c(0,0.22), xlim = c(0,18), expand = FALSE) +
+  theme_bw()
+
+```
+
+- The parameter that makes the likelihood as large as possible is called the maximum likelihood estimate (MLE)
+
+- likelihoods may be very small numbers, the tradi  tion is to use the logarithm of the likelihood, called the log  likelihood
+
+- to make log likelihood similar to Sum of Squares, we will take the negative of the log likelihood
+
+```{r}
+test_data$logr4<- -log10(test_data$r4)
+test_data$logr6<- -log10(test_data$r6)
+
+ggplot(data = test_data) +
+  geom_line(aes(x = r, y = logr4), colour = "red", size = 1) + 
+  geom_line(aes(x = r, y = logr6), colour = "blue", size = 1) +
+  labs(y = "negative log likelihood", x = "r")+
+  # coord_cartesian(ylim = c(0,0.22), xlim = c(0,18), expand = FALSE) +
+  theme_bw()
+
+```
+
+
+
+Given a set of observations from the population, we can find estimates of one (or many) parameters that maximize the liklihood of observing those data.  The likelihood function provides the likelihood of the observed data for all possible values of the parameter we are trying to estimate. 
+
+This approach allows us to incorporate some of the uncertainty based on probability distributions. For example, if the deviations of the data from the average follow a normal distribution, then it can be assumed that the uncertainty is normally distributed.  
+
+This approach allows us to develop confidence bounds around our parameters that we could not do in the sum of squares approach.  
+
+### Likelihood and Maximum Likelihood
+
+The probability of observing the data \\(Y_i\\) given a particular parameter value \\(p\\) is:
+$$ Pr(Y_i | p) $$
+
+The subscript on Y, indicates that there are many possible outcomes but only one parameter \\(p\\). Thus we can ask, "Given these data, how likely are the possible hypothesis?"
+
+\\(L \{data | hypothesis \}\\) or \\(L\{Y | p_m\}\\).  Notice the difference from the previous equation.  In the likelihood function we have one observation but numerous potential hypotheses or parameter values. The key difference between likelihood and probability is that with the probability the hypothesis is known and data are unknown, whereas the likelihood the data are known and the hypotheses are unknown. 
+
+Thus there are parameter values that are more likely than others.  
+
+The parameter that makes the likelihood as large as possible is the *maximum likelihood estimate* (MLE).  Generally likelihoods are very small values and thus the log likelihood is used and to make it analogous to sum of squares we use the negative value of that.  So the best fit parameter value will be the negative, log likelihood.  
+
+As an example, consider the heights of ten people in cm.  We can assume that height is normally distributed with a standard deviation of 10 cm.  
+
+```{r}
+height_data <- data.frame(ind = 1:10, height = c(171, 168, 180, 190, 169, 172, 162, 181, 181, 177) )
+
+height_data
+```
+
+The likelihood for the true mean of the population can be given as:
+
+$$ L\{Y | p_m \} = \frac{1}{10 \sqrt{2 \pi}} exp \left( - \frac{(Y - m)^2}{200} \right) $$  
+
+and the negative log-likelihood for 10 of the ten heights is:
+
+$$ L\{Y | p_m \} = n[\log(10) + \frac{1}{2}\log(2 \pi) ] + \sum_{i=1}^n \frac{(Y_i - m)^2}{200}$$
+
+```{r}
+
+m<- seq(160, 200, by= 0.25) # mean height
+
+data_stor<-data.frame(m = m, ll = NA)
+
+for(i in 1:length(m)){
+  
+  ll <- 10*(log(10) + 1/2*log(2*pi)) + sum((height_data$height - m[i])^2)/200
+  
+  data_stor$ll[i] <- ll
+  }
+```
+
+
+```{r}
+ggplot() +
+  geom_line(data =data_stor, aes(x = m, y = ll), size = 1, colour = "blue" ) +
+  scale_x_continuous(breaks = seq(160, 200, by = 5)) +
+  theme_bw()
+
+```
+
+And to find that value:
+
+```{r}
+
+data_stor[which(data_stor$ll == min(data_stor$ll)),]
+
+```
+
+
+
