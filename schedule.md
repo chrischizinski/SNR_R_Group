@@ -2,7 +2,7 @@
 layout: page
 title: ""
 ---
-# Spring 2017:  Ecological Detective:  Confronting models with data in R
+# Fall 2017:  APPLIED MULTIVARIATE STATISTICS USING R
 
 <img style="float: right;" src="/SNR_R_Group/figs/R.jpeg">
 
@@ -51,8 +51,8 @@ Material can be found in the SNR R User group repository on [github](https://git
 
 This schedule is tentative and we may change the schedule a depending on the interest of the class.  
 
-| Week  |  Date |  Topic | 
-|---|---|---|---|
+| Week|  Date|  Topic | 
+|---|--------|--------|
 | 1 | 25-Aug | Introduction to R and coding; Data structures in R; Importing data|
 | 2 | 1-Sep| Data manipulation and summarization | 
 | 3 | 8-Sep | Graphing with ggplot2 | 
