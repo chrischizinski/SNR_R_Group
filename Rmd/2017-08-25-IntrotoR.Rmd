@@ -1,0 +1,79 @@
+---
+title: "Intro to R"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Welcome back to another semester of our UseR.  
+
+[R script from class](https://github.com/chrischizinski/SNR_R_Group/blob/master/R/2017-08-25-Intro_dataimport.R)
+[Powerpoint from class](/SNR_R_Group/figs/Intro to programming.pdf)
+
+
+## Weekly challenge
+
+### The data
+
+Work with the ecology data set from datacarpentry.  An explanation of the dataset can be found [here](http://www.datacarpentry.org/R-ecology-lesson/02-starting-with-data.html)
+
+```{r message = FALSE, warning = FALSE}
+library(tidyverse)
+
+mydata <- read_csv("https://ndownloader.figshare.com/files/2292169")
+
+glimpse(mydata)
+```
+
+### In-class challenges
+
+**1. Find the average hindfoot_length**
+
+```{r}
+mean(mydata$hindfoot_length)
+
+# Notice the answer is NA.  This is because NAs are in the data and thus need to be removed. This can be accomplished in two ways
+
+# 1. Remove the NAs from the data and create a new object and then take the mean
+
+hindfoot_length.rev <- mydata$hindfoot_length[!is.na(mydata$hindfoot_length)]
+avg_foot <- mean(hindfoot_length.rev)
+avg_foot
+
+# 2. Use  na.rm option within the mean function
+?mean
+avg_foot <-mean(mydata$hindfoot_length, na.rm = TRUE)
+avg_foot
+```
+
+**2. How many are above and below average**
+
+```{r}
+#step 1 - find average
+avg <- mean(mydata$hindfoot_length, na.rm=T)
+#step 2- index to get only value in number below
+lessthan <- mydata$hindfoot_length < avg
+head(lessthan, 25) # display the first 25 elements
+
+greaterthan <- mydata$hindfoot_length > avg
+
+#step 3 - count the number of rows
+sum(lessthan, na.rm=T)
+sum(greaterthan, na.rm=T)
+
+```
+
+### Take-home challenges
+
+**1. What are the names of the plot types (treatments) in the experiment?**
+
+**2. How many species caught?**
+
+**3. How many species of birds? Rodents?**
+
+**4. Average weight of Male Rodents? **
+
+**5. Average weight of Female Rodents?**
+
