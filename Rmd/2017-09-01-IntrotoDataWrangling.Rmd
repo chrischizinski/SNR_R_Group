@@ -1,0 +1,47 @@
+---
+title: "Applied Multivarite:  Intro to Data Wrangling"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This class covers an introduction to wrangling and summarizing data using the functions from `tidyr` and `dplyr`.  This is only meant to serve as a brief introduction, as we will keep developing these skills throughout the semester.  I have a similar lesson on data wrangling from a previous semester [2016-09-23-Wrangling](https://chrischizinski.github.io/SNR_R_Group/2016-09-23-Wrangling) and information on joins [2016-09-29-Joining_Data_Sets](https://chrischizinski.github.io/SNR_R_Group/2016-09-29-Joining_Data_Sets).
+
+[R script from class](https://github.com/chrischizinski/SNR_R_Group/blob/master/R/2017-09-01-Rclass_dplyr.R)
+
+
+[Answers to last week challenges](https://github.com/chrischizinski/SNR_R_Group/blob/master/R/2017-09-01-Challenges_week1.R)
+
+
+
+## Weekly challenge
+
+### The data
+
+Work with the ecology data set from datacarpentry.  An explanation of the data set can be found [here](http://www.datacarpentry.org/R-ecology-lesson/02-starting-with-data.html)
+
+```{r message = FALSE, warning = FALSE}
+library(tidyverse)
+
+mydata <- read_csv("https://ndownloader.figshare.com/files/2292169")
+
+glimpse(mydata)
+```
+
+## In-class challenges
+
+*1. create a new column for Species (Genus + specific epithet)*
+
+*2. Average weight of Male Rodents*
+
+*3.put data into long form*
+
+
+## TAKE home challenges
+
+*1. How many animals caught in each plot type?*
+*2. How many species are in each taxa?*
+*3. Average weight of each species?*
+*4. Average weight of each Sex of Each species?*
