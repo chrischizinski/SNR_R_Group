@@ -1,0 +1,85 @@
+---
+title: "Latent variable analysis"
+csl: the-journal-of-wildlife-management.csl
+output:
+  html_notebook: default
+bibliography: bibliography.bib
+---
+
+The source to many of the notes in this lesson (and a lot more detail on the subject) can be found at @finch2015latent and @beaujean2014latent.  
+
+*Latent variables* in statistics are variables that are not directly observable and are inferred from a mathematical model.  One advantage of using *latent variables* is that it helps reduce the dimensionality of data (a major theme of multivariate statistics) and has been used in many scientific disciplines.  
+
+One type of latent variable analysis is *factor analysis* and used extensively in social and behavioral sciences.  Factor analysis allows the researcher to create models of non-observable factors (e.g., motivations, constraints, identity) from multivariate data.  
+
+There are two broad types of factor analysis:  1) Exploratory factor analysis (EFA) and 2) Confirmatory factor analysis (CFA).  The difference between the two is in the degree of ** a priori ** structure that is assummed in the model.  In using EFA the researcher does not impose a specific latent structure on the observable data, but allows the analysis to provide the optimal number of factors. In contrast to EFA, with CFA the researcher explicitly links the indicators with the factors to which they theoretically belong.
+
+## Exploratory factor analysis
+
+EFA consists of two steps (1) factor extraction and (2) factor rotation.  Factor rotation involves estimating the intial model paramters (i.e., factor loadings:  loadings reflect the
+relationships between the factors and the indicators, with larger values being indicative
+of a closer association between a latent and observed variable).  There are as many factors as number of indicator variables (i.e., columns used to define the latent variable). 
+
+### Factor extraction
+
+Several extraction methods exist, with the most popular being maximum likelihood (ML) and principal axis factor (PAF).  ML method has a direct assessment of model fit but also relies on multivariate normality.  PAF does not have a distributional assumption but does not have a test of statistical fit.  
+
+### Factor rotation
+
+Factor rotation  is the transformation of the initial set of factor loadings to simplify the interpretation of of the results by finding a simple solution.  Methods fall into two broad categories:  orthogonal and oblique.  Orthogonal rotations constrain the correlations among factors to be zero, whereas oblique rotations allow the factors to be correlated. The most
+popular orthogonal rotation method is VARIMAX, while among the oblique rotations PROMAX and OBLIMIN are popular.  Decision on which method to use, should be based in theory and empirical grounds.  
+
+### Determining the optimal number of factors
+
+1. Eigenvalues greater than 1.  Eigenvalues greater than 1, account for more variance than any of the observed values.  
+2.  Scree plots.  Eigenvalues on the y-axis and number of factors on the x axis.  Identify where the plot "flattens out"
+3. Proportion of variance.  Identify when there is no "appreciative"  gain in the percentage of variance explained.  Similar to scree plot
+4. Residual correlation matrix for the observed indicators. residuals larger than 0.05 are considered to be too large, so that a good solution is one which produces few residual correlations greater than 0.05 in absolute value.
+5. Parallel analysis.  Described in @horn1965rationale
+
+### The data 
+
+For this data, we will use the data set provided by @finch2015latent [here](https://www.routledge.com/Latent-Variable-Modeling-with-R/Finch-French/p/book/9780415832458#datasets).  The data represents information collected on acheivement goal orientation. Achievement goal orientation refers to how an individual interprets and reacts to tasks, resulting in different patterns of cognition, affect and behavior.  There are 12 questions with results representing a 7-point likert-type scale from 430 college students. 
+
+The columns refer to:
+
+- AGS1 = My goal is to completely master the material presented in my classes. (MAP)
+- AGS2 = I want to avoid learning less than it is possible to learn. (MAV)
+- AGS3 = It is important for me to do better than other students. (PAP)
+- AGS4 = I want to avoid performing poorly compared to others. (PAV)
+- AGS5 = I want to learn as much as possible. (MAP)
+- AGS6 = It is important for me to avoid an incomplete understanding of the course material. (MAV) 
+- AGS7 = It is important for me to understand the content of my courses as thoroughly as possible. (MAP)
+- AGS8 = My goal is to avoid performing worse than other students. (PAV) 
+- AGS9 = I want to do well compared to other students. (PAP) 
+- AGS10 = It is important for me to avoid doing poorly compared to other students. (PAV) 
+- AGS11 = My goal is to perform better than the other students. (PAP) 
+- AGS12 = My goal is to avoid learning less than I possibly could. (MAV)
+
+
+The types of questions refer to 4 distinct latent traits: mastery approach (MAP), mastery avoidant (MAV), performance approach (PAP), and performance avoidant (PAV).
+
+The data is in a SPSS format and I have converted it to a csv file for convience and is in our github data repository as `goal_scale.csv`
+
+```{r}
+library(readr)
+
+goal_scale <- read_csv("https://raw.githubusercontent.com/chrischizinski/SNR_R_Group/master/data/goal_scale.csv")
+
+head(goal_scale)
+
+```
+
+
+
+```{r}
+plot(cars)
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
+## References
