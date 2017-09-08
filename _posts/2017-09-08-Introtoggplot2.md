@@ -1,0 +1,31 @@
+---
+title: "Applied Multivarite:  Intro to data visualization with ggplot2"
+output: html_document
+---
+
+
+
+This class covers an introduction to graphing using the functions from `ggplot2`.  Similar to the introduction with `tidyverse` This is only meant to serve as a brief introduction and we will keep developing these skills throughout the semester.  I have similar lessons graphing from a previous semester [2016-10-03-BasicPlots](https://chrischizinski.github.io/SNR_R_Group/2016-10-03-BasicPlots) and information on themes, facetting, and saving plots [2016-10-05-Themes_Facets](https://chrischizinski.github.io/SNR_R_Group/2016-10-05-Themes_Facets).
+
+[R script from class](https://github.com/chrischizinski/SNR_R_Group/blob/master/R/2017-09-08-Rclass_ggplot2.R)
+
+
+[Answers to last week challenges](https://github.com/chrischizinski/SNR_R_Group/blob/master/R/2017-09-01-Challenges_week1.R)
+
+
+
+## Weekly challenge
+
+### Take home challenges
+
+**1. Bring dataset "diamonds" **
+
+**2. Create a plot in ggplot2 that looks at the relationship between cut and price.  Use the most appropriate geom **
+
+**3. Create a plot in ggplot2 that looks at the relationship between cut, price, and caret. Use most appropriate  methodology **
+
+**4. Choose one plot and make everything look presentation quality by manipulating the theme **
+
+**5. Choose two geoms from the cheatsheet, that we didn't talk about and makes some plots **
+
+
