@@ -3,8 +3,6 @@ title: "Applied Multivarite:  Intro to multivariate stats"
 output: html_document
 ---
 
-
-
 This class covers an introduction to multivariate statistics and data transformations and standardizations.  Detailed notes from previous semesters can be found here:  [2016-08-10-Data-Transformations](https://chrischizinski.github.io/SNR_R_Group/2016-08-10-Data-Transformations).
 
 [Introduction presentation](https://chrischizinski.github.io/pres_introtomultivariate)
