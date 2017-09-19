@@ -1,5 +1,5 @@
 ---
-title: "Applied Multivarite:  Intro to data visualization with ggplot2"
+title: "Applied Multivarite:  Intro to multivariate stats"
 output: html_document
 ---
 
@@ -7,9 +7,11 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-This class covers an introduction to graphing using the functions from `ggplot2`.  Similar to the introduction with `tidyverse` This is only meant to serve as a brief introduction and we will keep developing these skills throughout the semester.  I have similar lessons graphing from a previous semester [2016-10-03-BasicPlots](https://chrischizinski.github.io/SNR_R_Group/2016-10-03-BasicPlots) and information on themes, facetting, and saving plots [2016-10-05-Themes_Facets](https://chrischizinski.github.io/SNR_R_Group/2016-10-05-Themes_Facets).
+This class covers an introduction to multivariate statistics and data transformations and standardizations.  Detailed notes from previous semesters can be found here:  [2016-08-10-Data-Transformations](https://chrischizinski.github.io/SNR_R_Group/2016-08-10-Data-Transformations).
 
-[R script from class](https://github.com/chrischizinski/SNR_R_Group/blob/master/R/2017-09-08-Rclass_ggplot2.R)
+[Introduction presentation](https://github.com/chrischizinski/SNR_R_Group/presentations/2017-09-15-IntrotoMulti/index.html)
+
+[R notebook](https://github.com/chrischizinski/SNR_R_Group/notebooks/2017-09-15-Datatransformations/2017-09-15-IntrotoMultivariate.nb.html)
 
 
 [Answers to last week challenges](https://github.com/chrischizinski/SNR_R_Group/blob/master/R/2017-09-01-Challenges_week1.R)
