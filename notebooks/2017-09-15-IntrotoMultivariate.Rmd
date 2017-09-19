@@ -2,6 +2,8 @@
 title: "Intro to Multivariate Stats"
 output:
   html_notebook: default
+editor_options: 
+  chunk_output_type: inline
 ---
 
 ```{r setup, include=FALSE}
@@ -178,14 +180,3 @@ decostand(rawdata, margin = 1, method = "total")
 colprop_data <- rawdata %*% diag(1/apply(rawdata,2,sum))
 ```
 
-## Take home challenge 
-
-1) Input the data that Mike W. showed `mydata <- read_csv("https://ndownloader.figshare.com/files/2292169")`
-2) Calculate the number of unique individuals per species per site per year per month for Rodents
-3) Calculate the maximum number of unique individuals per species per site per year for Rodents
-4) Calculate the max individuals across years per species per site for Rodents
-5) Create a site by species matrix composed of those max values
-6) Calculate by row total standardization
-7) Plot a bar chart of each site and relative number of a few (3) species
-
-Send to cchizinski2@unl.edu
