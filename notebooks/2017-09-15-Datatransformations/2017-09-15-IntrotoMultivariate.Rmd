@@ -1,0 +1,191 @@
+---
+title: "Intro to Multivariate Stats"
+output:
+  html_notebook: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Difference between Transformations and Standardizations
+
+- Transformations are applied to each element in a matrix
+- Standardization adjust elements in a matrix by a row or column statistic 
+
+### Create some data
+
+```{r}
+
+rawdata <- matrix(c(1,1,1,3,3,1,
+                    2,2,4,6,6,0,
+                    10,10,20,30,30,0,
+                    3,3,2,1,1,0,
+                    0,0,0,20,0,0), ncol = 6, byrow = TRUE)
+colnames(rawdata) <- paste("species",toupper(letters[1:6]), sep = "_")
+
+rawdata
+```
+
+### Calculating row and column statistics
+
+#### Rows
+
+```{r}
+# Row sums
+rowSums(rawdata)
+
+apply(rawdata, 1, sum)
+
+# Max values
+apply(rawdata, 1, max)
+```
+
+#### Columns 
+
+```{r}
+# Sums
+apply(rawdata, 2, sum)
+colSums(rawdata)
+
+# Max
+apply(rawdata, 2, max)
+```
+
+### Monotonic transformations 
+
+#### Log transformations 
+
+- Useful for when you have a wide spread in data values
+
+- Ir is important that you add 1 to values to account for zeros `log10(x+1)`
+
+```{r}
+logdata <- apply(rawdata , c(1,2), function(x) log10(x + 1))
+```
+
+```{r message = FALSE}
+library(tidyverse)
+
+hemlock <- read_csv("https://raw.githubusercontent.com/chrischizinski/SNR_R_Group/master/data/hemlock_cover.csv")
+
+
+
+hemlock$logTsuga<- log10(hemlock$Tsuga.canadensis +1) # log transform 
+
+glimpse(hemlock)
+
+```
+
+```{r}
+ggplot(data = hemlock) + 
+  geom_histogram(aes(Tsuga.canadensis), binwidth = 5, colour = "black", fill = "dodgerblue") + 
+  coord_cartesian(ylim = c(0, 30), expand = FALSE) +
+  theme_bw()
+```
+
+```{r}
+ggplot(data = hemlock) + 
+  geom_histogram(aes(logTsuga), bins = 30, colour = "black", fill = "red") + 
+  coord_cartesian(ylim = c(0, 30), expand = FALSE) +
+  theme_bw()
+```
+
+#### Power tranformations
+
+- Square root transformation is most often used for Poisson type date (count data)
+- Greater the power, the greater the compression of the data
+- Flexible for a wide range of data
+- Applied when the data is > 0
+
+##### Write power function
+
+```{r}
+pwr_trans <- function(x, trans){
+  x <- ifelse(x>0,x^(1/trans),0)
+  return(x)
+}
+
+pwr_trans(25,2)
+
+pwr_trans(0,2)
+
+```
+
+#### Display the effect of the power function
+
+```{r}
+newdata <- data.frame(x = 0:100, 
+                      cubic = pwr_trans(x=0:100, trans = 3),
+                      power10 = pwr_trans(x=0:100, trans = 10))
+
+head(newdata)
+```
+
+```{r}
+ggplot(data = newdata) +
+  geom_line(aes(x = x, y = cubic), size = 1, colour = "blue") +
+  geom_line(aes(x = x, y = power10), size = 1, colour = "red") +
+  labs(y = "Value") +
+  coord_cartesian(xlim = c(0,100.5), ylim = c(0,5), expand = F)+
+  theme_classic()
+  
+```
+
+
+#### Presence absence transformation
+
+- Transforms quantitative data to non-quanitative (binary)
+- Applicable to species data
+- Most useful when there is not a lot of quantitative data available (i.e., LOTS of zeros)
+- Severe transformation (i.e., loose lots of information) 
+
+```{r}
+library(vegan)
+decostand(rawdata, method = "pa")
+```
+
+#### Arcsine transformation
+
+Please NOTE: [The arcsine is asinine: the analysis of proportions in ecology](http://onlinelibrary.wiley.com/doi/10.1890/10-0340.1/abstract)
+
+- Transformations on proportion data (0-1)
+- Useful when you have a positive skew in data
+    - Spreads the end of the scale while compressing the middle 
+
+### Standardizations
+
+### Sums 
+- Can be applied to any range of x
+- Output will range 0 - 1
+- Converts values to a relative value (equalizes the area under the curve) 
+- Useful when you have large difference in total abundance
+
+#### Rows
+
+```{r}
+ttl_species <- apply(rawdata, 1, sum)
+rowprop_data <- rawdata / ttl_species
+  
+rowprop_data
+
+decostand(rawdata, margin = 1, method = "total")
+```
+
+#### Columns
+
+```{r}
+colprop_data <- rawdata %*% diag(1/apply(rawdata,2,sum))
+```
+
+## Take home challenge 
+
+1) Input the data that Mike W. showed `mydata <- read_csv("https://ndownloader.figshare.com/files/2292169")`
+2) Calculate the number of unique individuals per species per site per year per month for Rodents
+3) Calculate the maximum number of unique individuals per species per site per year for Rodents
+4) Calculate the max individuals across years per species per site for Rodents
+5) Create a site by species matrix composed of those max values
+6) Calculate by row total standardization
+7) Plot a bar chart of each site and relative number of a few (3) species
+
+Send to cchizinski2@unl.edu
