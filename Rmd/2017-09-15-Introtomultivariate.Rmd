@@ -1,0 +1,36 @@
+---
+title: "Applied Multivarite:  Intro to multivariate stats"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This class covers an introduction to multivariate statistics and data transformations and standardizations.  Detailed notes from previous semesters can be found here:  [2016-08-10-Data-Transformations](https://chrischizinski.github.io/SNR_R_Group/2016-08-10-Data-Transformations).
+
+[Introduction presentation](https://chrischizinski.github.io/pres_introtomultivariate)
+
+[Introduction presentation Rmarkdown file](https://raw.githubusercontent.com/chrischizinski/SNR_R_Group/master/presentations/2017-09-15-introtomultivariate.Rmd)
+
+[R notebook](https://chrischizinski.github.io/snr_r_notebooks/datatransformations/)
+
+[R notebook Rmarkdown file](https://raw.githubusercontent.com/chrischizinski/SNR_R_Group/master/notebooks/2017-09-15-IntrotoMultivariate.Rmd)
+
+
+## Weekly challenge
+
+### Take home challenges
+
+1. Input the file from `"https://ndownloader.figshare.com/files/2292169"`
+2. Use data from `Rodents` only 
+3. Calculate the number of unique rodents by site by month by year for each species
+4. Calculate the maximum number individuals for each year for each species
+5. Calculate the maximum number of individuals for each species across all years
+6. Transform the data to wide format with columns representing species and sites representing rows
+7. Change all `NA` to zeros
+8. Complete a by-row total standardization
+9. Plot a bar chart of each site and relative number of a few (3) species using an appropriate geom
+
+
+
