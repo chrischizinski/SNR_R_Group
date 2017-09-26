@@ -1,0 +1,20 @@
+---
+title: "Applied Multivarite:  Data Standardizations (continued)"
+output: html_document
+---
+
+
+
+This class continues to cover an introduction to multivariate statistics and data transformations and standardizations.  Detailed notes from previous semesters can be found here:  [2016-08-10-Data-Transformations](https://chrischizinski.github.io/SNR_R_Group/2016-08-10-Data-Transformations).
+
+[R notebook](https://chrischizinski.github.io/snr_r_notebooks/datastandardizations/)
+
+[R notebook Rmarkdown file](https://raw.githubusercontent.com/chrischizinski/SNR_R_Group/master/notebooks/2017-09-22-Datastandardizations.Rmd)
+
+
+## Weekly challenge
+
+### Take home challenges
+
+No challenge this week
+
