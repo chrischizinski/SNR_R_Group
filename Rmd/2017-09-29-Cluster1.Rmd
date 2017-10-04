@@ -1,0 +1,15 @@
+---
+title: "Applied Multivarite:  Identifying groups in multivariate data. Part 1"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This topic will span a couple classes and include topics such as cluster analysis, factor analysis, and latent class analysis
+
+[R notebook-Cluster part 1](https://chrischizinski.github.io/snr_r_notebooks/cluster1/)
+
+[R notebook Rmarkdown file-Cluster part 1](https://raw.githubusercontent.com/chrischizinski/SNR_R_Group/master/notebooks/2017-09-29-Clustering1.Rmd)
+

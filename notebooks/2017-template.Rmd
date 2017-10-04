@@ -1,0 +1,15 @@
+---
+title: "Applied Multivariate:  Breaking multivariate data into groups"
+output: html_notebook
+editor_options: 
+  chunk_output_type: inline
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r message = FALSE}
+library(tidyverse)
+library(vegan)
+```

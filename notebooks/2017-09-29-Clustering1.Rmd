@@ -1,0 +1,102 @@
+---
+title: "Applied Multivariate:  Breaking multivariate data into groups. Part 1."
+output: html_notebook
+editor_options: 
+  chunk_output_type: inline
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r message = FALSE}
+library(tidyverse)
+library(vegan)
+library(cluster)
+library(factoextra)
+library(fpc)
+```
+
+## Cluster analysis
+
+### The background
+
+- Cluster analysis is a broad group of multivariate techniques to identify homogenous groups
+    - maximizes between group variation and minimizing within group variation 
+    - outcome:  reduction of observations into fewer groups
+    - often used in data mining or exploratory approaches
+    - works best when there are inherent discontinuities in the data
+         -  if the data is continuous, ordination techniques may be preferred
+         - ordination may force groups that do not exist 
+         
+- Occurs in two basic steps:
+    1. measure of similarity betewen observations is specified
+    2. Using this distance (and a clustering rule) observations are grouped based on either a hierarchical or partitioning technique
+    3.  Once a new cluster is formed, distances between clusters are based on single linkage (minimum distance), complete linkage (maximum method), or average linkage
+
+- Hiercharchical techniques are useful because they can reveal relationships in a nested fashion (i.e., phylogenetic tree)
+    - not efficient for large data sets (> 500 obs)
+    
+- Unlike hierarchical, partitioning does not require dissimilarity matrices
+
+- Partitioning methods follow four iterative steps:
+    1. randomly assign cluster centroids
+    2. classify clusters based on the closest centroid
+    3. recaculate the centroid after each observation is added
+    4. repeat steps1-3 until within cluster variation is minimized
+
+- Limitations of clustering
+    - exploratory or hypothesis generating tool
+    - Be considerate of using mixed data types.  Gower's distance should not be used in hierarchical analysis
+    - Assumes distance measures follow a normal or multinomial distribution
+    - clustering variables are appropriate for group separation
+    - Can be influenced by scale and units
+    - visual classifications are selective
+
+### Now on to the doing
+
+We are going to use non-ecological data in this excersize to illustrate the different types of data that can be incorporated into this type of analysis
+
+```{r}
+data("USArrests")
+glimpse(USArrests)
+```
+
+Lets scale the data 
+```{r}
+USArrests %>% 
+  scale() -> arrest.scale
+
+head(arrest.scale)
+```
+
+lets convert this to a distance matrix using the `factoextra::get_dist()` function.
+
+```{r}
+arrest.scale %>% 
+  get_dist(upper = TRUE, diag = TRUE) -> arrest.dist
+```
+
+Visualizing the distance matrix
+
+```{r}
+
+arrest.dist.df <- as.data.frame(as.matrix(arrest.dist))
+arrest.dist.df$row <- rownames(arrest.dist.df)
+
+arrest.dist.df %>% 
+  gather(col, value, -row) -> arrest_long
+```
+
+```{r}
+ggplot(data = arrest_long) +
+  geom_raster(aes(x = col,y=row, fill = value)) +
+  coord_equal(expand = F) +
+  scale_fill_gradient2( low = "red", mid = "white", high = "blue", midpoint = 3) +
+theme_classic() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank())
+```
+
+ 

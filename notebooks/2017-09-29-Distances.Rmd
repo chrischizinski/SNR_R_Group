@@ -1,0 +1,262 @@
+---
+title: "Applied Multivariate:  Distance matrices"
+output: html_notebook
+editor_options: 
+  chunk_output_type: inline
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+.libPaths("P:/RLibrary2")
+```
+
+Load the libraries we will use today
+
+```{r message = FALSE}
+library(tidyverse)
+library(vegan)
+library(cluster)
+library(RColorBrewer)
+```
+
+### Similarity and distances
+
+To illustrate the concept of similarity and distance, lets envison a data matrix with 4 sites and 2 species
+
+```{r}
+hyp_data <- matrix(c(1,9,1,8,6,6,9,1), byrow = TRUE, ncol = 2)
+colnames(hyp_data)<-c("SpeciesA", "SpeciesB")
+hyp_data
+```
+
+Lets plot these in 2 dimensions to show the relationships
+
+```{r}
+ggplot(data = as.data.frame(hyp_data)) + 
+  geom_point(aes(x = SpeciesA, y=SpeciesB),size = 3, colour = "red") +
+  geom_text(aes(x = SpeciesA, y=SpeciesB, label= paste("Site",1:4))) +
+  coord_cartesian(xlim = c(0,10), ylim = c(0,10), expand = F) +
+  theme_classic()
+```
+
+How can we quantify that distance?  One of the simplest methods is the Euclidean distance
+
+```{r}
+euc_distance <- function(x,y){
+  x = x[2] - x[1]
+  y = y[2] - y[1]
+  h = sqrt(x^2 + y^2)
+  return(h)
+}
+
+euc_distance(hyp_data[c(2,3),"SpeciesA"], hyp_data[c(2,3),"SpeciesB"])
+```
+
+The problem with this function that we wrote is that its not easily able to calculate all the distances.
+
+```{r}
+dist(hyp_data)
+
+dist(hyp_data, diag = TRUE, upper = TRUE)
+```
+
+```{r}
+hyp_data2 <- cbind(data.frame(hyp_data), data.frame(x = 9, y = 1))
+
+ggplot(data = as.data.frame(hyp_data)) + 
+  geom_segment(data = hyp_data2, aes(x = x, y = y, xend = SpeciesA, yend = SpeciesB), linetype = "dashed") +
+  geom_point(aes(x = SpeciesA, y=SpeciesB),size = 3, colour = "red") +
+  geom_text(aes(x = SpeciesA, y=SpeciesB, label= paste("Site",1:4))) +
+  coord_cartesian(xlim = c(0,10), ylim = c(0,10), expand = F) +
+  theme_classic()
+```
+
+### Common distance measures 
+
+There are approximately 30 similarity or distances commonly used. [Legendre and Legendre 2012](http://www.ievbras.ru/ecostat/Kiril/R/Biblio/Statistic/Legendre%20P.,%20Legendre%20L.%20Numerical%20ecology.pdf) 
+
+The choice of which distance you are going to use depends on the data type and the type of analysis you will do. 
+
+#### Euclidean distance
+
+$$ ED_{ij} = \sum_{i = 1}^p \sqrt{(x_{ij} - x_{ik})^2} $$
+- Most appealing measure because it has true "metric" properties
+- Column standardization to remove potential issues with scale
+- Applied to any data of any scale
+- Used in eigenvector ordinations (e.g., PCA)
+- Assume that variables are not correlated
+- Emphasizes outliers 
+- Loose sensitivity with heterogeneous data 
+- Distances are not proportional 
+
+```{r}
+vegdist(hyp_data, method = "euclidean")
+```
+
+```{r}
+euc_dist<-as.data.frame(as.matrix(vegdist(hyp_data, method = "euclidean", diag = TRUE, upper = TRUE)))
+
+euc_dist$row <-rownames(euc_dist)
+
+euc_dist %>% 
+  gather(col, value, -row) %>% 
+  mutate(col = as.numeric(col),
+         row = as.numeric(row)) -> euc_long
+
+ggplot(data = euc_long) + 
+  geom_raster(aes(x = col, y = row, fill = value))+
+  coord_equal(expand = F) +
+  scale_fill_gradient2(low = "red", high = "blue", mid = "white", midpoint = 5) +
+  theme_classic()
+
+```
+
+#### City block (Manhattan) distance
+
+- Most ecologically meaningful dissimilarities are Manhattan types
+- Less weight to outliers compared to Euclidean
+- Retains sensitivity with heterogenous data
+- Distances are not proportional 
+
+```{r}
+vegdist(hyp_data, method = "manhattan")
+```
+
+#### Proportional distances
+
+- Manhattan distances expressed as a proportion of the max distance
+- 2 communities with nothing in common would be 1
+
+```{r}
+max_dist <- max(vegdist(hyp_data, method = "manhattan"))
+
+vegdist(hyp_data, method = "manhattan")/max_dist
+```
+
+#### Sorensen or Bray-Curtis distance
+
+- Percent dissimilarity
+- Commonly used with species abundance but it can be used with data of any scale
+- Gives less weight to outliers than euclidean
+- Retains sensitivity with heteregenous data
+- Max when no species are in common
+- NOT metric and can not be used with DA, PCA, or CCA
+
+```{r}
+vegdist(hyp_data, method = "bray")
+```
+
+Some other proportional distances exist and differ how they weigh the dissimilarity.  Two examples are 
+
+- Jaccards distance
+
+```{r}
+vegdist(hyp_data, method = "jaccard")
+```
+
+- Kulczynski distance 
+
+```{r}
+vegdist(hyp_data, method = "kulczynski")
+```
+
+### Euclidean distances based on species profiles
+
+#### Chord distance 
+
+- Similar conceptually to euclidean, but data are row normalized
+- Useful in species abundance because it removes differences in total abundance
+- Gives low weights to variables with low counts and many zeros
+
+```{r}
+vegdist(decostand(hyp_data, method = "normalize"), method = "euclidean")
+```
+
+#### Chi-square distances
+
+- Euclidean distances after completing a chi-square standardization
+- Distance used in correspondance analysis (CA) and canonical correspondance analysis (CCA)
+
+
+```{r}
+vegdist(decostand(hyp_data, method = "chi.square"), method = "euclidean")
+```
+
+#### Species profile distance 
+
+- Euclidean distances on relative abundance
+- Variables with higher values and fewer zeros contribute more to the distance
+
+```{r}
+
+vegdist(decostand(hyp_data, method = "total", MARGIN = 1), method = "euclidean")
+```
+
+#### Hellinger distance
+
+- Euclidean distance on the hellinger standardization
+- Give low weights to variables with low counts and many zeros
+
+```{r}
+vegdist(decostand(hyp_data, method = "hellinger"), method = "euclidean")
+```
+
+### Distances on binary data
+
+```{r}
+set.seed(1234)
+pa_data <- matrix(c(sample(c(0,1), 8, replace = TRUE),
+                    sample(c(0,1), 8, prob = c(0.65, 0.35),replace = TRUE)),
+                  byrow = TRUE, ncol = 4)
+pa_data
+
+
+```
+
+```{r}
+vegdist(pa_data, binary = TRUE, method = "jaccard")
+```
+
+#### Binomial
+
+- Null hypothesis  two communites are equal
+
+```{r}
+vegdist(pa_data, binary = TRUE, method = "binomial")
+```
+
+#### Raup 
+- Probablistic index based on presence/absence data
+- Non-metric
+
+```{r}
+vegdist(pa_data, binary = TRUE, method = "raup")
+```
+
+
+#### Categorical and mixed data 
+
+#### Gowers distance
+- For each variable, a particular distance metric that works well for that data type and is used to scale between 0-1
+- Then a linear combination of those user specied weights (most simply an average) is calculated to create the final distance matrix 
+    - for quantitative data = range normalzed Manhattan distance
+    - ordinal = variable is first ranked then Manhattan with adjustment for ties
+    - nominal = variables of k categories are first converted into k binary columns and then a Dice coefficient is used
+    
+```{r}
+set.seed(123)
+# Create a nomial variable 
+nom <- factor(rep(letters[1:3], each = 3))
+
+# Create some binary data
+bin <- as.matrix(replicate(2, rep(sample(c(0,1), 9, replace = TRUE))))
+
+#Numerical variables
+vars <- as.matrix(replicate(3, rnorm(9)))
+
+df <- data.frame(nom, bin, vars)
+
+
+as.matrix(daisy(df, metric = "gower", type = list(asym = c(2,3))))
+```
+
