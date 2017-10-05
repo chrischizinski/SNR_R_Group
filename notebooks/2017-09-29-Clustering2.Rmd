@@ -1,0 +1,158 @@
+---
+title: "Applied Multivariate:  Breaking multivariate data into groups. Part 2"
+output: html_notebook
+editor_options: 
+  chunk_output_type: inline
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r message = FALSE}
+library(tidyverse)
+library(vegan)
+library(cluster)
+library(factoextra)
+library(fpc)
+```
+## First lets load the data from last week
+```{r}
+data("USArrests")
+
+```
+
+Lets scale the data 
+```{r}
+USArrests %>% 
+  scale() -> arrest.scale
+
+head(arrest.scale)
+```
+
+lets convert this to a distance matrix using the `factoextra::get_dist()` function.
+
+```{r}
+arrest.scale %>% 
+  get_dist(upper = TRUE, diag = TRUE) -> arrest.dist
+```
+
+## Cluster analysis
+
+### Partitioning clustering
+
+#### K-means
+
+```{r}
+km.arrest <- kmeans(arrest.scale, centers = 3, nstart = 25)
+km.arrest
+```
+
+```{r}
+centers<-as.data.frame(km.arrest$centers)
+centers$cluster <- rownames(centers)
+
+centers %>% 
+  gather(type, value, -cluster) %>% 
+  ggplot() + 
+  geom_bar(aes(x = cluster, y = value, fill = type), position = "dodge", stat = "identity", colour = "black") +
+  facet_wrap(~type) +
+  theme_classic() +
+  theme(legend.position = "none")
+```
+
+
+So how would we describe these clusters?
+
+- Cluster 1:  Lower than average crime, above average urban population
+- Cluster 2:  Higher than average crime, and average urban population
+- Cluster 3:  Much lower than average crime with below average urban population
+
+We can get the exact stats from our scaled data
+
+```{r}
+
+attr(arrest.scale,"scaled:center")
+attr(arrest.scale,"scaled:scale")
+```
+
+
+
+Lets visualize these in ordination space. 
+
+We can use the `factoextra::fviz_cluster` to illustrate how these places fall out
+
+```{r}
+fviz_cluster(km.arrest, data = arrest.scale,
+             ellipse.type = "convex",
+             palette = "jco",
+             ggtheme = theme_minimal())
+```
+
+`factoextra::fviz_cluster` while quick can be clunky and difficult to get exactly how you would like your plot displayed.  Here is how you can break the data apart and plot yourself. 
+
+```{r}
+trythis<-stats::prcomp(arrest.scale, scale = FALSE, center = FALSE)
+state_scores<-as.data.frame(scores(trythis))
+state_scores$cluster <- km.arrest$cluster
+state_scores$state <- rownames(state_scores)
+head(state_scores)
+
+```
+
+Next we need to find which points fall on the outside of each group (i.e., hull).  We do this using the `chull()` command.
+
+```{r}
+chull(state_scores %>% filter(cluster ==1) %>% select(PC1, PC2) )
+
+grp.1 <- state_scores[state_scores$cluster == 1, ][chull(state_scores %>% filter(cluster ==1) %>% select(PC1, PC2) ), ]  # hull values for cluster 1
+
+grp.2 <- state_scores[state_scores$cluster == 2, ][chull(state_scores %>% filter(cluster ==2) %>% select(PC1, PC2) ), ]  # hull values for cluster 2
+
+grp.3 <- state_scores[state_scores$cluster == 3, ][chull(state_scores %>% filter(cluster ==3) %>% select(PC1, PC2) ), ]  # hull values for cluster 3
+
+all_hulls <- rbind(grp.1,grp.2,grp.3)
+head(all_hulls)
+```
+
+```{r}
+ggplot(data = state_scores) + 
+  geom_point(aes(x = PC1, y = PC2, color = as.factor(cluster))) +
+  geom_text(aes(x = PC1, y = PC2, color = as.factor(cluster), label = state))  +
+  geom_polygon(data = all_hulls, aes(x = PC1, y = PC2, fill = as.factor(cluster), colour =  as.factor(cluster)), alpha = 0.25) + 
+  theme_minimal() 
+```
+
+
+Above we chose to seperate the data into three clusters.  But how do we decide what is the appropriate number of clusters?
+
+There are four different ways this can be done:
+
+1. Cross validation.  A subset of the data is used to develop the model and then it is 'verfied' with the rest of the data by checking the sum of squared distances to the group centroids.  An average of the sum of square distances is then taken.  Best number of clusters should have the lowest average squared distance. 
+
+2. Elbow method.  Similar to a scree plot where you choose the "elbow" in the plot representing a decrease in the rate of change in variance 
+
+```{r}
+
+wss <- (nrow(arrest.scale)-1)*sum(apply(arrest.scale,2,var))
+
+nclusters = 10
+
+for(i in 2: nclusters){
+  kmeans(arrest.scale, centers = 3, nstart = 25)
+  
+  }
+```
+
+
+
+```{r}
+#  We can use the pam function but must supply the number of clusters
+pam.res<-pam(arrest.dist,k = 3)
+
+fviz_cluster(pam.res)
+
+#The function pamk will provide us the optimal number of clusters
+fpc::pamk(arrest.dist)
+```
+
