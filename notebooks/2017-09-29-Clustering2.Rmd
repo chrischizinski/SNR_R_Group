@@ -11,10 +11,12 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r message = FALSE}
 library(tidyverse)
-library(vegan)
 library(cluster)
+library(vegan)
 library(factoextra)
 library(fpc)
+library(RWeka)
+library(ggdendro)
 ```
 ## First lets load the data from last week
 ```{r}
@@ -55,8 +57,8 @@ centers$cluster <- rownames(centers)
 centers %>% 
   gather(type, value, -cluster) %>% 
   ggplot() + 
-  geom_bar(aes(x = cluster, y = value, fill = type), position = "dodge", stat = "identity", colour = "black") +
-  facet_wrap(~type) +
+  geom_bar(aes(x = type, y = value, fill = type), position = "dodge", stat = "identity", colour = "black") +
+  facet_wrap(~cluster) +
   theme_classic() +
   theme(legend.position = "none")
 ```
@@ -136,23 +138,154 @@ There are four different ways this can be done:
 
 wss <- (nrow(arrest.scale)-1)*sum(apply(arrest.scale,2,var))
 
-nclusters = 10
+nclusters = 15
 
 for(i in 2: nclusters){
-  kmeans(arrest.scale, centers = 3, nstart = 25)
+  wss[i]<-sum(kmeans(arrest.scale, centers = i, nstart = 25)$withinss)
   
-  }
+}
+
+scree_data<-data.frame(wss = wss, clusters = 1:nclusters)
+
+head(scree_data)
 ```
+
+And plot out the scree plot
+
+```{r}
+ggplot(data = scree_data) + 
+  geom_line(aes(x = clusters, y = wss)) +
+  geom_point(aes(x = clusters, y = wss), size = 3) +
+  scale_x_continuous(breaks = 1:nclusters) +
+  theme_classic()
+```
+
+The elbow in this plot is at 4, but you can see that this can be a  little tricky in finding the "elbow"
+
+3. Silouette method, returns a value -1 to 1 based on the similarity of an observatioin within its own cluster and compared across clusters. A high value would indicate a strong match. 
+
+```{r}
+fviz_nbclust(arrest.scale, kmeans,
+             method = "silhouette")
+```
+
+
+There is also a type of clustering, that clusters around a mediod rather than a centroid.  In using, PAM clustering each cluster is represented by one of the objects in the cluster. PAM is less sensitive to outliers compared to k-means
+
+```{r}
+pamkout<-fpc::pamk(arrest.scale, krange = 2:15)
+pamkout
+
+```
+
+
+```{r}
+
+medoid_data <- data.frame(pamkout$pamobject$medoids)
+medoid_data$state<-rownames(medoid_data)
+
+medoid_data %>% 
+  gather(type, value, -state) %>% 
+  ggplot() + 
+  geom_bar(aes(x = type, y = value, fill = type), position = "dodge", stat = "identity", colour = "black") +
+  facet_wrap(~state) +
+  theme_classic() +
+  theme(legend.position = "none")
+
+```
+
+
+4. X means clustering.  Similary to the k means clustering but uses Bayesian Information criteria to identify the best split. 
+
+```{r}
+
+
+xout<-XMeans(arrest.scale)
+xout
+
+xout$class_ids
+```
+
+```{r}
+# WPM("list-packages", "available")
+# WPM("install-package", "XMeans")
+
+xcenters<-data.frame(cluster = 1:2,matrix(c(1.004934034580132, 1.0138273518643042,0.19758526759992892,0.8469650134151087,-0.6699560230534215, -0.675884901242869,-0.1317235117332867,-0.564643342276739), byrow = TRUE, ncol = 4))
+names(xcenters)[2:5]<- colnames(arrest.scale)
+
+xcenters %>% 
+  gather(type, value, -cluster) %>% 
+  ggplot() + 
+  geom_bar(aes(x = type, y = value, fill = type), position = "dodge", stat = "identity", colour = "black") +
+  facet_wrap(~cluster) +
+  theme_classic() +
+  theme(legend.position = "none")
+```
+
+There is another type of partitioning clustering, called clara and is used primarily for large datasets.  We will not be discussing in this class, but there is a function `cluster::clara()` (among some others) to be used when clustering "big data".
+
+### Hierarchical clustering
+
+Two main types of hierarchical clustering
+
+1. Agglomerative clustering.  Treats each observation as own cluster and then begins to merge into new clusters until all are merged into a new cluster.  Upside down tree. This is the most common type of hierarchical clustering. 
 
 
 
 ```{r}
-#  We can use the pam function but must supply the number of clusters
-pam.res<-pam(arrest.dist,k = 3)
+USArrests %>% 
+  scale() %>% 
+  dist(method = "euclidian") -> arrest.euc
 
-fviz_cluster(pam.res)
+arrest_clust<-hclust(arrest.euc, method = "ward.D2")
 
-#The function pamk will provide us the optimal number of clusters
-fpc::pamk(arrest.dist)
+arrest_clust
+
 ```
+
+We have several options to plot our dendrograms.
+
+```{r}
+fviz_dend(arrest_clust, 
+          k = 2, # two groups
+          cex = 0.5) # label size
+```
+
+
+```{r}
+ggdendrogram(arrest_clust,rotate=TRUE, size = 1)
+```
+
+
+Or extract the data and build your own plot
+
+```{r}
+arrest_dendro  <- as.dendrogram(arrest_clust)
+
+dend_dendro_data <- dendro_data(arrest_dendro, type = "rectangle")
+
+names(dend_dendro_data)
+
+head( dend_dendro_data$segments)
+
+
+ggplot(data = dend_dendro_data$segments)+
+  geom_segment(aes(x = x, y = y, xend = xend, yend=yend), size =1, colour = "red") + 
+  theme_void()
+
+head( dend_dendro_data$labels)
+
+ggplot(data = dend_dendro_data$segments)+
+  geom_segment(aes(x = x, y = y, xend = xend, yend=yend), size =1, colour = "red") + 
+  geom_text(data = dend_dendro_data$labels, aes(x = x, y = y, label = label), colour = "blue", hjust = 1, angle = 90, size =3) +
+  coord_cartesian(ylim=c(-3,15)) +
+  theme_void()
+
+```
+
+
+2. Divisive clustering.  Start with one cluster and then begin breaking apart into more similar clusters. 
+
+
+
 
