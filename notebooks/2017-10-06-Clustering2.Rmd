@@ -17,8 +17,12 @@ library(factoextra)
 library(fpc)
 library(RWeka)
 library(ggdendro)
+library(NbClust)
+
 ```
+
 ## First lets load the data from last week
+
 ```{r}
 data("USArrests")
 
@@ -198,7 +202,9 @@ medoid_data %>%
 4. X means clustering.  Similary to the k means clustering but uses Bayesian Information criteria to identify the best split. 
 
 ```{r}
-
+# WPM("refresh-cache")
+# WPM("list-packages", "available")
+# WPM("install-package", "XMeans")
 
 xout<-XMeans(arrest.scale)
 xout
@@ -207,8 +213,6 @@ xout$class_ids
 ```
 
 ```{r}
-# WPM("list-packages", "available")
-# WPM("install-package", "XMeans")
 
 xcenters<-data.frame(cluster = 1:2,matrix(c(1.004934034580132, 1.0138273518643042,0.19758526759992892,0.8469650134151087,-0.6699560230534215, -0.675884901242869,-0.1317235117332867,-0.564643342276739), byrow = TRUE, ncol = 4))
 names(xcenters)[2:5]<- colnames(arrest.scale)
@@ -244,6 +248,11 @@ arrest_clust
 ```
 
 We have several options to plot our dendrograms.
+
+```{r}
+plot(arrest_clust)
+```
+
 
 ```{r}
 fviz_dend(arrest_clust, 
@@ -283,8 +292,37 @@ ggplot(data = dend_dendro_data$segments)+
 
 ```
 
+Choosing the appropriate number of clusters
+
+```{r}
+NbClust(arrest.scale,
+        distance = "euclidean",
+        min.nc = 2, max.nc = 10,
+        method = "complete", index ="all") -> arrest.nb
+```
+
+```{r}
+fviz_nbclust(arrest.nb, ggtheme = theme_minimal())
+```
 
 2. Divisive clustering.  Start with one cluster and then begin breaking apart into more similar clusters. 
+
+```{r}
+
+res.diana <- diana(USArrests, stand = TRUE)
+res.diana
+
+```
+
+```{r}
+fviz_dend(res.diana, cex = 0.5,
+          k = 4, # Cut in four groups
+          palette = "jco" # Color palette
+          )
+```
+
+
+ 
 
 
 
