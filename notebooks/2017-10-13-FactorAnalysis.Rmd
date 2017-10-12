@@ -1,0 +1,104 @@
+---
+title: "Applied Multivariate:  Describing groups in multivariate data"
+output: html_notebook
+editor_options: 
+  chunk_output_type: inline
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r message = FALSE}
+library(tidyverse)
+library(cluster)
+library(vegan)
+library(factoextra)
+library(fpc)
+library(RWeka)
+library(ggdendro)
+library(NbClust)
+
+```
+
+## Answers to the challenge
+
+```{r}
+library(tidyverse)
+library(ggdendro)
+library(NbClust)
+
+data("USArrests")
+
+USArrests %>% 
+  scale() -> arrest.scale
+
+arrest.scale %>% 
+  dist(method = "euclidean") -> arrest.euc
+
+arrest_hclust <- hclust(arrest.euc, method = "ward.D2")
+
+### Find the best number of clusters
+arrest.nb <- NbClust(arrest.scale, 
+        distance = "euclidean", 
+        min.nc = 2, 
+        max.nc = 10, 
+        method = "complete", 
+        index = "all")
+
+clusters <- data.frame(arrest.nb$Best.partition)
+clusters$state <- rownames(clusters)
+colnames(clusters) <- c("cluster", "label")
+
+### extract the data
+arrest_dendro <- as.dendrogram(arrest_hclust)
+
+### convert data to dendro data for ggplot
+arrest_dendro_data <- dendro_data(arrest_dendro, type = "rectangle")
+
+### combine cluster and dendro label data 
+arrest_dendro_labels <- data.frame(full_join(arrest_dendro_data$labels, clusters))
+
+arrest_dendro_segs <- data.frame(arrest_dendro_data$segments) 
+arrest_dendro_segs$cluster <- ifelse(arrest_dendro_segs$x < 20 & arrest_dendro_segs$xend < 20, 1, 2)
+
+### plot 
+arrest_dendro_plot<-ggplot() + 
+                      geom_segment(data = arrest_dendro_segs, aes(x = x, y = y, xend = xend, yend = yend, color = as.factor(cluster))) + 
+                      geom_text(data = arrest_dendro_labels, aes(x = x, y = y, label = label, color = as.factor(cluster)), angle = 90, hjust = 1, size = 1.7, show.legend = FALSE) +
+                      labs(color="Cluster") +  
+                      coord_cartesian(ylim = c(-5,15)) +
+                      theme_void() + 
+                      scale_colour_manual(values = c("1" = "firebrick", "2" = "dodgerblue")) +
+                      theme(plot.margin = margin(0.5, 0.5, 1, 0.5, unit = "cm")
+                      )
+
+
+arrest_dendro_plot
+```
+
+
+```{r}
+## A little extra
+library(maps)
+library(gridExtra)
+
+#load us map data
+all_states <- map_data("state")
+
+arrest_dendro_labels$label<- tolower(arrest_dendro_labels$label)
+
+all_states2<- left_join(all_states, arrest_dendro_labels, by = c("region" = "label")) %>% filter(!is.na(cluster))
+
+
+map_plot<-ggplot() +
+          geom_map(data=all_states2, map=all_states2, aes(long, lat, map_id=region, fill = as.factor(cluster)), color="white", size=0.15) +
+          scale_fill_manual(values = c("1" = "firebrick", "2" = "dodgerblue")) +
+          coord_map("polyconic") +
+          labs(fill = "Cluster") +
+          theme_void() 
+ 
+grid.arrange(arrest_dendro_plot + theme(legend.position = "none"), map_plot, ncol = 1)
+                
+```
+
