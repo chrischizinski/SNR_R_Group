@@ -14,7 +14,9 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r message = FALSE}
+library(tidyverse)
 library(psych)
+
 ```
 
 ## Answers to the challenge
@@ -188,7 +190,8 @@ ld<-loadings(agoal.efa)
 ld
 
 ```
-To help interpret our loadings, lets create a visualization of those loadings.  
+
+Challenge:  To help interpret our loadings, lets create a visualization of those loadings.  
 
 ```{r}
 loadings<-as.data.frame(ld[,])
@@ -211,6 +214,79 @@ ggplot(data = loadings.long) +
   labs(color = "Loading", shape = "Latent\ntrait") +
   theme_classic()
 ```
+
+1.  We see some cross loading by indicators: `ags4`, `ags5`, `ags8`,`ags10`, `ags11`
+2. We also see that each factor has multiple latent traits associated with it, suggesting this solution does not conform to the *a priori * 4-factor solution 
+
+#### Variation explained by each factor
+
+While this is printed using `loadings` it is not easily extracted using that function so we need to calculate it ourelves.  The sum of squared loadings (SS_loadings) is taken by multiplying the loadings by itself and then taking the sum of the columns.  The proportional variance is calculated by dividing the SS_loadings by the number of potential factors (i.e., number of rows).  The cumulative variance is calculated by taking the cumulative sum of the proportional variances.  
+
+```{r}
+SS_loadings<-colSums(loadings*loadings)
+SS_loadings
+
+Prop_var <- SS_loadings / nrow(loadings)
+Prop_var
+
+Cuml_var <-cumsum(Prop_var)
+Cuml_var
+```
+
+#### Relationship among factors
+
+Looking at the output from `factanal()`, we see that generally there is low correlation between factors except 2 and 4.  High correlation (>0.7) between factors is an indication for redundancy among factors
+
+#### Model fit
+
+At the very bottom of the output, we see the chi-square test for goodness of fit.  The chi-square was `r  as.numeric(agoal.efa$STATISTIC)` with `r  as.numeric(agoal.efa$dof)` df and an associated p-value of `r  agoal.efa$PVAL`.  This value is <0.05 leading us to reject the null hypothesis that the model adequately fits the data and suggesting a four-factor model is not appropriate.  However, given chi-square tests sensitivity to sample size and stringent null hypothesis of exact model data fit, this test is probably not sufficiently reliable.  Further, the *a priori* information about the latent traits exist on multiple factors. 
+
+### So how many factors is appropriate?
+
+```{r}
+psych::fa.parallel(goal_scale %>% select(ags1:ags12) , fa="fa", fm="ml")
+```
+
+```{r}
+agoal.efa3<-factanal(~ags1+ags2+ags3+ags4+ags5+ags6+ags7+ags8+ags9+ags10+ags11+ ags12, factors=3, rotation="promax", data = goal_scale )
+
+agoal.efa3
+```
+
+
+```{r}
+loadings3<-as.data.frame(loadings(agoal.efa3)[,])
+loadings3%>% 
+  rownames_to_column("indicator") %>% 
+  left_join(lt) %>% 
+  mutate(indicator = factor(indicator, levels = paste("ags",12:1, sep =""))) %>% 
+  gather(factor, value, -indicator, - latent_traits) %>% 
+  mutate(value2 = ifelse(value < 0.1, NA,  value))-> loadings3.long 
+
+
+ggplot(data = loadings3.long) +
+  geom_point(aes(x = factor, y = indicator, color = value2, shape = latent_traits), size = 8) +
+  scale_colour_gradient(na.value = "white", low = "blue", high = "red") +
+  scale_shape_manual(values = c("MAP" = 15, "MAV" = 16, "PAP" = 17, "PAV" = 18)) +
+  labs(color = "Loading", shape = "Latent\ntrait") +
+  theme_classic()
+```
+
+### Fit an EFA models with `psych::fa`
+
+```{r}
+agoal.efa.4<-fa(goal_scale %>% select(ags1:ags12) , nfactors=3, residuals=TRUE, rotate="promax",SMC=TRUE, fm="pa")
+agoal.efa.4
+```
+
+Root mean square error of approximation (RMSEA):  By convention, values of RMSEA < 0.05 are taken to indicate good model fit,
+and values between 0.05 and 0.08 are seen as indicative of adequate model fit and > 0.08 =  poor fit. 
+
+the Tucker–Lewis index (TLI):  a model is considered to exhibit good fit is when the values of CFI and TLI are 0.95 or higher
+
+
+
+n PCA, the components are actual orthogonal linear combinations that maximize the total variance. In FA, the factors are linear combinations that maximize the shared portion of the variance--underlying "latent constructs". 
 
 
 ## References
