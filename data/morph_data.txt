@@ -1,0 +1,57 @@
+Waterstrider data set.
+The dataset ASILIMNO.DAT contains a dataset of 8 measurements in all 5
+larval instars and the adults of the 6 species of the waterstrider 
+genus Limnoporus (Insecta: Heteroptera: Gerridae). A morphometric analysis
+of the data set will be published (Klingenberg & Spence, Evolution, in
+press). Feel free to play around with the file as you wish, but please ask
+either me (cklingen@vm.ucs.ualberta.ca) or John Spence (userrail@
+mts.ucs.ualberta.ca) if you want to publish anything from it.
+
+The species are (with phylogeny):
+  L. notabilis         --------------------+
+                                           |
+  L. dissortis         --------------+     +-----+
+                                     +-----+     |
+  L. rufoscutellatus   -------+      |           |
+                              +------+           |
+  L. genitalis         -------+                  +-------
+                                                 |
+  L. esakii            --------------+           |
+                                     +-----------+
+  L. canaliculatus     --------------+
+
+The variables are:
+Species, instar (1-5 for larvae, 6 for adults), sex (m male, f female,
+u undetermined), antseg1 - antseg4 (lengths of 1st to 4th antennal seg-
+ments), midfem, midtib, hindfem, hindtib (lenghts of middle and hind
+femora and tibiae).
+The values are raw measurements in millimeters.
+
+The SAS/IML routine for Common Principal Components.
+
+The SAS/IML routine is provided with two examples (asterisks inactivate
+one of them, just switch them to the other example, if you want to use
+the other one. The values of the results are published in Bernard Flury's
+1988 book (complete citation in the allometry handout). Before you run
+the routine for research purposes, plese test it with these data (and 
+maybe others).
+For applying the routine to your data, you have to 'feed in' the parameters
+in the appropriate matrices (see comments at the beginning of the routine).
+One possibility is to use the SAS procedure CORR before you enter SAS/IML.
+(Don't forget the COV option in PROC CORR!!!)
+The program ALLOCPCA.SAS gives an example how to do this for ontogenetic 
+allometry in the waterstrider data.
+
+If there are any problems or questions, I will try to help you if I can. I
+will be back in Edmonton and answer my E-mail from 5 September '93.
+
+Cheers, 
+Chris.
+
+Christian Peter Klingenberg
+Department of Entomology, University of Alberta, Edmonton, Alberta,  
+CANADA T6G 2E3.
+FAX (403) 492-1767.
+E-mail: cklingen@vm.ucs.ualberta.ca
+
+
