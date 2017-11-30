@@ -1,5 +1,5 @@
 ---
-title: "Latent variable analysis"
+title: "Applied Multivariate:  Latent variable analysis"
 output:
   html_notebook: default
 editor_options: 

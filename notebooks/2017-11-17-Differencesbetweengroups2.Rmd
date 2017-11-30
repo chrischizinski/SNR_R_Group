@@ -1,0 +1,104 @@
+---
+title: "Applied Multivariate:  Identifying differences between groups, part 2"
+output:
+  html_notebook: default
+  html_document:
+    df_print: paged
+editor_options:
+  chunk_output_type: inline
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.width = 6)
+```
+
+```{r message = FALSE}
+library(vegan) 
+library(gridExtra)
+library(tidyverse)
+```
+
+
+## MANOVA and MANCOVA
+
+Two common multivariate regression models are the multivariate analysis of variance (MANOVA; an extension of the univariate ANOVA) when all predictor variables are categorical, and the multivariate analysis of covariance (MANCOVA; extension of univariate ANCOVA) when predictor variables are categorical and continuous. 
+
+### Load the data
+
+```{r}
+bryc_data <- read.table("http://ecology.msu.montana.edu/labdsv/R/labs/lab1/bryceveg.R")
+
+
+bryc_data %>% rownames_to_column("site") -> bryc_data
+
+bryc_site_data <- read.table("http://ecology.msu.montana.edu/labdsv/R/labs/lab2/brycesite.R")
+
+bryc_site_data %>% 
+  rownames_to_column("site") %>% 
+  full_join(bryc_data, by = "site") -> bryc_site_data
+
+glimpse(bryc_site_data)
+
+
+```
+
+### Using MANOVA and MANCOVA
+
+### MANOVA
+
+-Independent variable is a categorical variable
+- Interpret like ANOVA
+- degfault test statistic is "Pillai" but "Wilks", "Hotelling-Lawley", "Roy" are also available. See `?summary.manova`. Wilks' statistic is most popular in the literature, but the default Pillai–Bartlett statistic is recommended by [Hand and Taylor (1987)](https://www.crcpress.com/Multivariate-Analysis-of-Variance-and-Repeated-Measures-A-Practical-Approach/Hand-Taylor/p/book/9780412258008)
+
+As a **reminder**:
+
+-R provides Type I sequential SS, not the default Type III marginal SS reported by SAS and SPSS. In a nonorthogonal design with more than one term on the right hand side of the equation order will matter (i.e., A+B and B+A will produce different results)!
+  - Type I sequential SS:   tests the main effect of factor A, followed by the main effect of factor B after the main effect of A, followed by the interaction effect AB after the main effects.
+  - Type II: tests for each main effect after the other main effect. No significant interaction is assumed (in other words, you should test for interaction first (SS(AB | A, B)) and only if AB is not significant, continue with the analysis for main effects).
+- Type III:  tests for the presence of a main effect after the other main effect and interaction. This approach is therefore valid in the presence of significant interactions.  If the interactions are not significant, type II gives a more powerful test.
+
+- NOTE: when data is balanced, the factors are orthogonal, and types I, II and III all give the same results.
+
+- If you wish to find ways to produce Type II or III SS then you will need to find a package to help.  For example, `regr0` has a `drop1()` function for `mlm` models.  Install via `install.packages("regr0", repos="http://R-Forge.R-project.org")`
+
+```{r}
+man_out <- manova(cbind(junost,ameuta,arcpat,arttri,atrcan) ~ pos,data = bryc_site_data)
+summary(man_out)
+
+```
+
+### MANCOVA
+
+- When you have a categorical and continuous independent variables
+
+```{r}
+man_out <- manova(cbind(arcpat, artarb, carrss, purtri,sticom) ~ pos + elev, data = bryc_site_data)
+summary(man_out)
+
+```
+
+## ANOSIM
+
+Analysis of similarities (ANOSIM) provides a way to test statistically whether there is a significant difference between two or more groups of sampling units.
+
+The R-statistic in ANOSIM is a ratio between within-group and between-group dissimilarities
+
+```{r}
+# create the y variable 
+y<-cbind(bryc_site_data$arcpat,bryc_site_data$artarb,bryc_site_data$carrss,bryc_site_data$purtri,bryc_site_data$sticom)
+
+# convert to an x variable
+x <- as.factor(bryc_site_data$pos)
+
+# analysis
+anosim_out <- anosim(y, x, distance = "euclidean", permutations = 999)
+summary(anosim_out)
+
+perms<-permustats(anosim_out)
+summary(perms)
+densityplot(perms)
+anosim_out$perm
+```
+
+R value is supposed to vary between 0 and 1 (not between -1 and +1) but you can obtained negative values but they are always close to 0. R value close to 1 indicates high separation between levels of your factor (e.g. control vs treatment samples), while R value close to 0 indicate no separation between levels of your factor. 

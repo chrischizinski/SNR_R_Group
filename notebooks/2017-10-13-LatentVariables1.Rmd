@@ -1,5 +1,5 @@
 ---
-title: "Latent variable analysis"
+title: "Applied Multivariate:  Latent variable analysis"
 csl: the-journal-of-wildlife-management.csl
 output:
   html_notebook: default
