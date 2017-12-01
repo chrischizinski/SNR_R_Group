@@ -197,11 +197,19 @@ vectors %>%
   rename(grps = v.grps) %>% 
   select (grps, PCoA1, PCoA2, v.PCoA1, v.PCoA2)-> seg.data
 
+all_data <- data.frame(grps = "all",
+           PCoA1 = mean(seg.data$v.PCoA1),
+           PCoA2 = mean(seg.data$v.PCoA2),
+           v.PCoA1 = seg.data$v.PCoA1,
+           v.PCoA2 = seg.data$v.PCoA2)
+
+seg.data<-rbind(seg.data, all_data)
+
 ggplot(data = seg.data) + 
-  geom_segment(data=seg.data,aes(x=PCoA1,xend=v.PCoA1,y=PCoA2,yend=v.PCoA2),alpha=0.30) + 
-  geom_point(data = centroids, aes(x = PCoA1, y = PCoA2), colour = "red") +
+  geom_segment(data=seg.data,aes(x=PCoA1,xend=v.PCoA1,y=PCoA2,yend=v.PCoA2),alpha=0.30) +
+  geom_point(aes(x = PCoA1, y = PCoA2), colour = "red") +
   geom_point(aes(x = v.PCoA1,y=v.PCoA2)) +
-  facet_wrap(~v.grps, nrow = 1)
+  facet_wrap(~grps, nrow = 1)
 
 ```
 
