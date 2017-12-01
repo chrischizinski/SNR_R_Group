@@ -27,18 +27,18 @@ Two common multivariate regression models are the multivariate analysis of varia
 ### Load the data
 
 ```{r}
-bryc_data <- read.table("http://ecology.msu.montana.edu/labdsv/R/labs/lab1/bryceveg.R")
+bryc_data2 <- read.table("http://ecology.msu.montana.edu/labdsv/R/labs/lab1/bryceveg.R")
 
 
-bryc_data %>% rownames_to_column("site") -> bryc_data
+bryc_data2 %>% rownames_to_column("site") -> bryc_data
 
-bryc_site_data <- read.table("http://ecology.msu.montana.edu/labdsv/R/labs/lab2/brycesite.R")
+bryc_site_data_og <- read.table("http://ecology.msu.montana.edu/labdsv/R/labs/lab2/brycesite.R")
 
-bryc_site_data %>% 
+bryc_site_data_og %>% 
   rownames_to_column("site") %>% 
   full_join(bryc_data, by = "site") -> bryc_site_data
 
-glimpse(bryc_site_data)
+head(bryc_site_data)
 
 
 ```
@@ -82,7 +82,9 @@ summary(man_out)
 
 Analysis of similarities (ANOSIM) provides a way to test statistically whether there is a significant difference between two or more groups of sampling units.
 
-The R-statistic in ANOSIM is a ratio between within-group and between-group dissimilarities
+The R-statistic in ANOSIM is a ratio between within-group and between-group dissimilarities.  R is interpreted like a correlation coefficient and is a measure of ‘effect size’
+
+R value is supposed to vary between 0 and 1 (not between -1 and +1) but you can obtained negative values but they are always close to 0. R value close to 1 indicates high separation between levels of your factor (e.g. control vs treatment samples), while R value close to 0 indicate no separation between levels of your factor. 
 
 ```{r}
 # create the y variable 
@@ -95,10 +97,111 @@ x <- as.factor(bryc_site_data$pos)
 anosim_out <- anosim(y, x, distance = "euclidean", permutations = 999)
 summary(anosim_out)
 
-perms<-permustats(anosim_out)
-summary(perms)
-densityplot(perms)
-anosim_out$perm
+```
+The Dissimilarity ranks between and within classes are the  ranks of over all dissimilarities for
+quantiles of the dissimilarities in each "class". The Between row is for
+dissimilarities for pairs of samples in different groups.  Other rows are the within group pairs.   
+
+
+ANOSIM assumes Between and within (the other rows) should have similar distributions under the Null hypothesis.  The table is presented so the user can evaluate whether the assumptions are being met.
+
+P-value is calculated as the probability of an R larger through Monte carlo permutations.
+
+```{r}
+perms<-permustats(anosim_out) # collect the permutation values
+
+perm_data<- data.frame(perm_value = perms$permutations) # convert to a dataframe
+
+perm_data$greater <- ifelse(perm_data$perm_value>=perms$statistic ,1,0)
+
+sum(perm_data$greater)/length(perm_data$greater) # calculate p value
+
+# Illustrate with a plot
+
+ggplot(data = perm_data) +
+  geom_density(aes(x = perm_value)) +
+  geom_point(aes(x = perm_value, y = 0.5 ), position = "jitter", alpha = 0.25, color = "red") +
+  geom_vline(aes(xintercept = perms$statistic ), linetype = "dashed") +
+  annotate("text", x = perms$statistic, y = 15, label = paste("R =", round(perms$statistic, digits = 3)), hjust = 0) + 
+  coord_cartesian(ylim = c(0,20), expand = F) +
+  theme_classic()
+
+
+?mrpp
+
+
 ```
 
-R value is supposed to vary between 0 and 1 (not between -1 and +1) but you can obtained negative values but they are always close to 0. R value close to 1 indicates high separation between levels of your factor (e.g. control vs treatment samples), while R value close to 0 indicate no separation between levels of your factor. 
+## Multiresponse permutation procedure (MRPP)
+
+MRPP provides a test of whether there is a significant difference between two or more groups of sampling units. Difference may be one of location (differences in mean) or one of spread (differences in within-group distance).
+
+MRPP provides little more than a test statistic of effect size and p value.  
+
+*A* is proportion of the distances explained by group identity; a value analogous to a coefficient of determination in a linear model.
+- A = 1 when all items are identical within groups
+- A = 0 when within-group heterogeneity equals expectation by chance
+- A < 0.1 common in ecology
+- A > 0.3 is fairly high in ecology
+
+
+```{r}
+mrpp_out <- mrpp(y, x, distance = "euclidean", permutations = 999)
+mrpp_out
+
+mrpp_out$A  # measure of effect size
+mrpp_out$Pvalue # p value
+```
+
+## Permutational Multivariate Analysis of Variance Using Distance Matrices (Adonis)
+
+Analysis of variance using distance matrices — for partitioning distance matrices among sources of variation and fitting linear models (e.g., factors, polynomial regression) to distance matrices; uses a permutation test with pseudo-F ratios.
+
+`adonis` and `adonis2` are robust methodologies
+
+`adonis` performs a sequential test of terms. 
+`adonis2` performs sequential, marginal and overall tests. 
+
+```{r}
+data(dune)
+data(dune.env)
+
+adon1_out<-adonis(dune ~ Management*A1, data = dune.env)
+adon1_out
+
+adon2_out <-adonis2(dune ~ Management*A1, data = dune.env, by = "terms", perm=999) # significance for each term (sequentially from first to last),
+adon2_out
+
+adon3_out <-adonis2(dune ~ Management*A1, data = dune.env, by = "margin", perm=999) #  marginal effects of the terms (each marginal term analysed in a model with all other variables)
+adon3_out
+
+adon4_out <-adonis2(dune ~ Management*A1, data = dune.env, by = NULL, perm=999) #   overall significance of all terms together.
+adon4_out
+```
+
+```{r}
+
+dune_bray<- vegdist(dune, "bray")
+mod <-betadisper(dune_bray,dune.env$Management, type = "centroid")
+mod
+
+# extract the centroids and the site points in multivariate space.  
+centroids<-data.frame(grps=rownames(mod$centroids),data.frame(mod$centroids))
+vectors<-data.frame(grps=mod$group,data.frame(mod$vectors))
+
+names(vectors)<-paste("v.",names(vectors),sep="")
+
+# to create the lines from the centroids to each point we will put it in a format that ggplot can handle
+vectors %>% 
+  left_join(centroids, by = c("v.grps" = "grps")) %>% 
+  rename(grps = v.grps) %>% 
+  select (grps, PCoA1, PCoA2, v.PCoA1, v.PCoA2)-> seg.data
+
+ggplot(data = seg.data) + 
+  geom_segment(data=seg.data,aes(x=PCoA1,xend=v.PCoA1,y=PCoA2,yend=v.PCoA2),alpha=0.30) + 
+  geom_point(data = centroids, aes(x = PCoA1, y = PCoA2), colour = "red") +
+  geom_point(aes(x = v.PCoA1,y=v.PCoA2)) +
+  facet_wrap(~v.grps, nrow = 1)
+
+```
+
